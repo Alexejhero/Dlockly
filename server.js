@@ -47,7 +47,7 @@ web.get('*', async (req, res) => {
 
     var user = await getUser(authUserID);
     if (!user) {
-      res.send('<h1>Unknown User</h1> Make sure that you have a common guild with the bot');
+      res.send(`<h1>Unknown User</h1> Make sure that you have a common guild with the bot.<p><a href="https://discordapp.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot">invite</a></p>`);
       return;
     }
 
