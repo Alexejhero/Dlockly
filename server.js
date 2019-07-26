@@ -97,6 +97,8 @@ web.all('*', async (req, res) => {
       generators: generators,
       blocklyXml: dlockly.getBlocklyXml(req.query.guild),
       exampleXml: dlockly.getExampleXml(),
+      guildName: bot.guilds.get(req.query.guild).name,
+      guildId: bot.guilds.get(req.query.guild).id,
     });
   }
 });

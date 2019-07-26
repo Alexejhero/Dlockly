@@ -8,6 +8,12 @@
     <tbody>
       <tr>
         <td>
+          <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+          <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+          <br>
+          <a href="/"><button style="vertical-align:middle;">Back to server list</button></a>
+          <br>
+          <br>
           <form action="/save" method="post" onsubmit="saveConfig()">
             <input type="hidden" name="guild" id="inputGuild" required>
             <input type="hidden" name="xml" id="inputXml" required>
