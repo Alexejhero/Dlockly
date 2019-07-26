@@ -6,7 +6,6 @@ body {
 
 body {
   font-family: sans-serif;
-  overflow: hidden;
 }
 
 table {
@@ -24,7 +23,47 @@ form input[type='submit'] {
   height: 37px;
 }
 
-tr td div {
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+li {
   font-size: 20px;
-  display: inline-block;
+}
+
+p {
+  font-size: 20px;
+}
+
+* {
+  font-family: "Discord" !important;
+  font-weight: normal;
+}
+
+.gray {
+  color: lightgray;
+}
+
+a#login {
+  position: fixed;
+  left: calc(50% - 268px);
+  top: calc(50% - 100px);
+  font-size: 43px;
+  width: 536px;
+  height: 96px;
+  font-style: normal;
+  color: #000;
+  text-decoration: none;
+  font-family: 'Discord', sans-serif;
+}
+
+svg#login {
+  vertical-align: middle;
+  height: 100px;
+  position: relative;
+  top: 4px;
 }

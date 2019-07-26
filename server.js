@@ -44,7 +44,6 @@ web.all('*', async (req, res) => {
     authUserID,
     authSession
   } = auth.getCookies(req);
-  var authToken = auth.getToken(authUserID, db);
   var user = await discord.getUser(bot, authUserID);
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
@@ -63,7 +62,7 @@ web.all('*', async (req, res) => {
     });
   } else {
     if (!auth.sessionValid(authUserID, authSession, db)) {
-      res.sendFile(path.join(__dirname, "/www/html/login.html"));
+      res.render(path.join(__dirname, "/www/html/login.ejs"));
       return;
     }
 
