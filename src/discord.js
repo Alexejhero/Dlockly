@@ -1,4 +1,5 @@
 const dlockly = require('./dlockly');
+const perms = require('./permissions');
 
 module.exports.getUser = async function (bot, id) {
   return (await this.getUsers(bot))[id];
@@ -20,10 +21,7 @@ module.exports.getUsers = async function (bot) {
 module.exports.getConfigurableGuilds = function (bot, _member, adminAccessOnly = false) {
   var guilds = bot.guilds.array();
   var user = _member.user;
-
-  var admin = false;
-  var memberInOurGuild = bot.guilds.get('591692042304880815').member(user);
-  if (memberInOurGuild && memberInOurGuild.roles.has('601489434084507649')) admin = true;
+  var admin = perms.isAdmin(user, bot);
 
   var goodGuilds = [];
   for (var guild of guilds) {

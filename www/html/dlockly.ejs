@@ -11,7 +11,10 @@
           <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
           <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
           <br>
-          <a href="/"><button style="vertical-align:middle;">Back to server list</button></a>
+          <a href="/"><button>Back to server list</button></a>
+          <% if (invite) { %>
+            <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+          <% } %>
           <br>
           <br>
           <form action="/save" method="post" onsubmit="saveConfig()">

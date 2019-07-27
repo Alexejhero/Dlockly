@@ -1,15 +1,16 @@
 require('dotenv').config();
 
-const http = require("http");
 const DBL = require('dblapi.js');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
+const http = require("http");
 const path = require('path');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
+const perms = require('./src/permissions');
 const votes = require('./src/votes');
 
 const web = express();
@@ -56,6 +57,7 @@ web.all('*', async (req, res) => {
       bot,
       db,
       discord,
+      perms,
       res,
       req,
       user
@@ -99,6 +101,7 @@ web.all('*', async (req, res) => {
       exampleXml: dlockly.getExampleXml(),
       guildName: bot.guilds.get(req.query.guild).name,
       guildId: bot.guilds.get(req.query.guild).id,
+      invite: perms.isAdmin(user.user, bot),
     });
   }
 });
