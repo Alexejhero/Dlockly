@@ -13,16 +13,15 @@ module.exports = async function (data) {
     return;
   }
 
-  if (guild.features.includes("VANITY_URL")) {
-    var vanityUrl = await guild.fetchVanityCode();
-    if (vanityUrl) {
-      data.res.redirect(`
-      https: //discord.gg/${vanityUrl}`);
-      return;
-    }
-  }
-
   if (guild.me.hasPermission("MANAGE_GUILD")) {
+    if (guild.features.includes("VANITY_URL")) {
+      var vanityUrl = await guild.fetchVanityCode();
+      if (vanityUrl) {
+        data.res.redirect(`https://discord.gg/${vanityUrl}`);
+        return;
+      }
+    }
+
     var invites = (await guild.fetchInvites()).keyArray();
     if (invites[0]) {
       data.res.redirect(`https://discord.gg/${invites[0]}`);

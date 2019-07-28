@@ -131,16 +131,6 @@ var events = {
     "check": "emoji.guild",
     "guildGetter": "emoji.guild"
   },
-  "guildBanAdd": {
-    "parameters": ["guild", "user"],
-    "check": "guild",
-    "guildGetter": "guild"
-  },
-  "guildBanRemove": {
-    "parameters": ["guild", "user"],
-    "check": "guild",
-    "guildGetter": "guild"
-  },
   "guildMemberAdd": {
     "parameters": ["member"],
     "check": "member.guild",
@@ -161,16 +151,6 @@ var events = {
     "check": "message.guild",
     "guildGetter": "message.guild"
   },
-  "roleCreate": {
-    "parameters": ["role"],
-    "check": "role.guild",
-    "guildGetter": "role.guild"
-  },
-  "roleDelete": {
-    "parameters": ["role"],
-    "check": "role.guild",
-    "guildGetter": "role.guild"
-  }
 }
 
 bot.on("ready", () => {
