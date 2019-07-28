@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>Dlockly | A fully customizable Discord bot with a Scratch-like interface!</title>
-  <link rel="shortcut icon" href="https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2FIcon1.ico?v=1561534699612">
-  <link rel="icon" href="https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2FIcon1.ico?v=1561534699612">
-
-  <script src="https://dlockly-storage.glitch.me/blockly/blockly_compressed.js"></script>
-  <script src="https://dlockly-storage.glitch.me/blockly/blocks_compressed.js"></script>
-  <script src="https://dlockly-storage.glitch.me/blockly/javascript_compressed.js"></script>
-  <script src="https://dlockly-storage.glitch.me/blockly/msg/js/en.js"></script>
-  <script src="www/js/util.js"></script>
-  <script src="www/js/restrictions.js"></script>
-  <script src="www/js/cookies.js"></script>
-
-  <link href="www/css/main.css" rel="stylesheet">
-</head>
+<% include partials/dlocklyhead %>
 
 <body>
   <table>
     <tbody>
       <tr>
         <td>
+          <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+          <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+          <br>
+          <a href="/"><button>Back to server list</button></a>
+          <% if (invite) { %>
+            <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+          <% } %>
+          <br>
+          <br>
           <form action="/save" method="post" onsubmit="saveConfig()">
             <input type="hidden" name="guild" id="inputGuild" required>
             <input type="hidden" name="xml" id="inputXml" required>
             <input type="submit" id="save" value="Save Configuration">
             <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
-              <button type="button" id="example" onclick="loadExample()">Load Example</button>
+            <button type="button" id="example" onclick="loadExample()">Load Example</button>
             <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
           </form>
         </td>
@@ -35,8 +30,7 @@
       <tr><td id="blocklyArea"></td></tr>
       <tr>
         <td>
-          <div><a href='https://discordbots.org/bot/591694201230721043/vote'>Vote</a> &bullet; <a href='https://discord.gg/cnTZNUF'>Support Guild</a></div>
-          <div style="float:right;color:gray;">&copy; 2019 AlexejheroYTB &bullet; Discord Hack Week 2019 Winner (Productivity)</div>
+          <% include partials/footer %>
         </td>
       </tr>
     </tbody>

@@ -1,15 +1,16 @@
 require('dotenv').config();
 
-const http = require("http");
 const DBL = require('dblapi.js');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
+const http = require("http");
 const path = require('path');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
+const perms = require('./src/permissions');
 const votes = require('./src/votes');
 
 const web = express();
@@ -44,7 +45,6 @@ web.all('*', async (req, res) => {
     authUserID,
     authSession
   } = auth.getCookies(req);
-  var authToken = auth.getToken(authUserID, db);
   var user = await discord.getUser(bot, authUserID);
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
@@ -57,13 +57,14 @@ web.all('*', async (req, res) => {
       bot,
       db,
       discord,
+      perms,
       res,
       req,
       user
     });
   } else {
     if (!auth.sessionValid(authUserID, authSession, db)) {
-      res.sendFile(path.join(__dirname, "/www/html/login.html"));
+      res.render(path.join(__dirname, "/www/html/login.ejs"));
       return;
     }
 
@@ -98,6 +99,9 @@ web.all('*', async (req, res) => {
       generators: generators,
       blocklyXml: dlockly.getBlocklyXml(req.query.guild),
       exampleXml: dlockly.getExampleXml(),
+      guildName: bot.guilds.get(req.query.guild).name,
+      guildId: bot.guilds.get(req.query.guild).id,
+      invite: perms.isAdmin(user.user, bot),
     });
   }
 });
