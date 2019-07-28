@@ -113,16 +113,10 @@ setInterval(() => {
 
 bot.on("ready", () => {
   bot.user.setActivity("with blocks. https://dlockly.glitch.me");
-
-  var configs = [];
-
   var files = read(path.join(__dirname, "data")).filter(f => f.endsWith(".js"));
 
   for (var f of files) {
-    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
-    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
-
-    eval(fs.readFileSync(path.join(p, f)));
+    eval(fs.readFileSync(path.join(__dirname, "data", f)));
   }
 });
 
