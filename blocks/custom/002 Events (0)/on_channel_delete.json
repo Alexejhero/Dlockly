@@ -19,5 +19,5 @@
     "tooltip": "Triggers when a channel is deleted",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\nconfig.channelDelete = async channel => { if (channel.guild.id != \"' + data.req.body.guild + '\") return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } }'"
+  "generator": "_return = '\\\\nbot.on(\"channelDelete\", async channel => { if (channel.guild.id != ' + data.req.body.guild + ') return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } });'"
 }

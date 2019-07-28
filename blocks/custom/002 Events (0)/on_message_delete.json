@@ -19,5 +19,5 @@
     "tooltip": "Triggers when a message is deleted",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\nconfig.messageDelete = async message => { if (message.guild.id != \"' + data.req.body.guild + '\") return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } }'"
+  "generator": "_return = '\\\\nbot.on(\"messageDelete\", async message => { if (message.guild.id != ' + data.req.body.guild + ') return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } });'"
 }

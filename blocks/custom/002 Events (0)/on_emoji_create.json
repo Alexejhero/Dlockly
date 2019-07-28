@@ -19,5 +19,5 @@
     "tooltip": "Triggers when an emoji is added",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\nconfig.emojiCreate = async emoji => { if (emoji.guild.id != \"' + data.req.body.guild + '\") return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } }'"
+  "generator": "_return = '\\\\nbot.on(\"emojiCreate\", async emoji => { if (emoji.guild.id != ' + data.req.body.guild + ') return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } });'"
 }
