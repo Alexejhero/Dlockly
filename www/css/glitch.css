@@ -1,0 +1,67 @@
+body {
+  --bg-color: #160f19;
+  --txt-color: white;
+  --disabled-color: lightgray;
+}
+
+body {
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+}
+
+.blocklySvg {
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+}
+
+.blocklyWorkspace{
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+}
+
+.blocklyToolboxDiv{
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+}
+
+/*rect {
+  fill: black;
+}
+
+
+
+g {
+  stroke: rgba(0,0,0,0.5);
+}*/
+svg {
+  fill: var(--txt-color);
+}
+
+div {
+  color: var(--txt-color);
+}
+
+a#login {
+  color: var(--txt-color);
+  width: 100%;
+}
+
+button {
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+  border-color: var(--txt-color);
+}
+
+button:disabled {
+  color: var(--disabled-color);
+}
+
+form input[type='submit'] {
+  color: var(--txt-color);
+  background-color: var(--bg-color);
+  border-color: var(--txt-color);
+}
+
+form input[type='submit']:disabled {
+  color: var(--disabled-color);
+}
