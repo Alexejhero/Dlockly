@@ -19,5 +19,5 @@
     "tooltip": "Triggers when a channel is received",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\n##### channelCreate #####' + Blockly.JavaScript.statementToCode(block, 'code')"
+  "generator": "_return = '\\\\nbot.on(\"channelCreate\", async channel => { if (channel.guild.id != ' + data.req.body.guild + ') return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } });'"
 }
