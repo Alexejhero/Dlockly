@@ -1,23 +1,18 @@
 const Blockly = require('node-blockly');
 const convert = require('xml-js');
 const fs = require('fs');
-const matchall = require('match-all');
 const path = require('path');
 const read = require('fs-readdir-recursive');
 
 module.exports = function (data) {
   try {
-    if (!data.auth.sessionValid(data.req.cookies.auth_userid, data.req.cookies.auth_session, data.db)) {
-      data.res.redirect("/");
-      return;
-    }
-    if (!data.user) {
-      data.res.redirect("/");
+    if (!data.auth.sessionValid(data.req.cookies.auth_userid, data.req.cookies.auth_session, data.db) || !data.user) {
+      data.res.redirect("/#invalidLogin");
       return;
     }
     var guilds = data.discord.getConfigurableGuilds(data.bot, data.user).concat(data.discord.getConfigurableGuilds(data.bot, data.user, true)).map(g => g.id);
     if (!guilds.includes(data.req.body.guild)) {
-      data.res.redirect("/");
+      data.res.redirect("/#invalidGuild");
       return;
     }
 
@@ -43,31 +38,13 @@ module.exports = function (data) {
 
     var xml = decodeURIComponent(data.req.body.xml);
     var parsedXml = convert.js2xml(removeOverwrittenShadowsRecursively(convert.xml2js(xml)));
-    parsedXml = parsedXml.replace(/#####/g, "");
     var dom = Blockly.Xml.textToDom(parsedXml);
     var workspace = new Blockly.Workspace();
     Blockly.Xml.domToWorkspace(dom, workspace);
     var js = Blockly.JavaScript.workspaceToCode(workspace);
 
     fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/blockly.xml"), xml);
-    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/bot.txt"), js);
-
-    var regex = RegExp("##### (.*?) #####([\\s\\S]*?)(?=(?:$|#####))", "g");
-    var matches = matchall(decodeURIComponent(js), regex);
-    var obj = {};
-
-    match = matches.nextRaw();
-    while (match) {
-      obj[match[1]] = match[2];
-
-      match = matches.nextRaw();
-    }
-
-    var varRegex = RegExp("^var.*(?=(?:$|\\n))", "g");
-    var match = decodeURIComponent(js).match(varRegex);
-    if (match && match[0]) obj.var = match[0];
-
-    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/config.json"), JSON.stringify(obj));
+    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/config.js"), js);
 
     data.res.redirect("/?guild=" + data.req.body.guild);
   } catch (e) {
