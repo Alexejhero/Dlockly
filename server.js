@@ -6,6 +6,7 @@ const express = require('express');
 const fs = require('fs');
 const http = require("http");
 const path = require('path');
+const read = require('fs-readdir-recursive');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
@@ -110,73 +111,18 @@ setInterval(() => {
   http.get(`http://dlockly.glitch.me/`);
 }, 280000);
 
-var events = {
-  "channelCreate": {
-    "parameters": ["channel"],
-    "check": "channel.guild",
-    "guildGetter": "channel.guild"
-  },
-  "channelDelete": {
-    "parameters": ["channel"],
-    "check": "channel.guild",
-    "guildGetter": "channel.guild"
-  },
-  "emojiCreate": {
-    "parameters": ["emoji"],
-    "check": "emoji.guild",
-    "guildGetter": "emoji.guild"
-  },
-  "emojiDelete": {
-    "parameters": ["emoji"],
-    "check": "emoji.guild",
-    "guildGetter": "emoji.guild"
-  },
-  "guildMemberAdd": {
-    "parameters": ["member"],
-    "check": "member.guild",
-    "guildGetter": "member.guild"
-  },
-  "guildMemberRemove": {
-    "parameters": ["member"],
-    "check": "member.guild",
-    "guildGetter": "member.guild"
-  },
-  "message": {
-    "parameters": ["message"],
-    "check": "message.guild && !message.author.bot",
-    "guildGetter": "message.guild"
-  },
-  "messageDelete": {
-    "parameters": ["message"],
-    "check": "message.guild",
-    "guildGetter": "message.guild"
-  },
-}
-
 bot.on("ready", () => {
   bot.user.setActivity("with blocks. https://dlockly.glitch.me");
 
-  for (var event in events) {
-    if (events.hasOwnProperty(event)) {
-      var parameters = events[event].parameters;
-      var check = events[event].check;
-      var guild = events[event].guildGetter;
+  var configs = [];
 
-      try {
-        eval(`bot.on('${event}', (${parameters.join(",")}) => {
-              if (!(${check})) return;
-              var guild = ${guild};
-              if (fs.existsSync(path.join(__dirname, "/data/", guild.id, "/config.json"))) {
-                var json = fs.readFileSync(path.join(__dirname, "/data/", guild.id, "/config.json"));
-                var obj = JSON.parse(json);
-                if (obj.var) eval(obj.var);
-                if (obj.${event}) eval(obj.${event});
-              }
-            });`);
-      } catch (e) {
-        console.exception(e);
-      }
-    }
+  var files = read(path.join(__dirname, "data")).filter(f => f.endsWith(".js"));
+
+  for (var f of files) {
+    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
+    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
+
+    eval(fs.readFileSync(path.join(p, f)));
   }
 });
 
