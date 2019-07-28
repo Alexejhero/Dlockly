@@ -44,6 +44,10 @@ p {
   font-weight: normal;
 }
 
+.blocklyTooltipDiv div {
+  font-family: sans-serif;
+}
+
 .gray {
   color: lightgray;
 }
