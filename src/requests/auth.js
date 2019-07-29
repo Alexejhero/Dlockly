@@ -50,6 +50,6 @@ module.exports = function (data) {
     }
   } catch (e) {
     console.error(e);
-    res.redirect("/login#caughtError");
+    data.res.redirect("/login#caughtError");
   }
 }
