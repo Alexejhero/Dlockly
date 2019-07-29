@@ -116,7 +116,8 @@ bot.on("ready", () => {
   var files = read(path.join(__dirname, "data")).filter(f => f.endsWith(".js"));
 
   for (var f of files) {
-    eval(fs.readFileSync(path.join(__dirname, "data", f)));
+    var mod = require(path.join(__dirname, "data", f));
+    console.log(mod);
   }
 });
 
