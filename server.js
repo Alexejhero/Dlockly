@@ -33,13 +33,17 @@ const db = require('better-sqlite3')('data/db.db');
 
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
-    res.sendFile(path.join(__dirname, "/www/html/maintenance.html"));
+    res.render(path.join(__dirname, "/www/html/maintenance.ejs"), {
+      theme: theme.getTheme(req),
+    });
     return;
   }
 
   var browser = req.useragent.browser;
   if (browser != "Chrome" && browser != "Firefox") {
-    res.sendFile(path.join(__dirname, "/www/html/browserunsup.html"));
+    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"), {
+      theme: theme.getTheme(req),
+    });
     return;
   }
 
@@ -74,7 +78,9 @@ web.all('*', async (req, res) => {
     }
 
     if (!user) {
-      res.sendFile(path.join(__dirname, "/www/html/unknownuser.html"));
+      res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
+        theme: theme.getTheme(req),
+      });
       return;
     }
 
@@ -128,7 +134,7 @@ bot.on("ready", () => {
     if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
     if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
 
-    eval(fs.readFileSync(path.join(p, f)));
+    //eval(fs.readFileSync(path.join(p, f)));
   }
 });
 
