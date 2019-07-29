@@ -13,6 +13,7 @@ const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const perms = require('./src/permissions');
 const votes = require('./src/votes');
+const theme = require('./src/theme');
 
 const web = express();
 web.set("views", __dirname);
@@ -61,11 +62,14 @@ web.all('*', async (req, res) => {
       perms,
       res,
       req,
-      user
+      user,
+      theme,
     });
   } else {
     if (!auth.sessionValid(authUserID, authSession, db)) {
-      res.render(path.join(__dirname, "/www/html/login.ejs"));
+      res.render(path.join(__dirname, "/www/html/login.ejs"), {
+        theme: theme.getTheme(req),
+      });
       return;
     }
 
@@ -79,6 +83,7 @@ web.all('*', async (req, res) => {
         user: user,
         adminGuilds: discord.getConfigurableGuilds(bot, user, true).sort(discord.guildSort),
         configurableGuilds: discord.getConfigurableGuilds(bot, user).sort(discord.guildSort),
+        theme: theme.getTheme(req),
       });
       return;
     }
@@ -103,6 +108,7 @@ web.all('*', async (req, res) => {
       guildName: bot.guilds.get(req.query.guild).name,
       guildId: bot.guilds.get(req.query.guild).id,
       invite: perms.isAdmin(user.user, bot),
+      theme: theme.getTheme(req),
     });
   }
 });
