@@ -54,10 +54,10 @@ p {
 
 a#login {
   position: fixed;
-  left: calc(50% - 268px);
+  left: calc(50% - 272.5px);
   top: calc(50% - 100px);
   font-size: 43px;
-  width: 536px;
+  width: 545px;
   height: 96px;
   font-style: normal;
   color: #000;
