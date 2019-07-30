@@ -8,9 +8,9 @@ const path = require('path');
 const icons = require('../config/icons.json');
 
 module.exports.isConfigEmpty = function (id) {
-  var module = getJsConfig(id);
-  for (var key in config) {
-    if (config.hasOwnProperty(key)) return false;
+  var mod = getJsConfig(id);
+  for (var key in mod) {
+    if (mod.hasOwnProperty(key)) return false;
   }
   return true;
 }
@@ -26,9 +26,9 @@ function getJsConfig(id) {
   if (!fs.existsSync(p)) {
     return '';
   }
-  var module = require(p);
+  var mod = require(p);
   decache(p);
-  return module;
+  return mod;
 }
 
 module.exports.getBlocklyXml = function (id) {
