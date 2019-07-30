@@ -1,3 +1,5 @@
+'use strict';
+
 function decode(html) {
   var txt = document.createElement("textarea");
   txt.innerHTML = html;

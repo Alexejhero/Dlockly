@@ -1,3 +1,4 @@
+'use strict';
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
@@ -10,6 +11,7 @@ const path = require('path');
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
+const init = require('./src/init');
 const perms = require('./src/perms');
 const themes = require('./src/themes');
 
@@ -32,6 +34,8 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookServer: web.listen(process.env.PORT),
 }, this.bot);
 
+init();
+
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
     res.render(path.join(__dirname, "/www/html/maintenance.ejs"), {
@@ -52,7 +56,7 @@ web.all('*', async (req, res) => {
     authUserID,
     authSession
   } = auth.getCookies(req);
-  var user = await discord.getUser(bot, authUserID);
+  var user = await discord.getUser(this.bot, authUserID);
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
     res.sendFile(path.join(__dirname, req.path));
@@ -121,7 +125,7 @@ for (var event in events) {
     var guild = events[event].guildGetter;
 
     try {
-      eval(`bot.on('${event}', (${parameters.join(",")}) => {
+      eval(`this.bot.on('${event}', (${parameters.join(",")}) => {
               if (!(${check})) return;
               var guild = ${guild};
               var p = path.join(__dirname, "data", guild.id, "config.js");
@@ -136,7 +140,7 @@ for (var event in events) {
               }
             });`);
     } catch (e) {
-      console.exception(e);
+      console.error(e);
     }
   }
 }

@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const read = require('fs-readdir-recursive');
 const path = require('path');
