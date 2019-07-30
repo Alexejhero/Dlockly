@@ -19,5 +19,5 @@
     "tooltip": "Triggers when a channel is deleted",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\n module.exports.channelDelete = async channel => {' + Blockly.JavaScript.statementToCode(block, 'code') + '}'"
+  "generator": "_return = '\\\\nmodule.exports.channelDelete = async channel => { try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { errors.onerror(\"' + data.req.body.guild  + '\", e); } }'"
 }

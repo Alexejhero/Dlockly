@@ -25,5 +25,5 @@
     "tooltip": "Deletes a message",
     "helpUrl": ""
   },
-  "generator": "_return = Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.delete();'"
+  "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.delete();'"
 }
