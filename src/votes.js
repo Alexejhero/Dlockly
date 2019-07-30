@@ -8,8 +8,8 @@ module.exports.initialize = function () {
 }
 
 function onvote(vote) {
-  this.addVotes(vote.user, vote.isWeekend ? 2 : 1, server.db);
-  var totalVotes = this.getVotes(vote.user, server.db);
+  this.addVotes(vote.user, vote.isWeekend ? 2 : 1);
+  var totalVotes = this.getVotes(vote.user);
   var user = server.bot.users.get(vote.user);
   var embed = new Discord.RichEmbed()
     .setDescription(`<@${vote.user}> has voted!`)

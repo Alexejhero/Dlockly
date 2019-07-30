@@ -5,7 +5,7 @@ const perms = require('../perms');
 const server = require('../../server');
 
 module.exports = async function (data) {
-  if (!auth.sessionValid(data.authUserID, data.authSession, server.db) || !data.user || !perms.isAdmin(data.user.user, server.bot)) {
+  if (!auth.sessionValid(data.authUserID, data.authSession) || !data.user || !perms.isAdmin(data.user.user)) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidLogin`);
     return;
   }

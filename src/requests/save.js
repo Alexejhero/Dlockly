@@ -7,6 +7,7 @@ const path = require('path');
 const read = require('fs-readdir-recursive');
 
 const auth = require('../auth');
+const discord = require('../discord');
 const server = require('../../server');
 
 module.exports = function (data) {
@@ -15,7 +16,7 @@ module.exports = function (data) {
       data.res.redirect("/#invalidLogin");
       return;
     }
-    var guilds = data.discord.getConfigurableGuilds(data.bot, data.user).concat(data.discord.getConfigurableGuilds(data.bot, data.user, true)).map(g => g.id);
+    var guilds = discord.getConfigurableGuilds(data.user).concat(discord.getConfigurableGuilds(data.user, true)).map(g => g.id);
     if (!guilds.includes(data.req.body.guild)) {
       data.res.redirect("/#invalidGuild");
       return;
