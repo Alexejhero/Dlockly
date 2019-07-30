@@ -13,8 +13,8 @@ function initialize() {
     http.get(`http://dlockly.glitch.me/`);
   }, 280000);
 
-  this.bot.on("ready", () => {
-    this.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
+  server.bot.on("ready", () => {
+    server.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
   });
 
   server.db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
