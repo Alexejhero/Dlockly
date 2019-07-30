@@ -51,7 +51,7 @@ web.all('*', async (req, res) => {
     authUserID,
     authSession
   } = auth.getCookies(req);
-  var user = await discord.getUser(this.bot, authUserID);
+  var user = await discord.getUser(authUserID);
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
     res.sendFile(path.join(__dirname, req.path));
