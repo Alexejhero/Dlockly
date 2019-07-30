@@ -1,3 +1,4 @@
+'use strict';
 module.exports.isAdmin = function (user, bot) {
   var memberInOurGuild = this.dlocklyGuild(bot).member(user);
   if (memberInOurGuild && memberInOurGuild.roles.has('601489434084507649')) return true;

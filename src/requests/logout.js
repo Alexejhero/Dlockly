@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function (data) {
   if (data.auth.sessionValid(data.authUserID, data.authSession, data.db)) {
     data.auth.clearCookies(data.res);

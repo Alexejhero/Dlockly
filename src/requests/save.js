@@ -1,3 +1,4 @@
+'use strict';
 const Blockly = require('node-blockly');
 const convert = require('xml-js');
 const fs = require('fs');

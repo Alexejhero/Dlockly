@@ -1,3 +1,4 @@
+'use strict';
 module.exports.getVotes = function (userid, db) {
   db.prepare("INSERT OR IGNORE INTO votedata (userid, votes, totalVotes) VALUES (?, ?, ?);").run(userid, 0, 0);
   return db.prepare("SELECT * FROM votedata WHERE userid=?;").get(userid).votes;
