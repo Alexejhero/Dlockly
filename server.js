@@ -11,7 +11,7 @@ const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const perms = require('./src/perms');
-const theme = require('./src/theme');
+const themes = require('./src/themes');
 
 const events = require('./config/events.json');
 
@@ -35,7 +35,7 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
     res.render(path.join(__dirname, "/www/html/maintenance.ejs"), {
-      theme: theme.getTheme(req),
+      theme: themes.getTheme(req),
     });
     return;
   }
@@ -43,7 +43,7 @@ web.all('*', async (req, res) => {
   var browser = req.useragent.browser;
   if (browser != "Chrome" && browser != "Firefox") {
     res.render(path.join(__dirname, "/www/html/browserunsup.ejs"), {
-      theme: theme.getTheme(req),
+      theme: themes.getTheme(req),
     });
     return;
   }
@@ -63,19 +63,18 @@ web.all('*', async (req, res) => {
       res,
       req,
       user,
-      theme
     });
   } else {
     if (!auth.sessionValid(authUserID, authSession, this.db)) {
       res.render(path.join(__dirname, "/www/html/login.ejs"), {
-        theme: theme.getTheme(req),
+        theme: themes.getTheme(req),
       });
       return;
     }
 
     if (!user) {
       res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
-        theme: theme.getTheme(req),
+        theme: themes.getTheme(req),
       });
       return;
     }
@@ -85,7 +84,7 @@ web.all('*', async (req, res) => {
         user: user,
         adminGuilds: discord.getConfigurableGuilds(bot, user, true).sort(discord.guildSort),
         configurableGuilds: discord.getConfigurableGuilds(bot, user).sort(discord.guildSort),
-        theme: theme.getTheme(req),
+        theme: themes.getTheme(req),
       });
       return;
     }
@@ -110,7 +109,7 @@ web.all('*', async (req, res) => {
       guildName: bot.guilds.get(req.query.guild).name,
       guildId: bot.guilds.get(req.query.guild).id,
       invite: perms.isAdmin(user.user, bot),
-      theme: theme.getTheme(req),
+      theme: themes.getTheme(req),
     });
   }
 });
