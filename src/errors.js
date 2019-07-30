@@ -17,5 +17,5 @@ module.exports.initialize = function () {
 }
 
 module.exports.onerror = function (id, err) {
-
+  console.error("Guild: ", id, "Error:", err);
 }
