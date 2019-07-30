@@ -38,12 +38,6 @@ init();
 
 web.all('*', async (req, res) => {
   var browser = req.useragent.browser;
-  if (browser != "Chrome" && browser != "Firefox") {
-    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"), {
-      theme: themes.getTheme(req),
-    });
-    return;
-  }
 
   var {
     authUserID,
@@ -55,6 +49,9 @@ web.all('*', async (req, res) => {
     res.sendFile(path.join(__dirname, req.path));
   } else if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
     res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
+    return;
+  } else if (browser != "Chrome" && browser != "Firefox") {
+    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
     return;
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
