@@ -19,5 +19,5 @@
     "tooltip": "Triggers when a member leaves",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\nbot.on(\"guildMemberRemove\", async member => { if (member.guild.id != ' + data.req.body.guild + ') return; try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { onError(\"' + data.req.body.guild  + '\", e); } });'"
+  "generator": "_return = '\\\\n module.exports.guildMemberRemove = async member => {' + Blockly.JavaScript.statementToCode(block, 'code') + '}'"
 }
