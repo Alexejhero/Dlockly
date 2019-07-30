@@ -3,7 +3,7 @@ const perms = require('./perms');
 const server = require('../server');
 
 module.exports.getUser = async function (id) {
-  return (await this.getUsers(server.bot))[id];
+  return (await this.getUsers())[id];
 }
 
 module.exports.getUsers = async function () {

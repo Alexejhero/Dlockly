@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path = require('path');
 const read = require('fs-readdir-recursive');
+const path = require('path');
 
 const icons = require('../config/icons.json');
 

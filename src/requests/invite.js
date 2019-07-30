@@ -1,5 +1,5 @@
 const auth = require('../auth');
-const perms = require('../permissions');
+const perms = require('../perms');
 const server = require('../../server');
 
 module.exports = async function (data) {

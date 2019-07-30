@@ -5,14 +5,12 @@ const decache = require('decache');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
-const http = require('http');
 const path = require('path');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const perms = require('./src/perms');
-const votes = require('./src/votes');
 
 const events = require('./config/events.json');
 
@@ -24,15 +22,14 @@ web.use(require('body-parser').json());
 web.use(require('body-parser').urlencoded({
   extended: false
 }));
-const dbl = new DBL(process.env.DBL_TOKEN, {
+
+module.exports.db = require('better-sqlite3')('data/db.db');
+module.exports.bot = new Discord.Client();
+module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
   webhookServer: web.listen(process.env.PORT),
 }, this.bot);
-
-module.exports.db = require('better-sqlite3')('data/db.db');
-module.exports.bot = new Discord.Client();
-module.exports.config = {};
 
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
@@ -106,14 +103,6 @@ web.all('*', async (req, res) => {
   }
 });
 
-setInterval(() => {
-  http.get(`http://dlockly.glitch.me/`);
-}, 280000);
-
-this.bot.on("ready", () => {
-  this.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
-});
-
 for (var event in events) {
   if (events.hasOwnProperty(event)) {
     var parameters = events[event].parameters;
@@ -127,8 +116,12 @@ for (var event in events) {
               var p = path.join(__dirname, "data", guild.id, "config.js");
               if (fs.existsSync(p)) {
                 var module = require(p);
-                if (module.${event}) module.${event}(${parameters.join(",")});
-                decache(p);
+                try {
+                  if (module.${event}) module.${event}(${parameters.join(",")});
+                  decache(p);
+                } catch (e) {
+                  errors.onerror(guild.id, e);
+                }
               }
             });`);
     } catch (e) {
@@ -136,35 +129,3 @@ for (var event in events) {
     }
   }
 }
-
-dbl.webhook.on("vote", vote => {
-  votes.addVotes(vote.user, vote.isWeekend ? 2 : 1, this.db);
-  var totalVotes = votes.getVotes(vote.user, this.db);
-  var user = bot.users.get(vote.user);
-  var embed = new Discord.RichEmbed()
-    .setDescription(`<@${vote.user}> has voted!`)
-    .setColor(0x00FF00)
-    .addField("Is Weekend", vote.isWeekend, true)
-    .addField("Total Votes", totalVotes, true)
-    .setFooter(user ? user.tag : "Unknown User", user ? user.avatarURL : undefined);
-  bot.guilds.get('591692042304880815').channels.get('604057075391266827').send({
-    embed
-  });
-  console.log(`User with id ${vote.user} just voted! Total: ${totalVotes}`);
-});
-
-process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at: ', p, 'reason:', reason);
-});
-
-bot.on('error', (e) => {
-  console.error(e);
-})
-
-bot.on('warn', (w) => {
-  console.warn(w);
-});
-
-this.db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
-this.db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
-this.bot.login(process.env.DISCORD_TOKEN);
