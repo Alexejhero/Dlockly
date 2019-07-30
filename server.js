@@ -37,13 +37,6 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
 init();
 
 web.all('*', async (req, res) => {
-  if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
-    res.render(path.join(__dirname, "/www/html/maintenance.ejs"), {
-      theme: themes.getTheme(req),
-    });
-    return;
-  }
-
   var browser = req.useragent.browser;
   if (browser != "Chrome" && browser != "Firefox") {
     res.render(path.join(__dirname, "/www/html/browserunsup.ejs"), {
@@ -60,6 +53,9 @@ web.all('*', async (req, res) => {
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
     res.sendFile(path.join(__dirname, req.path));
+  } else if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
+    res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
+    return;
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
       authSession,
