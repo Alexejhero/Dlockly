@@ -3,6 +3,7 @@ const request = require('request-promise');
 
 module.exports = function (data) {
   try {
+    data.res.sendStatus(200);
     if (data.auth.sessionValid(data.authUserID, data.authSession, data.db)) {
       data.res.redirect("/#sessionValid");
     } else {
