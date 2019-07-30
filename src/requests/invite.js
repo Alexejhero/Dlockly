@@ -1,3 +1,4 @@
+'use strict';
 const auth = require('../auth');
 const perms = require('../perms');
 const server = require('../../server');

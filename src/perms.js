@@ -1,3 +1,4 @@
+'use strict';
 const consts = require('./consts');
 const server = require('../server');
 

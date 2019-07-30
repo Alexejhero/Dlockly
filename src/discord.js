@@ -1,3 +1,4 @@
+'use strict';
 const dlockly = require('./dlockly');
 const perms = require('./perms');
 const server = require('../server');

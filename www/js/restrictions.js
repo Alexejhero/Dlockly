@@ -1,3 +1,4 @@
+'use strict';
 function disableUnapplicable(event) {
   var workspace = Blockly.Workspace.getById(event.workspaceId);
   var blocks = workspace.getAllBlocks(false);
