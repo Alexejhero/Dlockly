@@ -7,6 +7,7 @@ const path = require('path');
 const read = require('fs-readdir-recursive');
 
 const auth = require('../auth');
+const discord = require('../discord');
 const server = require('../../server');
 
 module.exports = function (data) {
@@ -15,7 +16,7 @@ module.exports = function (data) {
       data.res.redirect("/#invalidLogin");
       return;
     }
-    var guilds = data.discord.getConfigurableGuilds(data.bot, data.user).concat(data.discord.getConfigurableGuilds(data.bot, data.user, true)).map(g => g.id);
+    var guilds = discord.getConfigurableGuilds(data.user).concat(discord.getConfigurableGuilds(data.user, true)).map(g => g.id);
     if (!guilds.includes(data.req.body.guild)) {
       data.res.redirect("/#invalidGuild");
       return;
@@ -44,7 +45,9 @@ module.exports = function (data) {
     var xml = decodeURIComponent(data.req.body.xml);
     var parsedXml = convert.js2xml(removeOverwrittenShadowsRecursively(convert.xml2js(xml)));
     var dom = Blockly.Xml.textToDom(parsedXml);
-    var workspace = new Blockly.Workspace();
+    var workspace = new Blockly.Workspace({
+      oneBasedIndex: true,
+    });
     Blockly.Xml.domToWorkspace(dom, workspace);
     var js = Blockly.JavaScript.workspaceToCode(workspace);
 

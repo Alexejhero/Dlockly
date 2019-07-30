@@ -8,7 +8,7 @@ const server = require('../../server');
 
 module.exports = function (data) {
   try {
-    if (auth.sessionValid(data.authUserID, data.authSession, server.db)) {
+    if (auth.sessionValid(data.authUserID, data.authSession)) {
       data.res.redirect("/#sessionValid");
     } else {
       if (!data.req.query.code) {
@@ -36,11 +36,11 @@ module.exports = function (data) {
           var tokenType = reqObj.token_type;
           var accessToken = reqObj.access_token;
 
-          var userData = await auth.getUserData(accessToken, tokenType, server.db);
+          var userData = await auth.getUserData(accessToken, tokenType);
           var userID = userData.id;
           var sessionToken = auth.generateToken();
 
-          auth.setToken(userID, sessionToken, accessToken, server.db);
+          auth.setToken(userID, sessionToken, accessToken);
           auth.setCookies(data.res, userID, sessionToken);
 
           data.res.redirect("/#loggedIn");

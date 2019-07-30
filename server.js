@@ -124,12 +124,11 @@ for (var event in events) {
               var p = path.join(__dirname, "data", guild.id, "config.js");
               if (fs.existsSync(p)) {
                 var module = require(p);
-                try {
-                  if (module.${event}) module.${event}(${parameters.join(",")});
-                  decache(p);
-                } catch (e) {
-                  errors.onerror(guild.id, e);
+                console.log(guild.id + ": ${event}");
+                if (module.${event}) { 
+                  module.${event}(${parameters.join(",")});
                 }
+                decache(p);
               }
             });`);
     } catch (e) {

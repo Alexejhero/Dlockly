@@ -1,5 +1,6 @@
 'use strict';
 
+const decache = require('decache');
 const fs = require('fs');
 const read = require('fs-readdir-recursive');
 const path = require('path');
@@ -7,24 +8,27 @@ const path = require('path');
 const icons = require('../config/icons.json');
 
 module.exports.isConfigEmpty = function (id) {
-  var config = JSON.parse(getJsonConfig(id));
-  for (var key in config) {
-    if (config.hasOwnProperty(key) && key != "var") return false;
+  var mod = getJsConfig(id);
+  for (var key in mod) {
+    if (mod.hasOwnProperty(key)) return false;
   }
   return true;
 }
 
-function getJsonConfig(id) {
+function getJsConfig(id) {
   if (!fs.existsSync(path.join(__dirname, "/../data"))) {
     fs.mkdirSync(path.join(__dirname + "/../data"));
   }
   if (!fs.existsSync(path.join(__dirname, "/../data/", id))) {
     fs.mkdirSync(path.join(__dirname, "/../data/", id));
   }
-  if (!fs.existsSync(path.join(__dirname, "/../data/", id, "/config.json"))) {
-    return '{}';
+  var p = path.join(__dirname, "/../data/", id, "/config.js");
+  if (!fs.existsSync(p)) {
+    return '';
   }
-  return fs.readFileSync(path.join(__dirname, "/../data/", id, "/config.json"));
+  var mod = require(p);
+  decache(p);
+  return mod;
 }
 
 module.exports.getBlocklyXml = function (id) {
@@ -37,11 +41,11 @@ module.exports.getBlocklyXml = function (id) {
   if (!fs.existsSync(path.join(__dirname, "/../data/", id, "/blockly.xml"))) {
     return '';
   }
-  return fs.readFileSync(path.join(__dirname, "/../data/", id, "/blockly.xml"));
+  return fs.readFileSync(path.join(__dirname, "/../data/", id, "/blockly.xml"), 'utf-8');
 }
 
 module.exports.getExampleXml = function () {
-  return fs.readFileSync(path.join(__dirname, "/../config/example.xml"));
+  return fs.readFileSync(path.join(__dirname, "/../config/example.xml"), 'utf-8');
 }
 
 module.exports.generateXmlTreeRecursively = function (categories) {

@@ -24,7 +24,7 @@ module.exports.getUsers = async function () {
 module.exports.getConfigurableGuilds = function (_member, adminAccessOnly = false) {
   var guilds = server.bot.guilds.array();
   var user = _member.user;
-  var admin = perms.isAdmin(user, server.bot);
+  var admin = perms.isAdmin(user);
 
   var goodGuilds = [];
   for (var guild of guilds) {

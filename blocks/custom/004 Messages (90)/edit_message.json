@@ -33,6 +33,6 @@
     "tooltip": "(DISABLED) Edits a message sent by the bot",
     "helpUrl": ""
   },
-  "generator": "_return = Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.edit(' + Blockly.JavaScript.valueToCode(block, 'new', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
+  "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.edit(' + Blockly.JavaScript.valueToCode(block, 'new', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
   "extra": "<value name=\"new\"><shadow type=\"text\"><field name=\"TEXT\">new text</field></shadow></value>"
 }
