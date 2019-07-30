@@ -1,5 +1,7 @@
 'use strict';
 
+const http = require('http');
+
 const errors = require('./errors');
 const server = require('../server');
 const votes = require('./votes');
