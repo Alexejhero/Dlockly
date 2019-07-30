@@ -72,10 +72,6 @@ module.exports.initializeAllBlocks = function (categories) {
   var restrictions = customBlocks.restrictions;
   var generators = customBlocks.generators;
 
-  max["procedures_defnoreturn"] = -1;
-  max["procedures_defreturn"] = -1;
-  max["procedures_ifreturn"] = -1;
-
   return {
     blocks,
     max,
