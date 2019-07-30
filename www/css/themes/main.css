@@ -25,15 +25,11 @@ body {
   background-color: var(--bg-color);
 }
 
-/*rect {
-fill: black;
+.blocklyTooltipDiv{
+  color: var(--txt-color);
+  background-color: var(--bg-color);
 }
 
-
-
-g {
-stroke: rgba(0,0,0,0.5);
-}*/
 svg {
   fill: var(--txt-color);
 }
@@ -60,6 +56,15 @@ select{
   color: var(--txt-color);
   background-color: var(--bg-color);
   border-color: var(--txt-color);
+}
+
+.blocklyTreeRow:not(.blocklyTreeSelected):hover {
+  background-color: var(--a-color);
+}
+
+.blocklyFlyoutBackground{
+  background-color: var(--bg-color);
+  fill: var(--bg-color);
 }
 
 select:disabled {
