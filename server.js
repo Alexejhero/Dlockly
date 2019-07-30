@@ -125,7 +125,7 @@ for (var event in events) {
               }
             });`);
     } catch (e) {
-      console.exception(e);
+      console.error(e);
     }
   }
 }
