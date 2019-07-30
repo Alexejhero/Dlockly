@@ -83,11 +83,11 @@ web.all('*', async (req, res) => {
       return;
     }
 
-    if (!discord.getConfigurableGuilds(bot, user).concat(discord.getConfigurableGuilds(bot, user, true)).map(g => g.id).includes(req.query.guild)) {
+    if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild)) {
       res.render("www/html/guildpicker.ejs", {
         user: user,
-        adminGuilds: discord.getConfigurableGuilds(bot, user, true).sort(discord.guildSort),
-        configurableGuilds: discord.getConfigurableGuilds(bot, user).sort(discord.guildSort),
+        adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
+        configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
         theme: themes.getTheme(req),
       });
       return;
@@ -112,7 +112,7 @@ web.all('*', async (req, res) => {
       exampleXml: dlockly.getExampleXml(),
       guildName: bot.guilds.get(req.query.guild).name,
       guildId: bot.guilds.get(req.query.guild).id,
-      invite: perms.isAdmin(user.user, bot),
+      invite: perms.isAdmin(user.user),
       theme: themes.getTheme(req),
     });
   }
