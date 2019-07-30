@@ -110,8 +110,8 @@ web.all('*', async (req, res) => {
       generators: generators,
       blocklyXml: dlockly.getBlocklyXml(req.query.guild),
       exampleXml: dlockly.getExampleXml(),
-      guildName: bot.guilds.get(req.query.guild).name,
-      guildId: bot.guilds.get(req.query.guild).id,
+      guildName: this.bot.guilds.get(req.query.guild).name,
+      guildId: this.bot.guilds.get(req.query.guild).id,
       invite: perms.isAdmin(user.user),
       theme: themes.getTheme(req),
     });
