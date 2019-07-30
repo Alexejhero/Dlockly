@@ -1,19 +1,19 @@
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
+const decache = require('decache');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
-const http = require("http");
 const path = require('path');
-const read = require('fs-readdir-recursive');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
-const perms = require('./src/permissions');
-const votes = require('./src/votes');
+const perms = require('./src/perms');
 const theme = require('./src/theme');
+
+const events = require('./config/events.json');
 
 const web = express();
 web.set("views", __dirname);
@@ -23,13 +23,14 @@ web.use(require('body-parser').json());
 web.use(require('body-parser').urlencoded({
   extended: false
 }));
-const bot = new Discord.Client();
-const dbl = new DBL(process.env.DBL_TOKEN, {
+
+module.exports.db = require('better-sqlite3')('data/db.db');
+module.exports.bot = new Discord.Client();
+module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
   webhookServer: web.listen(process.env.PORT),
-}, bot);
-const db = require('better-sqlite3')('data/db.db');
+}, this.bot);
 
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
@@ -57,20 +58,15 @@ web.all('*', async (req, res) => {
     res.sendFile(path.join(__dirname, req.path));
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
-      auth,
       authSession,
       authUserID,
-      bot,
-      db,
-      discord,
-      perms,
       res,
       req,
       user,
-      theme,
+      theme
     });
   } else {
-    if (!auth.sessionValid(authUserID, authSession, db)) {
+    if (!auth.sessionValid(authUserID, authSession, this.db)) {
       res.render(path.join(__dirname, "/www/html/login.ejs"), {
         theme: theme.getTheme(req),
       });
@@ -119,53 +115,29 @@ web.all('*', async (req, res) => {
   }
 });
 
-setInterval(() => {
-  http.get(`http://dlockly.glitch.me/`);
-}, 280000);
+for (var event in events) {
+  if (events.hasOwnProperty(event)) {
+    var parameters = events[event].parameters;
+    var check = events[event].check;
+    var guild = events[event].guildGetter;
 
-bot.on("ready", () => {
-  bot.user.setActivity("with blocks. https://dlockly.glitch.me");
-
-  var configs = [];
-
-  var files = read(path.join(__dirname, "data")).filter(f => f.endsWith(".js"));
-
-  for (var f of files) {
-    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
-    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
-
-    //eval(fs.readFileSync(path.join(p, f)));
+    try {
+      eval(`bot.on('${event}', (${parameters.join(",")}) => {
+              if (!(${check})) return;
+              var guild = ${guild};
+              var p = path.join(__dirname, "data", guild.id, "config.js");
+              if (fs.existsSync(p)) {
+                var module = require(p);
+                try {
+                  if (module.${event}) module.${event}(${parameters.join(",")});
+                  decache(p);
+                } catch (e) {
+                  errors.onerror(guild.id, e);
+                }
+              }
+            });`);
+    } catch (e) {
+      console.exception(e);
+    }
   }
-});
-
-dbl.webhook.on("vote", vote => {
-  votes.addVotes(vote.user, vote.isWeekend ? 2 : 1, db);
-  var totalVotes = votes.getVotes(vote.user, db);
-  var user = bot.users.get(vote.user);
-  var embed = new Discord.RichEmbed()
-    .setDescription(`<@${vote.user}> has voted!`)
-    .setColor(0x00FF00)
-    .addField("Is Weekend", vote.isWeekend, true)
-    .addField("Total Votes", totalVotes, true)
-    .setFooter(user ? user.tag : "Unknown User", user ? user.avatarURL : undefined);
-  bot.guilds.get('591692042304880815').channels.get('604057075391266827').send({
-    embed
-  });
-  console.log(`User with id ${vote.user} just voted! Total: ${totalVotes}`);
-});
-
-process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at: ', p, 'reason:', reason);
-});
-
-bot.on('error', (e) => {
-  console.error(e);
-})
-
-bot.on('warn', (w) => {
-  console.warn(w);
-});
-
-db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
-db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
-bot.login(process.env.DISCORD_TOKEN);
+}

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path = require('path');
 const read = require('fs-readdir-recursive');
+const path = require('path');
 
 const icons = require('../config/icons.json');
 
@@ -71,10 +71,6 @@ module.exports.initializeAllBlocks = function (categories) {
   var max = customBlocks.max;
   var restrictions = customBlocks.restrictions;
   var generators = customBlocks.generators;
-
-  max["procedures_defnoreturn"] = -1;
-  max["procedures_defreturn"] = -1;
-  max["procedures_ifreturn"] = -1;
 
   return {
     blocks,

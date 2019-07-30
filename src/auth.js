@@ -1,7 +1,8 @@
 const request = require('request-promise');
-const db = require('../server.js');
 
-module.exports.getUserData = async function (token, tokentype = "Bearer", db) {
+const server = require('../server');
+
+module.exports.getUserData = async function (token, tokentype = "Bearer") {
   var response = await request.get({
     uri: "https://discordapp.com/api/users/@me",
     headers: {
@@ -11,23 +12,23 @@ module.exports.getUserData = async function (token, tokentype = "Bearer", db) {
   return JSON.parse(response);
 }
 
-module.exports.setToken = function (userid, session, token, db) {
-  db.prepare("UPDATE logindata SET sessionkey=?, authkey=? WHERE userid=?;").run(session, token, userid);
-  db.prepare("INSERT OR IGNORE INTO logindata (userid, sessionkey, authkey) VALUES (?, ?, ?);").run(userid, session, token);
+module.exports.setToken = function (userid, session, token) {
+  server.db.prepare("UPDATE logindata SET sessionkey=?, authkey=? WHERE userid=?;").run(session, token, userid);
+  server.db.prepare("INSERT OR IGNORE INTO logindata (userid, sessionkey, authkey) VALUES (?, ?, ?);").run(userid, session, token);
 }
 
-module.exports.removeToken = function (userid, db) {
-  db.prepare("DELETE FROM logindata WHERE userid=?;").run(userid);
+module.exports.removeToken = function (userid) {
+  server.db.prepare("DELETE FROM logindata WHERE userid=?;").run(userid);
 }
 
-module.exports.getToken = function (userid, db) {
-  var row = db.prepare("SELECT * FROM logindata WHERE userid=?;").get(userid);
+module.exports.getToken = function (userid) {
+  var row = server.db.prepare("SELECT * FROM logindata WHERE userid=?;").get(userid);
   if (row) return row.authkey;
 }
 
-module.exports.sessionValid = function (userid, session, db) {
-  if (userid == "") return false;
-  var row = db.prepare("SELECT * FROM logindata WHERE userid=?;").get(userid);
+module.exports.sessionValid = function (userid, session) {
+  if (!userid) return false;
+  var row = server.db.prepare("SELECT * FROM logindata WHERE userid=?;").get(userid);
   if (row && row.sessionkey == session) return true;
   else return false;
 }

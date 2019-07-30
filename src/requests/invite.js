@@ -1,13 +1,14 @@
-const path = require('path');
-const Discord = require('discord.js');
+const auth = require('../auth');
+const perms = require('../perms');
+const server = require('../../server');
 
 module.exports = async function (data) {
-  if (!data.auth.sessionValid(data.authUserID, data.authSession, data.db) || !data.user || !data.perms.isAdmin(data.user.user, data.bot)) {
+  if (!auth.sessionValid(data.authUserID, data.authSession, server.db) || !data.user || !perms.isAdmin(data.user.user, server.bot)) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidLogin`);
     return;
   }
 
-  var guild = data.bot.guilds.get(data.req.query.guild);
+  var guild = server.bot.guilds.get(data.req.query.guild);
   if (!guild) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidGuild`);
     return;

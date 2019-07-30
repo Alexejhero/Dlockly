@@ -1,7 +1,10 @@
+const auth = require('../auth');
+const server = require('../../server');
+
 module.exports = function (data) {
-  if (data.auth.sessionValid(data.authUserID, data.authSession, data.db)) {
-    data.auth.clearCookies(data.res);
-    data.auth.removeToken(data.authUserID, data.db);
+  if (auth.sessionValid(data.authUserID, data.authSession, server.db)) {
+    auth.clearCookies(data.res);
+    auth.removeToken(data.authUserID, server.db);
   }
   data.res.redirect("/");
 }

@@ -4,9 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const read = require('fs-readdir-recursive');
 
+const auth = require('../auth');
+const server = require('../../server');
+
 module.exports = function (data) {
   try {
-    if (!data.auth.sessionValid(data.req.cookies.auth_userid, data.req.cookies.auth_session, data.db) || !data.user) {
+    if (!auth.sessionValid(data.req.cookies.auth_userid, data.req.cookies.auth_session, server.db) || !data.user) {
       data.res.redirect("/#invalidLogin");
       return;
     }
