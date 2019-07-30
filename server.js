@@ -11,7 +11,7 @@ const path = require('path');
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
-const perms = require('./src/permissions');
+const perms = require('./src/perms');
 const votes = require('./src/votes');
 
 const events = require('./config/events.json');

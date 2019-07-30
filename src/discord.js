@@ -1,5 +1,5 @@
 const dlockly = require('./dlockly');
-const perms = require('./permissions');
+const perms = require('./perms');
 const server = require('../server');
 
 module.exports.getUser = async function (id) {
