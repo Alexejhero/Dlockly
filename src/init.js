@@ -1,4 +1,5 @@
 'use strict';
+
 const errors = require('./errors');
 const server = require('../server');
 const votes = require('./votes');
