@@ -3,19 +3,19 @@
 <body>
   <script>
   function changeTheme() {
-    let select = document.getElementById('option-select')
-    color = select.options[select.selectedIndex].value
-    if(!color) {
+    var select = document.getElementById('option-select');
+    color = select.options[select.selectedIndex].value;
+    if (!color) {
       document.cookie = `theme=${select.options[select.selectedIndex].value}; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
-      document.getElementById('theme').disabled = true
-    }
-    else{
-    document.cookie = `theme=${select.options[select.selectedIndex].value}; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
-    document.getElementById('color').href = `www/css/${color}.css`
-    document.getElementById('theme').disabled = false
+      document.getElementById('theme').disabled = true;
+    } else {
+      document.cookie = `theme=${select.options[select.selectedIndex].value}; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
+      document.getElementById('color').href = `www/css/themes/${color}.css`;
+      document.getElementById('theme').disabled = false;
     }
   }
   </script>
+  
   <h1>Logged in as "<%= user.user.tag%>"</h1>
   <a href='logout'><button>Log out</button></a><br>
   <select id='option-select' onchange='changeTheme()'>
