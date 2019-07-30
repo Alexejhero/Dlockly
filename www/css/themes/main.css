@@ -2,6 +2,7 @@ body {
   --bg-color: white;
   --txt-color: black;
   --disabled-color: darkgray;
+  --a-color: -webkit-link; 
 }
 
 body {
@@ -25,13 +26,13 @@ body {
 }
 
 /*rect {
-  fill: black;
+fill: black;
 }
 
 
 
 g {
-  stroke: rgba(0,0,0,0.5);
+stroke: rgba(0,0,0,0.5);
 }*/
 svg {
   fill: var(--txt-color);
@@ -73,4 +74,15 @@ form input[type='submit'] {
 
 form input[type='submit']:disabled {
   color: var(--disabled-color);
+}
+
+a:-webkit-any-link {
+  color: var(--a-color);
+
+}
+  .blocklyScrollbarHandle  {
+    fill: var(--txt-color);
+  }
+.blocklyScrollbarHandle:hover {
+  filter: brightness(85%);
 }
