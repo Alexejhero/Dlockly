@@ -2,4 +2,5 @@ body {
   --bg-color: black;
   --txt-color: white;
   --disabled-color: lightgray;
+  --a-color: #551a8b; 
 }
