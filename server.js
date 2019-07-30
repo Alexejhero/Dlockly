@@ -1,18 +1,20 @@
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
+const decache = require('decache');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
-const http = require("http");
+const http = require('http');
 const path = require('path');
-const read = require('fs-readdir-recursive');
 
 const auth = require('./src/auth');
 const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const perms = require('./src/permissions');
 const votes = require('./src/votes');
+
+const events = require('./config/events.json');
 
 const web = express();
 web.set("views", __dirname);
@@ -22,13 +24,15 @@ web.use(require('body-parser').json());
 web.use(require('body-parser').urlencoded({
   extended: false
 }));
-const bot = new Discord.Client();
 const dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
   webhookServer: web.listen(process.env.PORT),
-}, bot);
-const db = require('better-sqlite3')('data/db.db');
+}, this.bot);
+
+module.exports.db = require('better-sqlite3')('data/db.db');
+module.exports.bot = new Discord.Client();
+module.exports.config = {};
 
 web.all('*', async (req, res) => {
   if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
@@ -52,19 +56,14 @@ web.all('*', async (req, res) => {
     res.sendFile(path.join(__dirname, req.path));
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
-      auth,
       authSession,
       authUserID,
-      bot,
-      db,
-      discord,
-      perms,
       res,
       req,
       user
     });
   } else {
-    if (!auth.sessionValid(authUserID, authSession, db)) {
+    if (!auth.sessionValid(authUserID, authSession, this.db)) {
       res.render(path.join(__dirname, "/www/html/login.ejs"));
       return;
     }
@@ -111,19 +110,36 @@ setInterval(() => {
   http.get(`http://dlockly.glitch.me/`);
 }, 280000);
 
-bot.on("ready", () => {
-  bot.user.setActivity("with blocks. https://dlockly.glitch.me");
-  var files = read(path.join(__dirname, "data")).filter(f => f.endsWith(".js"));
-
-  for (var f of files) {
-    var mod = require(path.join(__dirname, "data", f));
-    console.log(mod);
-  }
+this.bot.on("ready", () => {
+  this.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
 });
 
+for (var event in events) {
+  if (events.hasOwnProperty(event)) {
+    var parameters = events[event].parameters;
+    var check = events[event].check;
+    var guild = events[event].guildGetter;
+
+    try {
+      eval(`bot.on('${event}', (${parameters.join(",")}) => {
+              if (!(${check})) return;
+              var guild = ${guild};
+              var p = path.join(__dirname, "data", guild.id, "config.js");
+              if (fs.existsSync(p)) {
+                var module = require(p);
+                if (module.${event}) module.${event}(${parameters.join(",")});
+                decache(p);
+              }
+            });`);
+    } catch (e) {
+      console.exception(e);
+    }
+  }
+}
+
 dbl.webhook.on("vote", vote => {
-  votes.addVotes(vote.user, vote.isWeekend ? 2 : 1, db);
-  var totalVotes = votes.getVotes(vote.user, db);
+  votes.addVotes(vote.user, vote.isWeekend ? 2 : 1, this.db);
+  var totalVotes = votes.getVotes(vote.user, this.db);
   var user = bot.users.get(vote.user);
   var embed = new Discord.RichEmbed()
     .setDescription(`<@${vote.user}> has voted!`)
@@ -149,6 +165,6 @@ bot.on('warn', (w) => {
   console.warn(w);
 });
 
-db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
-db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
-bot.login(process.env.DISCORD_TOKEN);
+this.db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
+this.db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
+this.bot.login(process.env.DISCORD_TOKEN);
