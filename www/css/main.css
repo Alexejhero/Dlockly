@@ -1,11 +1,6 @@
 html,
 body {
   height: 100%;
-  margin: 0;
-}
-
-body {
-  font-family: sans-serif;
 }
 
 table {
@@ -70,4 +65,23 @@ svg#login {
   height: 100px;
   position: relative;
   top: 4px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 38px;
+  background-color: white;
+}
+
+.footerElement {
+  margin: 7px;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.body {
+  padding-bottom: 24px;
 }

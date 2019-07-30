@@ -1,8 +1,8 @@
 body {
-  --bg-color: white;
-  --txt-color: black;
-  --disabled-color: darkgray;
-  --a-color: -webkit-link; 
+  --bg-color: #160f19;
+  --txt-color: white;
+  --disabled-color: lightgray;
+  --a-color: #0af;
 }
 
 body {
@@ -15,17 +15,17 @@ body {
   background-color: var(--bg-color);
 }
 
-.blocklyWorkspace{
+.blocklyWorkspace {
   color: var(--txt-color);
   background-color: var(--bg-color);
 }
 
-.blocklyToolboxDiv{
+.blocklyToolboxDiv {
   color: var(--txt-color);
   background-color: var(--bg-color);
 }
 
-.blocklyTooltipDiv{
+.blocklyTooltipDiv {
   color: var(--txt-color);
   background-color: var(--bg-color);
 }
@@ -52,7 +52,7 @@ button:disabled {
   color: var(--disabled-color);
 }
 
-select{
+select {
   color: var(--txt-color);
   background-color: var(--bg-color);
   border-color: var(--txt-color);
@@ -62,7 +62,7 @@ select{
   background-color: var(--a-color);
 }
 
-.blocklyFlyoutBackground{
+.blocklyFlyoutBackground {
   background-color: var(--bg-color);
   fill: var(--bg-color);
 }
@@ -85,9 +85,11 @@ a:-webkit-any-link {
   color: var(--a-color);
 
 }
-  .blocklyScrollbarHandle  {
-    fill: var(--txt-color);
-  }
+
+.blocklyScrollbarHandle {
+  fill: var(--txt-color);
+}
+
 .blocklyScrollbarHandle:hover {
   filter: brightness(85%);
 }
