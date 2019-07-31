@@ -26,7 +26,18 @@ function initialize() {
   server.db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
   server.bot.login(process.env.DISCORD_TOKEN);
   
-  setInterval(() => {
-    consts.memberCountChannel().setName(`${1} Members`);
+  setInterval(async () => {
+    consts.memberCountChannel() && consts.memberCountChannel().setName(`${await getUsers()} Users`);
+    consts.guildCountChannel() && consts.guildCountChannel().setName(`${server.bot.guilds.size} Guilds`);
   }, 30);
+}
+
+async function getUsers() {
+  var guilds = server.bot.guilds.array();
+  var u = 0;
+  for (var i = 0; i < guilds.length; i++) {
+    var guild = await server.bot.guilds.get(guilds[i].id).fetchMembers();
+    u += guild.members.size;
+  }
+  return u;
 }

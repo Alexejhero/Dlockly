@@ -34,6 +34,7 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
   webhookServer: web.listen(process.env.PORT),
 }, this.bot);
+process.setMaxListeners(100000);
 
 init();
 
