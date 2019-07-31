@@ -81,7 +81,6 @@
     toolbox: document.getElementById('toolbox'),
   });
   document.workspace = workspace;
-
   var onresize = function(e) {
     var element = blocklyArea;
     var x = 0;
@@ -166,13 +165,5 @@
   function loadExample() {
     document.workspace.clear();
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= exampleXml %>")), workspace);
-  }
-
-  data = {
-    req: {
-      body: {
-        guild: "<%= guildId %>"
-      }
-    }
   }
 </script>
