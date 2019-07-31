@@ -2,9 +2,10 @@
   "restrictions": [
     {
       "type": "notempty",
-      "message": "You must provide a value for the 'channel' parameter",
+      "message": "You must provide a value for the 'channel' and 'topic' parameters",
       "types": [
-        "channel"
+        "channel",
+        "topic"
       ]
     }
   ],
