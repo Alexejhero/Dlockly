@@ -13,6 +13,8 @@ _Put those long-trained block placing skills to use and make a bot of your own!_
 
 ---
 
+###### _Special thanks to [@KhooHaoYit](https://github.com/khoohaoyit), [@Chicken-E](https://github.com/chicken-e) and [@WilsonTheWolf](https://github.com/wilsonthewolf) for their contributions!_
+
 ###### Looking to make your own bot using Blockly? Check out [7coil/discord-blocks](https://github.com/7coil/discord-blocks) or [camden7306/Discord-Blocks](https://github.com/camden7306/Discord-Blocks)
 
 _© 2019 AlexejheroYTB_

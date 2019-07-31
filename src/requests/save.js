@@ -25,7 +25,7 @@ module.exports = function (data) {
     if (!fs.existsSync(path.join(__dirname, "/../../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
     if (!fs.existsSync(path.join(__dirname, "/../../data/", data.req.body.guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", data.req.body.guild));
 
-    var blocks = getBlocks(path.join(__dirname, "/../../blocks/custom/"));
+    var blocks = getBlocks(path.join(__dirname, "/../../blocks/custom/")).concat(getBlocks(path.join(__dirname, "/../../blocks/hidden/")));
     for (var block of blocks) {
       eval(`
         Blockly.JavaScript['${block.block.type}'] = function(block) {
