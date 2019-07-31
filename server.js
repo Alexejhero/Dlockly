@@ -14,6 +14,7 @@ const dlockly = require('./src/dlockly');
 const init = require('./src/init');
 const perms = require('./src/perms');
 const themes = require('./src/themes');
+const votes = require('./src/votes');
 
 const events = require('./config/events.json');
 
@@ -108,14 +109,90 @@ web.all('*', async (req, res) => {
 });
 
 this.bot.on("message", message => {
-  if (!perms.isAdmin(message.author)) return;
   if (!message.content.startsWith("d!")) return;
+  if (!perms.isAdmin(message.author)) return;
 
   var args = message.content.substring(2).split(/ +/g);
   var command = args.shift();
 
-  if (command == "eval") {
-    eval(args.join(" "));
+  switch (command) {
+    case "eval":
+      eval(args.join(" "));
+      break;
+    case "votes":
+      try {
+        if (message.mentions.users.size != 1) {
+          message.channel.send({
+            embed: {
+              "title": "Invalid Usage",
+              "description": "You must mention exactly one user",
+              "color": 15406156
+            }
+          });
+          return;
+        }
+        if (!args[0].match(/<@!?[0-9]*>/g)) {
+          message.channel.send({
+            embed: {
+              "title": "Invalid Usage",
+              "description": "Expected a user mention as the first argument",
+              "color": 15406156
+            }
+          });
+          return;
+        }
+        if (isNaN(Number(args[1])) || !isFinite(Number(args[1]))) {
+          message.channel.send({
+            embed: {
+              "title": "Invalid Usage",
+              "description": "Expected a finite non-zero number as the second argument",
+              "color": 15406156
+            }
+          });
+          return;
+        }
+
+        if (Number(args[1]) != 0) {
+          votes.addVotes(message.mentions.users.first().id, Number(args[1]));
+          if (Number(args[1]) > 0) {
+            message.channel.send({
+              embed: {
+                "title": "Success",
+                "description": `${message.mentions.users.first()} has received ${Number(args[1])} vote${Number(args[1]) == 1 ? "" : "s"}!`,
+                "color": 53380,
+                "fields": [{
+                  "name": "Total Votes",
+                  "value": votes.getTotalVotes(message.mentions.users.first().id),
+                  "inline": false
+                }]
+              }
+            });
+          } else {
+            message.channel.send({
+              embed: {
+                "title": "Success",
+                "description": `${message.mentions.users.first()} has lost ${Number(args[1]) * -1} vote${Number(args[1]) == -1 ? "" : "s"}!`,
+                "color": 53380,
+                "fields": [{
+                  "name": "Total Votes",
+                  "value": votes.getTotalVotes(message.mentions.users.first().id),
+                  "inline": false
+                }]
+              }
+            });
+          }
+        } else {
+          message.channel.send({
+            embed: {
+              "title": "Invalid Usage",
+              "description": `Expected a finite non-zero number as the second argument`,
+              "color": 15406156
+            }
+          });
+        }
+      } catch (e) {
+
+      }
   }
 })
 
