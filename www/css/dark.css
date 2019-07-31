@@ -87,9 +87,9 @@ a:-webkit-any-link {
 }
 
 .blocklyScrollbarHandle {
-  fill: var(--txt-color);
+  filter: brightness(85%);
 }
 
 .blocklyScrollbarHandle:hover {
-  filter: brightness(85%);
+  filter: brightness(50%);
 }

@@ -3,18 +3,12 @@
   <p class="footerElement" style="float:right;color:gray;">&copy; 2019 AlexejheroYTB &bullet; Discord Hack Week 2019 Winner (Productivity)</p>
 </div>
 <script>
-  let check = document.getElementById('darkCheckbox')
-  if(getCookie('darkTheme') == 'true') check.checked = true
-  changeTheme()
+  let check = document.getElementById('darkCheckbox');
+  check.checked = getCookie('darkTheme') == 'true';
+  changeTheme();
+  
   function changeTheme() {
-    isDark = check.checked
-    if(isDark) {
-      document.getElementById('darkCSS').disabled = false
-      setCookie('darkTheme', true) 
-    }
-    else {
-      document.getElementById('darkCSS').disabled = true
-      setCookie('darkTheme', false) 
-    }
+    document.getElementById('darkCSS').disabled = !check.checked;
+    setCookie('darkTheme', check.checked);
   }
 </script>
