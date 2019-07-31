@@ -28,5 +28,5 @@
     "tooltip": "Contains all of the possible channel types. Useful for 'if' blocks",
     "helpUrl": ""
   },
-  "generator": "_return = [block.getFieldValue('type'), Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = ['\"' + block.getFieldValue('type') + '\"', Blockly.JavaScript.ORDER_ATOMIC]"
 }

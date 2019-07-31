@@ -54,35 +54,6 @@
           this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
         <% } %>
       },
-      <% if (v.mutationToDom) { %>
-        mutationToDom: function() {
-          var _return;
-          eval(decode("<%= v.mutationToDom %>"));
-          return _return;
-        },
-      <% } %>
-      <% if (v.domToMutation) { %>
-        domToMutation: function(container) {
-          eval(decode("<%= v.domToMutation %>"));
-        },
-      <% } %>
-      <% if (v.decompose) { %>
-        decompose: function(workspace) {
-          var _return;
-          eval(decode("<%= v.decompose %>"));
-          return _return;
-        },
-      <% } %>
-      <% if (v.compose) { %>
-        compose: function(topBlock) {
-          eval(decode("<%= v.compose %>"));
-        },
-      <% } %>
-      <% if (v.updateShape) { %>
-        updateShape_: function() {
-          eval(decode("<%= v.updateShape %>"));
-        },
-      <% } %>
     };
   <% } %>
 
@@ -110,6 +81,7 @@
     toolbox: document.getElementById('toolbox'),
   });
   document.workspace = workspace;
+
   var onresize = function(e) {
     var element = blocklyArea;
     var x = 0;
@@ -194,5 +166,13 @@
   function loadExample() {
     document.workspace.clear();
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= exampleXml %>")), workspace);
+  }
+
+  data = {
+    req: {
+      body: {
+        guild: "<%= guildId %>"
+      }
+    }
   }
 </script>

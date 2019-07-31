@@ -25,5 +25,5 @@
     "tooltip": "Kicks a member",
     "helpUrl": ""
   },
-  "generator": "_return = Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.kick();'"
+  "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.kick();'"
 }
