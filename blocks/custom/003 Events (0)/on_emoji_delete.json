@@ -19,5 +19,5 @@
     "tooltip": "Triggers when an emoji is deleted",
     "helpUrl": ""
   },
-  "generator": "_return = '\\\\n##### emojiDelete #####' + Blockly.JavaScript.statementToCode(block, 'code')"
+  "generator": "_return = '\\\\nmodule.exports.emojiDelete = async emoji => { try {' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { require(\"../../src/errors\").onerror(\"' + data.req.body.guild  + '\", e); } }'"
 }

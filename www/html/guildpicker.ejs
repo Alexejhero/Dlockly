@@ -1,43 +1,33 @@
 <% include partials/head %>
 
-<body>
-  <h1>Logged in as "<%= user.user.username %>#<%= user.user.discriminator %>"</h1>
+<div class="body">
+
+  <h1>Logged in as "<%= user.user.tag%>"</h1>
   <a href='logout'><button>Log out</button></a><br>
 
   <% if ((configurableGuilds && configurableGuilds[0]) || (adminGuilds && adminGuilds[0])) { %>
-
     <% if (configurableGuilds && configurableGuilds[0]) { %>
-
-      <h2>Pick a server to edit it's configuration</h2><ul>
-
-      <% for (var guild of configurableGuilds) { %>
-
-        <li><a href='/?guild=<%= guild.id %>'><%= guild.name %></a><a style="font-size:13px"> (<%= guild.id %>)</a></li>
-        
-      <% } %>
-
+      <h2>Pick a server to edit it's configuration</h2>
+      <ul>
+        <% for (var guild of configurableGuilds) { %>
+          <li><a href='/?guild=<%= guild.id %>'><%= guild.name %></a><a style="font-size:13px"> (<%= guild.id %>)</a></li>
+        <% } %>
       </ul>
-
     <% } %>
-
     <% if (adminGuilds && adminGuilds[0]) { %>
-
-      <br><h2>Guilds you have access to because you're an admin</h2><ul>
-
-      <% for (var guild of adminGuilds) { %>
-
-        <li><a <% if (guild.hasEmptyConfig) { %>class="gray"<% } %> href='/?guild=<%= guild.id %>'><%= guild.name %></a><a <% if (guild.hasEmptyConfig) { %>class="gray"<% } %> style="font-size:13px"> (<%= guild.id %>)</a></li>
-        
-      <% } %>
-
+      <br>
+      <h2>Guilds you have access to because you're an admin</h2>
+      <ul>
+        <% for (var guild of adminGuilds) { %>
+          <li><a <% if (guild.hasEmptyConfig) { %>class="gray"<% } %> href='/?guild=<%= guild.id %>'><%= guild.name %></a><a <% if (guild.hasEmptyConfig) { %>class="gray"<% } %> style="font-size:13px"> (<%= guild.id %>)</a></li>
+        <% } %>
       </ul>
-      
     <% } %>
-
   <% } else { %>
-
     <h2>You have no servers available<h2>
     <p>You can invite the bot <a href='https://discordapp.com/oauth2/authorize?client_id=591694201230721043&scope=bot&permissions=8'>here</a></p>
-
   <% } %>
-</body>
+
+</div>
+
+<% include partials/footer %>
