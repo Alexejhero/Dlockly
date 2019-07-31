@@ -5,16 +5,16 @@
 <script>
   let check = document.getElementById('darkCheckbox')
   if(getCookie('darkTheme') == 'true') check.checked = true
+  changeTheme()
   function changeTheme() {
     isDark = check.checked
     if(isDark) {
       document.getElementById('darkCSS').disabled = false
-      setCookie(cname, cvalue, exdays = 365) 
-      document.cookie = `darkTheme=true; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
+      setCookie('darkTheme', true) 
     }
     else {
       document.getElementById('darkCSS').disabled = true
-      document.cookie = `darkTheme=false; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
+      setCookie('darkTheme', false) 
     }
   }
 </script>

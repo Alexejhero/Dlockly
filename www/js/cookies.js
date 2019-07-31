@@ -1,10 +1,8 @@
 'use strict';
 
 function setCookie(cname, cvalue, exdays = 365) {
-  var d = new Date();
-  new Date(Date.now() +1000 * 60 * 60 * 24 * 365)
-  d.setTime(d.getTime() + ());
-  var expires = "expires=" + d.toUTCString();
+  
+  var expires = "expires=" + new Date(Date.now() +exdays * 24 * 60 * 60 * 1000).toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
