@@ -28,7 +28,9 @@ web.use(require('body-parser').urlencoded({
 }));
 
 module.exports.db = require('better-sqlite3')('data/db.db');
-module.exports.bot = new Discord.Client();
+module.exports.bot = new Discord.Client({
+  fetchAllMembers: true,
+});
 module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
