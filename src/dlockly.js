@@ -9,6 +9,9 @@ const icons = require('../config/icons.json');
 
 module.exports.isConfigEmpty = function (id) {
   var mod = getJsConfig(id);
+  if (!mod) {
+    mod = getDeprecatedConfig(id);
+  }
   for (var key in mod) {
     if (mod.hasOwnProperty(key)) return false;
   }
@@ -24,7 +27,23 @@ function getJsConfig(id) {
   }
   var p = path.join(__dirname, "/../data/", id, "/config.js");
   if (!fs.existsSync(p)) {
-    return '';
+    return null;
+  }
+  var mod = require(p);
+  decache(p);
+  return mod;
+}
+
+function getDeprecatedConfig(id) {
+  if (!fs.existsSync(path.join(__dirname, "/../data"))) {
+    fs.mkdirSync(path.join(__dirname + "/../data"));
+  }
+  if (!fs.existsSync(path.join(__dirname, "/../data/", id))) {
+    fs.mkdirSync(path.join(__dirname, "/../data/", id));
+  }
+  var p = path.join(__dirname, "/../data/", id, "/config.json");
+  if (!fs.existsSync(p)) {
+    return null;
   }
   var mod = require(p);
   decache(p);
