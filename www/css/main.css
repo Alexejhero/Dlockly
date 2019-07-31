@@ -42,8 +42,7 @@ p {
   font-weight: normal;
 }
 
-.blocklyTooltipDiv div,
-.blocklyBubbleText tspan {
+.blocklyTooltipDiv div {
   font-family: sans-serif;
 }
 
