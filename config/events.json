@@ -1,0 +1,58 @@
+{
+  "channelCreate": {
+    "parameters": [
+      "channel"
+    ],
+    "check": "channel.guild",
+    "guildGetter": "channel.guild"
+  },
+  "channelDelete": {
+    "parameters": [
+      "channel"
+    ],
+    "check": "channel.guild",
+    "guildGetter": "channel.guild"
+  },
+  "emojiCreate": {
+    "parameters": [
+      "emoji"
+    ],
+    "check": "emoji.guild",
+    "guildGetter": "emoji.guild"
+  },
+  "emojiDelete": {
+    "parameters": [
+      "emoji"
+    ],
+    "check": "emoji.guild",
+    "guildGetter": "emoji.guild"
+  },
+  "guildMemberAdd": {
+    "parameters": [
+      "member"
+    ],
+    "check": "member.guild",
+    "guildGetter": "member.guild"
+  },
+  "guildMemberRemove": {
+    "parameters": [
+      "member"
+    ],
+    "check": "member.guild",
+    "guildGetter": "member.guild"
+  },
+  "message": {
+    "parameters": [
+      "message"
+    ],
+    "check": "message.guild && !message.author.bot",
+    "guildGetter": "message.guild"
+  },
+  "messageDelete": {
+    "parameters": [
+      "message"
+    ],
+    "check": "message.guild",
+    "guildGetter": "message.guild"
+  }
+}

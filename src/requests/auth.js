@@ -1,21 +1,26 @@
+'use strict';
+
 const querystring = require('querystring');
 const request = require('request-promise');
 
+const auth = require('../auth');
+const server = require('../../server');
+
 module.exports = function (data) {
   try {
-    if (data.auth.sessionValid(data.authUserID, data.authSession, data.db)) {
+    if (auth.sessionValid(data.authUserID, data.authSession)) {
       data.res.redirect("/#sessionValid");
     } else {
       if (!data.req.query.code) {
         data.res.redirect("/login#invalidCode");
       } else {
         var bodyObj = {
-          'client_id': data.bot.user.id,
+          'client_id': server.bot.user.id,
           'client_secret': process.env.DISCORD_CLIENT_SECRET,
           'grant_type': 'authorization_code',
-          'redirect_uri': 'https://dlockly.glitch.me/auth',
+          'redirect_uri': `https://${process.env.PROJECT_DOMAIN}.glitch.me/auth`,
           'scope': 'identify',
-          'code': data.req.query.code
+          'code': data.req.query.code,
         };
         var body = querystring.stringify(bodyObj);
 
@@ -31,12 +36,12 @@ module.exports = function (data) {
           var tokenType = reqObj.token_type;
           var accessToken = reqObj.access_token;
 
-          var userData = await data.auth.getUserData(accessToken, tokenType, data.db);
+          var userData = await auth.getUserData(accessToken, tokenType);
           var userID = userData.id;
-          var sessionToken = data.auth.generateToken();
+          var sessionToken = auth.generateToken();
 
-          data.auth.setToken(userID, sessionToken, accessToken, data.db);
-          data.auth.setCookies(data.res, userID, sessionToken);
+          auth.setToken(userID, sessionToken, accessToken);
+          auth.setCookies(data.res, userID, sessionToken);
 
           data.res.redirect("/#loggedIn");
         }).catch(e => {

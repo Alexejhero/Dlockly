@@ -1,28 +1,30 @@
-const path = require('path');
-const Discord = require('discord.js');
+'use strict';
+
+const auth = require('../auth');
+const perms = require('../perms');
+const server = require('../../server');
 
 module.exports = async function (data) {
-  if (!data.auth.sessionValid(data.authUserID, data.authSession, data.db) || !data.user || !data.perms.isAdmin(data.user.user, data.bot)) {
+  if (!auth.sessionValid(data.authUserID, data.authSession) || !data.user || !perms.isAdmin(data.user.user)) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidLogin`);
     return;
   }
 
-  var guild = data.bot.guilds.get(data.req.query.guild);
+  var guild = server.bot.guilds.get(data.req.query.guild);
   if (!guild) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidGuild`);
     return;
   }
 
-  if (guild.features.includes("VANITY_URL")) {
-    var vanityUrl = await guild.fetchVanityCode();
-    if (vanityUrl) {
-      data.res.redirect(`
-      https: //discord.gg/${vanityUrl}`);
-      return;
-    }
-  }
-
   if (guild.me.hasPermission("MANAGE_GUILD")) {
+    if (guild.features.includes("VANITY_URL")) {
+      var vanityUrl = await guild.fetchVanityCode();
+      if (vanityUrl) {
+        data.res.redirect(`https://discord.gg/${vanityUrl}`);
+        return;
+      }
+    }
+
     var invites = (await guild.fetchInvites()).keyArray();
     if (invites[0]) {
       data.res.redirect(`https://discord.gg/${invites[0]}`);

@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html>
+<% include partials/head %>
+<% include partials/blockly %>
 
-<% include partials/dlocklyhead %>
+<html style="overflow:hidden;">
 
-<body>
+<div class="body">
+
   <table>
     <tbody>
-      <tr>
-        <td>
+      <tr><td>
           <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
           <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
           <br>
@@ -25,179 +25,174 @@
             <button type="button" id="example" onclick="loadExample()">Load Example</button>
             <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
           </form>
-        </td>
-      </tr>
+      </td></tr>
       <tr><td id="blocklyArea"></td></tr>
-      <tr>
-        <td>
-          <% include partials/footer %>
-        </td>
-      </tr>
+      <tr><td style="padding-bottom:38px;"></td></tr>
     </tbody>
   </table>
 
   <div id="blocklyDiv" style="position:absolute"></div>
-
   <xml id="toolbox" style="display: none">
     <%- xmlCategoryTree %>
   </xml>
 
-  <script>
-    document.getElementById("blocklyDiv").style.height = window.innerHeight - 20 + "px";
-    document.getElementById("blocklyDiv").style.width = window.innerWidth - 20 + "px";
+</div>
 
-    <% for (var v of blocks) { %>
-      <% if (v.default) continue; %>
-      Blockly.Blocks["<%= v.type %>"] = { 
-        init: function () {
-          <% if (v.init) { %>
-            eval(decode("<%= v.init %>"));
-          <% } else { %>
-            this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
-          <% } %>
-        },
-        <% if (v.mutationToDom) { %>
-          mutationToDom: function() {
-            var _return;
-            eval(decode("<%= v.mutationToDom %>"));
-            return _return;
-          },
-        <% } %>
-        <% if (v.domToMutation) { %>
-          domToMutation: function(container) {
-            eval(decode("<%= v.domToMutation %>"));
-          },
-        <% } %>
-        <% if (v.decompose) { %>
-          decompose: function(workspace) {
-            var _return;
-            eval(decode("<%= v.decompose %>"));
-            return _return;
-          },
-        <% } %>
-        <% if (v.compose) { %>
-          compose: function(topBlock) {
-            eval(decode("<%= v.compose %>"));
-          },
-        <% } %>
-        <% if (v.updateShape) { %>
-          updateShape_: function() {
-            eval(decode("<%= v.updateShape %>"));
-          },
-        <% } %>
-      };
-    <% } %>
+<% include partials/footer %>
 
-    <% generators.forEach(g => { %>
-      Blockly.JavaScript['<%= g.type %>'] = function(block) {
-        var _return;
-        eval(decode("<%= g.generator %>"));
-        return _return;
-      }
-    <% }); %>
+<script>
+  document.getElementById("blocklyDiv").style.height = window.innerHeight - 20 + "px";
+  document.getElementById("blocklyDiv").style.width = window.innerWidth - 20 + "px";
 
-    var blocklyArea = document.getElementById('blocklyArea');
-    var blocklyDiv = document.getElementById('blocklyDiv');
-    var workspace = Blockly.inject(blocklyDiv, {
-      maxInstances: JSON.parse(decode('<%= max %>')),
-      collapse: false,
-      comments: false,
-      grid: {
-        spacing: 20,
-        length: 1,
-        color: '#888'
+  <% for (var v of blocks) { %>
+    <% if (v.default) continue; %>
+    Blockly.Blocks["<%= v.type %>"] = { 
+      init: function () {
+        <% if (v.init) { %>
+          eval(decode("<%= v.init %>"));
+        <% } else { %>
+          this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
+        <% } %>
       },
-      disable: false,
-      scrollbars: true,
-      toolbox: document.getElementById('toolbox'),
-    });
-    document.workspace = workspace;
-    var onresize = function(e) {
-      var element = blocklyArea;
-      var x = 0;
-      var y = 0;
-      do {
-        x += element.offsetLeft;
-        y += element.offsetTop;
-        element = element.offsetParent;
-      } while (element);
-      blocklyDiv.style.left = x + 'px';
-      blocklyDiv.style.top = y + 'px';
-      blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
-      blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
-      Blockly.svgResize(workspace);
+      <% if (v.mutationToDom) { %>
+        mutationToDom: function() {
+          var _return;
+          eval(decode("<%= v.mutationToDom %>"));
+          return _return;
+        },
+      <% } %>
+      <% if (v.domToMutation) { %>
+        domToMutation: function(container) {
+          eval(decode("<%= v.domToMutation %>"));
+        },
+      <% } %>
+      <% if (v.decompose) { %>
+        decompose: function(workspace) {
+          var _return;
+          eval(decode("<%= v.decompose %>"));
+          return _return;
+        },
+      <% } %>
+      <% if (v.compose) { %>
+        compose: function(topBlock) {
+          eval(decode("<%= v.compose %>"));
+        },
+      <% } %>
+      <% if (v.updateShape) { %>
+        updateShape_: function() {
+          eval(decode("<%= v.updateShape %>"));
+        },
+      <% } %>
     };
-    window.addEventListener('resize', onresize, false);
-    onresize();
+  <% } %>
+
+  <% generators.forEach(g => { %>
+    Blockly.JavaScript['<%= g.type %>'] = function(block) {
+      var _return;
+      eval(decode("<%= g.generator %>"));
+      return _return;
+    }
+  <% }); %>
+
+  var blocklyArea = document.getElementById('blocklyArea');
+  var blocklyDiv = document.getElementById('blocklyDiv');
+  var workspace = Blockly.inject(blocklyDiv, {
+    maxInstances: JSON.parse(decode('<%= max %>')),
+    collapse: false,
+    comments: false,
+    grid: {
+      spacing: 20,
+      length: 1,
+      color: '#888'
+    },
+    disable: false,
+    scrollbars: true,
+    toolbox: document.getElementById('toolbox'),
+  });
+  document.workspace = workspace;
+  var onresize = function(e) {
+    var element = blocklyArea;
+    var x = 0;
+    var y = 0;
+    do {
+      x += element.offsetLeft;
+      y += element.offsetTop;
+      element = element.offsetParent;
+    } while (element);
+    blocklyDiv.style.left = x + 'px';
+    blocklyDiv.style.top = y + 'px';
+    blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+    blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
     Blockly.svgResize(workspace);
+  };
+  window.addEventListener('resize', onresize, false);
+  onresize();
+  Blockly.svgResize(workspace);
 
-    document.restrictions = JSON.parse(decode('<%= restrictions %>'));
+  document.restrictions = JSON.parse(decode('<%= restrictions %>'));
 
-    workspace.addChangeListener(Blockly.Events.disableOrphans);
+  workspace.addChangeListener(Blockly.Events.disableOrphans);
 
-    if (decode('<%= blocklyXml %>').length > 0) Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= blocklyXml %>")), workspace);
+  if (decode('<%= blocklyXml %>').length > 0) Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= blocklyXml %>")), workspace);
 
-    setInterval(() => { 
-      disableUnapplicable({ 
-        type: Blockly.Events.MOVE, 
-        workspaceId: workspace.id, 
-      });
+  setInterval(() => { 
+    disableUnapplicable({ 
+      type: Blockly.Events.MOVE, 
+      workspaceId: workspace.id, 
+    });
 
-      var saveNeedsDisabling = false;
-      if (decode("<%= blocklyXml %>") == Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace))) {
-        document.getElementById("save").setAttribute("title", "You haven't made any changes!");
+    var saveNeedsDisabling = false;
+    if (decode("<%= blocklyXml %>") == Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace))) {
+      document.getElementById("save").setAttribute("title", "You haven't made any changes!");
+      document.getElementById("save").setAttribute("disabled", "true");
+      document.getElementById("reset").setAttribute("title", "You haven't made any changes!");
+      document.getElementById("reset").setAttribute("disabled", "true");
+      saveNeedsDisabling = true;
+    }
+    for (var block of workspace.getAllBlocks(false)) {
+      if (block.warning && !block.disabled) {
+        document.getElementById("save").setAttribute("title", "Cannot save if there are errors!");
         document.getElementById("save").setAttribute("disabled", "true");
-        document.getElementById("reset").setAttribute("title", "You haven't made any changes!");
-        document.getElementById("reset").setAttribute("disabled", "true");
-        saveNeedsDisabling = true;
+        return;
       }
-      for (var block of workspace.getAllBlocks(false)) {
-        if (block.warning && !block.disabled) {
-          document.getElementById("save").setAttribute("title", "Cannot save if there are errors!");
-          document.getElementById("save").setAttribute("disabled", "true");
-          return;
-        }
-      }
-      if (!saveNeedsDisabling) {
-        document.getElementById("save").removeAttribute("title");
-        document.getElementById("save").removeAttribute("disabled");        
-        document.getElementById("reset").removeAttribute("title");
-        document.getElementById("reset").removeAttribute("disabled");
-      }
-
-      if (decode("<%= exampleXml %>") == Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace))) {
-        document.getElementById("example").setAttribute("title", "The example is already loaded!");
-        document.getElementById("example").setAttribute("disabled", "true");
-      } else {
-        document.getElementById("example").removeAttribute("title");
-        document.getElementById("example").removeAttribute("disabled");
-      }
-    }, 100);
-
-    function saveConfig() {
-      var code = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-      document.getElementById("inputGuild").setAttribute("value", getUrlParameter("guild"));
-      document.getElementById("inputXml").setAttribute("value", encodeURIComponent(code));
-      window.onbeforeunload = null;
+    }
+    if (!saveNeedsDisabling) {
+      document.getElementById("save").removeAttribute("title");
+      document.getElementById("save").removeAttribute("disabled");        
+      document.getElementById("reset").removeAttribute("title");
+      document.getElementById("reset").removeAttribute("disabled");
     }
 
-    function getUrlParameter(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
+    if (decode("<%= exampleXml %>") == Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace))) {
+      document.getElementById("example").setAttribute("title", "The example is already loaded!");
+      document.getElementById("example").setAttribute("disabled", "true");
+    } else {
+      document.getElementById("example").removeAttribute("title");
+      document.getElementById("example").removeAttribute("disabled");
     }
+  }, 100);
 
-    function resetConfig() {
-      window.onbeforeunload = null;
-      window.location.reload(false);
-    }
+  function saveConfig() {
+    var code = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+    document.getElementById("inputGuild").setAttribute("value", getUrlParameter("guild"));
+    document.getElementById("inputXml").setAttribute("value", encodeURIComponent(code));
+    window.onbeforeunload = null;
+  }
 
-    function loadExample() {
-      document.workspace.clear();
-      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= exampleXml %>")), workspace);
-    }
-  </script>
-</body>
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
+  }
 
-</html>
+  function resetConfig() {
+    window.onbeforeunload = null;
+    window.location.reload(false);
+  }
+
+  function loadExample() {
+    document.workspace.clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= exampleXml %>")), workspace);
+  }
+</script>
