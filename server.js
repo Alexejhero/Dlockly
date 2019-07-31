@@ -13,6 +13,7 @@ const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const init = require('./src/init');
 const perms = require('./src/perms');
+const themes = require('./src/themes');
 
 const events = require('./config/events.json');
 
@@ -36,16 +37,7 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
 init();
 
 web.all('*', async (req, res) => {
-  if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
-    res.sendFile(path.join(__dirname, "/www/html/maintenance.html"));
-    return;
-  }
-
   var browser = req.useragent.browser;
-  if (browser != "Chrome" && browser != "Firefox") {
-    res.sendFile(path.join(__dirname, "/www/html/browserunsup.html"));
-    return;
-  }
 
   var {
     authUserID,
@@ -55,22 +47,30 @@ web.all('*', async (req, res) => {
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
     res.sendFile(path.join(__dirname, req.path));
+  } else if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
+    res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
+    return;
+  } else if (browser != "Chrome" && browser != "Firefox") {
+    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
+    return;
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
       authSession,
       authUserID,
       res,
       req,
-      user
+      user,
     });
   } else {
-    if (!auth.sessionValid(authUserID, authSession, this.db)) {
+    if (!auth.sessionValid(authUserID, authSession)) {
       res.render(path.join(__dirname, "/www/html/login.ejs"));
       return;
     }
 
     if (!user) {
-      res.sendFile(path.join(__dirname, "/www/html/unknownuser.html"));
+      res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
+        theme: themes.getTheme(req),
+      });
       return;
     }
 

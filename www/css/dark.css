@@ -1,67 +1,101 @@
 body {
-  --bg-color: black;
-  --txt-color: white;
-  --disabled-color: lightgray;
+  --alternate-color: #313131;
+  --background-color: #160f19;
+  --disabled-color: #393939;
+  --link-color: #0af;
+  --main-color: white;
 }
 
+html,
 body {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .blocklySvg {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
-.blocklyWorkspace{
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+.blocklyWorkspace {
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
-.blocklyToolboxDiv{
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+.blocklyToolboxDiv {
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
-/*rect {
-  fill: black;
+.blocklyTooltipDiv {
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
+.gray {
+  color: var(--disabled-color) !important;
+}
 
-
-g {
-  stroke: rgba(0,0,0,0.5);
-}*/
 svg {
-  fill: var(--txt-color);
+  fill: var(--main-color);
 }
 
 div {
-  color: var(--txt-color);
+  color: var(--main-color);
 }
 
 a#login {
-  color: var(--txt-color);
-  width: 100%;
+  color: var(--main-color);
 }
 
 button {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
-  border-color: var(--txt-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
 }
 
 button:disabled {
   color: var(--disabled-color);
 }
 
+select {
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
+}
+
+.blocklyTreeRow:not(.blocklyTreeSelected):hover {
+  background-color: var(--link-color);
+}
+
+.blocklyFlyoutBackground {
+  background-color: var(--background-color);
+  fill: var(--background-color);
+}
+
+select:disabled {
+  color: var(--disabled-color);
+}
+
 form input[type='submit'] {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
-  border-color: var(--txt-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
 }
 
 form input[type='submit']:disabled {
   color: var(--disabled-color);
+}
+
+a:-webkit-any-link {
+  color: var(--link-color);
+
+}
+
+.blocklyScrollbarHandle {
+  fill: var(--disabled-color) !important;
+}
+
+.blocklyScrollbarHandle:hover {
+  fill: var(--alternate-color) !important;
 }
