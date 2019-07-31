@@ -39,8 +39,6 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
 init();
 
 web.all('*', async (req, res) => {
-  var browser = req.useragent.browser;
-
   var {
     authUserID,
     authSession
@@ -49,11 +47,11 @@ web.all('*', async (req, res) => {
 
   if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html"))
     return res.sendFile(path.join(__dirname, req.path));
-  if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
+  if (fs.existsSync(path.join(__dirname, "/config/disable")))
     return res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
-  if (browser != "Chrome" && browser != "Firefox") {
+  if (req.useragent.browser != "Chrome" && req.useragent.browser != "Firefox")
     return res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
-  if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
+  if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js")))
     return require('./' + path.join('src/requests/', req.path))({
       authSession,
       authUserID,
@@ -61,13 +59,11 @@ web.all('*', async (req, res) => {
       req,
       user,
     });
+
   if (!auth.sessionValid(authUserID, authSession))
     return res.render(path.join(__dirname, "/www/html/login.ejs"));
-
   if (!user)
-    return res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
-      theme: themes.getTheme(req),
-    });
+    return res.render(path.join(__dirname, "/www/html/unknownuser.ejs"));
 
   if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {
