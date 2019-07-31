@@ -162,7 +162,7 @@ this.bot.on("message", message => {
                 "color": 53380,
                 "fields": [{
                   "name": "Total Votes",
-                  "value": votes.getTotalVotes(message.mentions.users.first().id),
+                  "value": String(votes.getTotalVotes(message.mentions.users.first().id)),
                   "inline": false
                 }]
               }
@@ -175,7 +175,7 @@ this.bot.on("message", message => {
                 "color": 53380,
                 "fields": [{
                   "name": "Total Votes",
-                  "value": votes.getTotalVotes(message.mentions.users.first().id),
+                  "value": String(votes.getTotalVotes(message.mentions.users.first().id)),
                   "inline": false
                 }]
               }

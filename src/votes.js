@@ -1,6 +1,10 @@
 'use strict';
 
+const Discord = require('discord.js');
+
 const consts = require('./consts');
+const discord = require('./discord');
+const perms = require('./perms');
 const server = require('../server');
 
 module.exports.initialize = function () {
@@ -11,6 +15,7 @@ function onvote(vote) {
   this.addVotes(vote.user, vote.isWeekend ? 2 : 1);
   var totalVotes = this.getVotes(vote.user);
   var user = server.bot.users.get(vote.user);
+  if (perms.isAdmin(user)) totalVotes = "∞";
   var embed = new Discord.RichEmbed()
     .setDescription(`<@${vote.user}> has voted!`)
     .setColor(0x00FF00)
