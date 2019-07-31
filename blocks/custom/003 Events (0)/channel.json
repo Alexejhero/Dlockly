@@ -5,7 +5,9 @@
       "message": "The 'channel' variable may only be used in an 'on channel created' or 'on channel deleted' event",
       "types": [
         "on_channel_create",
-        "on_channel_delete"
+        "on_channel_delete",
+        "on_message",
+        "on_message_delete"
       ]
     }
   ],
