@@ -13,7 +13,7 @@ _Put those long-trained block placing skills to use and make a bot of your own!_
 
 ---
 
-Special thanks to @KhooHaoYitom, @Chicken-E and @WilsonTheWolf for their contributions!
+Special thanks to [@KhooHaoYit](https://github.com/khoohaoyit), [@Chicken-E](https://github.com/chicken-e) and [@WilsonTheWolf](https://github.com/wilsonthewolf) for their contributions!
 
 ---
 
