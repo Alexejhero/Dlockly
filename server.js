@@ -84,13 +84,13 @@ web.all('*', async (req, res) => {
       return;
     }
 
-    var categories = dlockly.initializeAllCategoriesRecursively();
     var {
       blocks,
       max,
       restrictions,
-      generators
-    } = dlockly.initializeAllBlocks(categories);
+      generators,
+      categories
+    } = dlockly.initializeAllBlocks(dlockly.initializeAllCategoriesRecursively());
 
     res.render("www/html/dlockly.ejs", {
       blocks: blocks,
