@@ -1,7 +1,7 @@
 body {
   --bg-color: #160f19;
   --txt-color: white;
-  --disabled-color: lightgray;
+  --disabled-color: #727272;
   --a-color: #0af;
 }
 
@@ -92,4 +92,11 @@ a:-webkit-any-link {
 
 .blocklyScrollbarHandle:hover {
   filter: brightness(50%);
+}
+
+a.gray {
+  color: var(--disabled-color);
+}
+.gray {
+  color: var(--disabled-color);
 }
