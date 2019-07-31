@@ -18,6 +18,7 @@ function initialize() {
   }, 280000);
 
   server.bot.on("ready", () => {
+    console.log('bot is ready')
     server.bot.user.setActivity("with blocks. https://"+process.env.PROJECT_DOMAIN+".glitch.me");
   });
 
