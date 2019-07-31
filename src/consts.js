@@ -3,7 +3,7 @@
 const server = require('../server');
 
 module.exports.dlocklyGuild = function () {
-  return server.bot.guilds.get('591692042304880815');
+  return server.bot.guilds.get(`${process.env.DISCORD_GUILD_ID}`);
 }
 
 module.exports.votesChannel = function () {
