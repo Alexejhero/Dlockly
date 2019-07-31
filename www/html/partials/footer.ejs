@@ -4,12 +4,35 @@
 </div>
 
 <script>
-  let check = document.getElementById('darkCheckbox');
-  check.checked = getCookie('darkTheme') == 'true';
-  changeTheme();
+  <script>
+    function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  let check = document.getElementById('check')
+  if(getCookie('theme') == 'night') check.checked = true
   
   function changeTheme() {
-    document.getElementById('darkCSS').disabled = !check.checked;
-    setCookie('darkTheme', check.checked);
+    isDark = check.checked
+    if(isDark) {
+      document.getElementById('color').disabled = false
+      document.cookie = `theme=night; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
+    }
+    else {
+      document.getElementById('color').disabled = true
+      document.cookie = `theme=; expires=${new Date(Date.now() +1000 * 60 * 60 * 24 * 365)}`;
+    }
   }
+</script>
 </script>
