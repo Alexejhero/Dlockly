@@ -91,14 +91,10 @@ module.exports.generateXmlTreeRecursively = function (categories) {
 module.exports.initializeAllBlocks = function (categories) {
   var defaultBlocks = initializeDefaultBlocks(path.join(__dirname, "/../blocks/default/"), categories);
   var customBlocks = initializeCustomBlocks(path.join(__dirname, "/../blocks/custom/"), categories);
-  var deprecatedBlocks = initializeDeprecatedBlocks(path.join(__dirname, "/../blocks/deprecated"));
 
-  var blocks = customBlocks.blocks.concat(defaultBlocks).concat(deprecatedBlocks.blocks);
+  var blocks = customBlocks.blocks.concat(defaultBlocks);
   var max = customBlocks.max;
-  var restrictions = {
-    ...customBlocks.restrictions,
-    ...deprecatedBlocks.restrictions
-  };
+  var restrictions = customBlocks.restrictions;
   var generators = customBlocks.generators;
 
   return {
@@ -106,7 +102,6 @@ module.exports.initializeAllBlocks = function (categories) {
     max,
     restrictions,
     generators,
-    categories,
   }
 }
 
@@ -116,7 +111,8 @@ function initializeDefaultBlocks(p, categories) {
   var files = read(p).filter(f => f.endsWith(".json"));
 
   for (var f of files) {
-    f = trim(f);
+    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
+    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
 
     var json = JSON.parse(fs.readFileSync(path.join(p, f)));
     var splits = f.split(/[\/\\]+/g);
@@ -142,7 +138,8 @@ function initializeCustomBlocks(p, categories) {
   var files = read(p).filter(f => f.endsWith(".json"));
 
   for (var f of files) {
-    f = trim(f);
+    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
+    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
 
     var json = JSON.parse(fs.readFileSync(path.join(p, f)));
     var splits = f.split(/[\/\\]+/g);
@@ -190,46 +187,11 @@ function initializeCustomBlocks(p, categories) {
   }
 
   return {
-    blocks,
-    max,
-    restrictions,
-    generators,
+    blocks: blocks,
+    max: max,
+    restrictions: restrictions,
+    generators: generators
   };
-}
-
-function initializeDeprecatedBlocks(p) {
-  var blocks = [];
-  var restrictions = {};
-
-  var files = read(p).filter(f => f.endsWith(".json"));
-
-  for (var f of files) {
-    f = trim(f);
-
-    var json = JSON.parse(fs.readFileSync(path.join(p, f)));
-    var splits = f.split(/[\/\\]+/g);
-    splits.pop();
-
-    json.block.deprecated = true;
-    blocks.push(json.block);
-
-    restrictions[json.block.type] = [{
-      type: "deprecated",
-      message: "This block is deprecated and can no longer be used."
-    }];
-  }
-
-  return {
-    blocks,
-    restrictions
-  };
-}
-
-function trim(f) {
-  var ff = f;
-  if (ff.startsWith("/") || ff.startsWith("\\")) ff = ff.substring(1);
-  if (ff.endsWith("/") || ff.endsWith("\\")) ff.substr(0, ff.length - 1);
-  return ff;
 }
 
 function findCategoryRecursively(categories, cat) {
