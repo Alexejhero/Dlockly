@@ -107,6 +107,18 @@ web.all('*', async (req, res) => {
   }
 });
 
+this.bot.on("message", message => {
+  if (!perms.isAdmin(message.author)) return;
+  if (!message.content.startsWith("d!")) return;
+
+  var args = message.content.substring(2).split(/ +/g);
+  var command = args.shift();
+
+  if (command == "eval") {
+    eval(args.join(" "));
+  }
+})
+
 for (var event in events) {
   if (events.hasOwnProperty(event)) {
     var parameters = events[event].parameters;
