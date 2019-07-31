@@ -27,15 +27,6 @@ body {
   background-color: var(--background-color);
 }
 
-.blocklyTooltipDiv {
-  color: var(--main-color);
-  background-color: var(--background-color);
-}
-
-.blocklyMutatorBackground {
-  fill: var(--alternate-color);
-}
-
 .gray {
   color: var(--disabled-color) !important;
 }
@@ -44,7 +35,7 @@ svg {
   fill: var(--main-color);
 }
 
-div {
+div:not(.blocklyTooltipDiv div) {
   color: var(--main-color);
 }
 
