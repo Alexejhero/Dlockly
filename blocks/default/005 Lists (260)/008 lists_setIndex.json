@@ -1,4 +1,4 @@
 {
   "type": "lists_setIndex",
-  "extra": "<value name=\"LIST\"><block type=\"variables_get\"><field name=\"VAR\">list variable</field></block></value>"
+  "extra": "<value name=\"AT\"><shadow type=\"math_number\"><field name=\"NUM\">1</field></shadow></value>"
 }
