@@ -4,7 +4,7 @@
   "description": "A fully customizable Discord bot with a Scratch-like interface!",
   "main": "server.js",
   "scripts": {
-    "start": "echo Tried to restart"
+    "start": "node server.js"
   },
   "dependencies": {
     "better-sqlite3": "^5.4.0",
@@ -41,3 +41,4 @@
   },
   "devDependencies": {}
 }
+s
