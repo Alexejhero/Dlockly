@@ -1,4 +1,5 @@
 'use strict';
+
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
@@ -121,74 +122,42 @@ this.bot.on("message", message => {
       break;
     case "votes":
       try {
-        if (message.mentions.users.size != 1) {
-          message.channel.send({
-            embed: {
-              "title": "Invalid Usage",
-              "description": "You must mention exactly one user",
-              "color": 15406156
-            }
-          });
-          return;
-        }
-        if (!args[0].match(/<@!?[0-9]*>/g)) {
-          message.channel.send({
-            embed: {
-              "title": "Invalid Usage",
-              "description": "Expected a user mention as the first argument",
-              "color": 15406156
-            }
-          });
-          return;
-        }
-        if (isNaN(Number(args[1])) || !isFinite(Number(args[1]))) {
-          message.channel.send({
-            embed: {
-              "title": "Invalid Usage",
-              "description": "Expected a finite non-zero number as the second argument",
-              "color": 15406156
-            }
-          });
-          return;
-        }
+        if (message.mentions.users.size != 1)
+          return message.channel.send(new Discord.RichEmbed()
+            .setTitle("Invalid Usage")
+            .setDescription("You must mention exactly one user")
+            .setColor(0xEB144C));
+        if (!args[0].match(/<@!?[0-9]*>/g))
+          return message.channel.send(new Discord.RichEmbed()
+            .setTitle("Invalid Usage")
+            .setDescription("Expected a user mention as the first argument")
+            .setColor(0xEB144C));
+        if (isNaN(Number(args[1])) || !isFinite(Number(args[1])))
+          return message.channel.send(new Discord.RichEmbed()
+            .setTitle("Invalid Usage")
+            .setDescription("Expected a finite non-zero number as the second argument")
+            .setColor(0xEB144C));
 
         if (Number(args[1]) != 0) {
           votes.addVotes(message.mentions.users.first().id, Number(args[1]));
           if (Number(args[1]) > 0) {
-            message.channel.send({
-              embed: {
-                "title": "Success",
-                "description": `${message.mentions.users.first()} has received ${Number(args[1])} vote${Number(args[1]) == 1 ? "" : "s"}!`,
-                "color": 53380,
-                "fields": [{
-                  "name": "Total Votes",
-                  "value": String(votes.getTotalVotes(message.mentions.users.first().id)),
-                  "inline": false
-                }]
-              }
-            });
+            message.channel.send(new Discord.RichEmbed()
+              .setTitle("Success")
+              .setDescription(`${message.mentions.users.first()} has received ${Number(args[1])} vote${Number(args[1]) == 1 ? "" : "s"}!`)
+              .setColor(0x00D084)
+              .addField("Total Votes", String(votes.getTotalVotes(message.mentions.users.first().id))));
           } else {
-            message.channel.send({
-              embed: {
-                "title": "Success",
-                "description": `${message.mentions.users.first()} has lost ${Number(args[1]) * -1} vote${Number(args[1]) == -1 ? "" : "s"}!`,
-                "color": 53380,
-                "fields": [{
-                  "name": "Total Votes",
-                  "value": String(votes.getTotalVotes(message.mentions.users.first().id)),
-                  "inline": false
-                }]
-              }
-            });
+            message.channel.send(new Discord.RichEmbed()
+              .setTitle("Success")
+              .setDescription(`${message.mentions.users.first()} has lost ${Number(args[1]) * -1} vote${Number(args[1]) == -1 ? "" : "s"}!`)
+              .setColor(0x00D084)
+              .addField("Total Votes", String(votes.getTotalVotes(message.mentions.users.first().id))));
           }
         } else {
-          message.channel.send({
-            embed: {
-              "title": "Invalid Usage",
-              "description": `Expected a finite non-zero number as the second argument`,
-              "color": 15406156
-            }
-          });
+          message.channel.send(new Discord.RichEmbed()
+            .setTitle("Invalid Usage")
+            .setDescription(`Expected a finite non-zero number as the second argument`)
+            .setColor(0xEB144C));
         }
       } catch (e) {
 
