@@ -8,9 +8,6 @@ const perms = require('./perms');
 const server = require('../server');
 
 module.exports.initialize = function () {
-  server.dbl.webhook.on('ready', hook => {
-    console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
-  });
   server.dbl.webhook.on("vote", vote => {
     this.addVotes(vote.user, vote.isWeekend ? 2 : 1);
     var totalVotes = this.getVotes(vote.user);
