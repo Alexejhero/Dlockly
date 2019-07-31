@@ -91,15 +91,17 @@ module.exports.generateXmlTreeRecursively = function (categories) {
 module.exports.initializeAllBlocks = function (categories) {
   var defaultBlocks = initializeDefaultBlocks(path.join(__dirname, "/../blocks/default/"), categories);
   var customBlocks = initializeCustomBlocks(path.join(__dirname, "/../blocks/custom/"), categories);
+  var hiddenBlocks = initializeHiddenBlocks(path.join(__dirname, "/../blocks/hidden/"));
   var deprecatedBlocks = initializeDeprecatedBlocks(path.join(__dirname, "/../blocks/deprecated"));
 
-  var blocks = customBlocks.blocks.concat(defaultBlocks).concat(deprecatedBlocks.blocks);
+  var blocks = customBlocks.blocks.concat(defaultBlocks).concat(deprecatedBlocks.blocks).concat(hiddenBlocks.blocks);
   var max = customBlocks.max;
   var restrictions = {
     ...customBlocks.restrictions,
-    ...deprecatedBlocks.restrictions
+    ...deprecatedBlocks.restrictions,
+    ...hiddenBlocks.restrictions,
   };
-  var generators = customBlocks.generators;
+  var generators = customBlocks.generators.concat(hiddenBlocks.generators);
 
   return {
     blocks,
@@ -192,6 +194,57 @@ function initializeCustomBlocks(p, categories) {
   return {
     blocks,
     max,
+    restrictions,
+    generators,
+  };
+}
+
+function initializeHiddenBlocks(p) {
+  var blocks = [];
+  var restrictions = {};
+  var generators = [];
+
+  var files = read(p).filter(f => f.endsWith(".json"));
+
+  for (var f of files) {
+    f = trim(f);
+
+    var json = JSON.parse(fs.readFileSync(path.join(p, f)));
+    var splits = f.split(/[\/\\]+/g);
+    splits.pop();
+
+    if (json.icons) {
+      var _icons = json.icons.reverse();
+      for (var icon of _icons) {
+        if (!json.block.args0) json.block.args0 = [];
+
+        json.block.args0.unshift({
+          "type": "field_image",
+          "src": icons[icon],
+          "width": 15,
+          "height": 15,
+          "alt": icon,
+          "flipRtl": false
+        });
+
+        json.block.message0 = bumpMessageNumbers(json.block.message0);
+      }
+    }
+
+    blocks.push(json.block);
+
+    if (json.restrictions) restrictions[json.block.type] = json.restrictions;
+
+    if (json.generator) {
+      generators.push({
+        type: json.block.type,
+        generator: json.generator
+      });
+    }
+  }
+
+  return {
+    blocks,
     restrictions,
     generators,
   };
