@@ -1,34 +1,35 @@
 body {
-  --bg-color: #160f19;
-  --txt-color: white;
+  --alternate-color: #313131;
+  --background-color: #160f19;
   --disabled-color: #393939;
-  --a-color: #0af;
+  --link-color: #0af;
+  --main-color: white;
 }
 
 html,
 body {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .blocklySvg {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .blocklyWorkspace {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .blocklyToolboxDiv {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .blocklyTooltipDiv {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
 }
 
 .gray {
@@ -36,21 +37,21 @@ body {
 }
 
 svg {
-  fill: var(--txt-color);
+  fill: var(--main-color);
 }
 
 div {
-  color: var(--txt-color);
+  color: var(--main-color);
 }
 
 a#login {
-  color: var(--txt-color);
+  color: var(--main-color);
 }
 
 button {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
-  border-color: var(--txt-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
 }
 
 button:disabled {
@@ -58,18 +59,18 @@ button:disabled {
 }
 
 select {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
-  border-color: var(--txt-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
 }
 
 .blocklyTreeRow:not(.blocklyTreeSelected):hover {
-  background-color: var(--a-color);
+  background-color: var(--link-color);
 }
 
 .blocklyFlyoutBackground {
-  background-color: var(--bg-color);
-  fill: var(--bg-color);
+  background-color: var(--background-color);
+  fill: var(--background-color);
 }
 
 select:disabled {
@@ -77,9 +78,9 @@ select:disabled {
 }
 
 form input[type='submit'] {
-  color: var(--txt-color);
-  background-color: var(--bg-color);
-  border-color: var(--txt-color);
+  color: var(--main-color);
+  background-color: var(--background-color);
+  border-color: var(--main-color);
 }
 
 form input[type='submit']:disabled {
@@ -87,14 +88,14 @@ form input[type='submit']:disabled {
 }
 
 a:-webkit-any-link {
-  color: var(--a-color);
+  color: var(--link-color);
 
 }
 
 .blocklyScrollbarHandle {
-  filter: brightness(85%);
+  fill: var(--disabled-color) !important;
 }
 
 .blocklyScrollbarHandle:hover {
-  filter: brightness(50%);
+  fill: var(--alternate-color) !important;
 }
