@@ -62,10 +62,8 @@ web.all('*', async (req, res) => {
       user,
     });
   } else {
-    if (!auth.sessionValid(authUserID, authSession, this.db)) {
-      res.render(path.join(__dirname, "/www/html/login.ejs"), {
-        theme: themes.getTheme(req),
-      });
+    if (!auth.sessionValid(authUserID, authSession)) {
+      res.render(path.join(__dirname, "/www/html/login.ejs"));
       return;
     }
 
@@ -81,7 +79,6 @@ web.all('*', async (req, res) => {
         user: user,
         adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
         configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
-        theme: themes.getTheme(req),
       });
       return;
     }
@@ -106,7 +103,6 @@ web.all('*', async (req, res) => {
       guildName: this.bot.guilds.get(req.query.guild).name,
       guildId: this.bot.guilds.get(req.query.guild).id,
       invite: perms.isAdmin(user.user),
-      theme: themes.getTheme(req),
     });
   }
 });
