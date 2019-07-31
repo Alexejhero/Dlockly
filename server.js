@@ -47,66 +47,56 @@ web.all('*', async (req, res) => {
   } = auth.getCookies(req);
   var user = await discord.getUser(authUserID);
 
-  if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html")) {
-    res.sendFile(path.join(__dirname, req.path));
-  } else if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
-    res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
-    return;
-  } else if (browser != "Chrome" && browser != "Firefox") {
-    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
-    return;
-  } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
-    require('./' + path.join('src/requests/', req.path))({
+  if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html"))
+    return res.sendFile(path.join(__dirname, req.path));
+  if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
+    return res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
+  if (browser != "Chrome" && browser != "Firefox") {
+    return res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
+  if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
+    return require('./' + path.join('src/requests/', req.path))({
       authSession,
       authUserID,
       res,
       req,
       user,
     });
-  } else {
-    if (!auth.sessionValid(authUserID, authSession)) {
-      res.render(path.join(__dirname, "/www/html/login.ejs"));
-      return;
-    }
+  if (!auth.sessionValid(authUserID, authSession))
+    return res.render(path.join(__dirname, "/www/html/login.ejs"));
 
-    if (!user) {
-      res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
-        theme: themes.getTheme(req),
-      });
-      return;
-    }
-
-    if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild)) {
-      res.render("www/html/guildpicker.ejs", {
-        user: user,
-        adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
-        configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
-      });
-      return;
-    }
-
-    var categories = dlockly.initializeAllCategoriesRecursively();
-    var {
-      blocks,
-      max,
-      restrictions,
-      generators
-    } = dlockly.initializeAllBlocks(categories);
-
-    res.render("www/html/dlockly.ejs", {
-      blocks: blocks,
-      max: JSON.stringify(max),
-      categories: categories,
-      restrictions: JSON.stringify(restrictions),
-      xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
-      generators: generators,
-      blocklyXml: dlockly.getBlocklyXml(req.query.guild),
-      exampleXml: dlockly.getExampleXml(),
-      guildName: this.bot.guilds.get(req.query.guild).name,
-      guildId: this.bot.guilds.get(req.query.guild).id,
-      invite: perms.isAdmin(user.user),
+  if (!user)
+    return res.render(path.join(__dirname, "/www/html/unknownuser.ejs"), {
+      theme: themes.getTheme(req),
     });
-  }
+
+  if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild))
+    return res.render("www/html/guildpicker.ejs", {
+      user: user,
+      adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
+      configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
+    });
+
+  var categories = dlockly.initializeAllCategoriesRecursively();
+  var {
+    blocks,
+    max,
+    restrictions,
+    generators
+  } = dlockly.initializeAllBlocks(categories);
+
+  res.render("www/html/dlockly.ejs", {
+    blocks: blocks,
+    max: JSON.stringify(max),
+    categories: categories,
+    restrictions: JSON.stringify(restrictions),
+    xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
+    generators: generators,
+    blocklyXml: dlockly.getBlocklyXml(req.query.guild),
+    exampleXml: dlockly.getExampleXml(),
+    guildName: this.bot.guilds.get(req.query.guild).name,
+    guildId: this.bot.guilds.get(req.query.guild).id,
+    invite: perms.isAdmin(user.user),
+  });
 });
 
 this.bot.on("message", message => {
