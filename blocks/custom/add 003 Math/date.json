@@ -1,0 +1,18 @@
+{
+  "block": {
+    "type": "date",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "check",
+        "checked": true
+      }
+    ],
+    "output": "Boolean",
+    "colour": 230,
+    "tooltip": "Returns either true or false.",
+    "helpUrl": ""
+  },
+  "generator": "_return = [block.getFieldValue('check') == 'TRUE', Blockly.JavaScript.ORDER_ATOMIC]"
+}
