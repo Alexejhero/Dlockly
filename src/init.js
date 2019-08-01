@@ -19,6 +19,7 @@ function initialize() {
 
   server.bot.on("ready", () => {
     server.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
+    console.log('ready')
   });
 
   server.db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
