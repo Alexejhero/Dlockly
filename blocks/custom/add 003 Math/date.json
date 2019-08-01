@@ -9,10 +9,10 @@
         "checked": true
       }
     ],
-    "output": "Boolean",
+    "output": "Date",
     "colour": 230,
-    "tooltip": "Returns either true or false.",
+    "tooltip": "Returns the current time.",
     "helpUrl": ""
   },
-  "generator": "_return = [block.getFieldValue('check') == 'TRUE', Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.messages.get(' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]"
 }
