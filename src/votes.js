@@ -11,6 +11,7 @@ module.exports.initialize = function () {
   server.dbl.webhook.on("vote", vote => {
     this.addVotes(vote.user, vote.isWeekend ? 2 : 1);
     var totalVotes = this.getVotes(vote.user);
+    console.log(`User with id ${vote.user} just voted! Total: ${totalVotes}`);
     var user = server.bot.users.get(vote.user);
     if (perms.isAdmin(user)) totalVotes = "∞";
     var embed = new Discord.RichEmbed()
@@ -20,9 +21,8 @@ module.exports.initialize = function () {
       .addField("Total Votes", totalVotes, true)
       .setFooter(user ? user.tag : "Unknown User", user ? user.avatarURL : undefined);
     consts.votesChannel().send({
-      embed
+      embed,
     });
-    console.log(`User with id ${vote.user} just voted! Total: ${totalVotes}`);
   });
 }
 
