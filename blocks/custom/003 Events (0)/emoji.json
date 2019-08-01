@@ -1,17 +1,21 @@
 {
+  "restrictions": [
+    {
+      "type": "toplevelparent",
+      "message": "The 'emoji' variable may only be used in an 'on emoji added' or 'on emoji deleted' event",
+      "types": [
+        "on_emoji_create",
+        "on_emoji_delete"
+      ]
+    }
+  ],
   "block": {
-    "type": "current_date",
-    "message0": "Get Current Date %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "NAME"
-      }
-    ],
-    "output": date,
-    "colour": 230,
-    "tooltip": "Get Current Date",
+    "type": "emoji",
+    "message0": "emoji",
+    "output": "Emoji",
+    "colour": 0,
+    "tooltip": "The emoji that triggered the event",
     "helpUrl": ""
   },
-  "generator": "_return = new Date()"
+  "generator": "_return = ['emoji', Blockly.JavaScript.ORDER_ATOMIC]"
 }
