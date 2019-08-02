@@ -32,10 +32,6 @@ body {
   color: var(--disabled-color) !important;
 }
 
-a.gray {
-  color: var(--disabled-color);
-}
-
 svg {
   fill: var(--main-color);
 }

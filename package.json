@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "nodemon": "nodemon --ignore blocks/ --ignore config/ --ignore data/ --ignore www/"
+    "nodemon": "nodemon --ignore blocks/ --ignore config/ --ignore data/ --ignore www/ --ignore src/requests/"
   },
   "dependencies": {
     "better-sqlite3": "^5.4.1",
@@ -17,7 +17,6 @@
     "dotenv": "^8.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "express-useragent": "^1.0.13",
     "form-data": "^2.5.0",
     "fs-readdir-recursive": "^1.1.0",
     "iconv-lite": "^0.4.24",
