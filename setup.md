@@ -56,12 +56,17 @@ Now go find the server you want to have the bot in, and right click it and hit, 
 
 Paste your id in your .env file under `DISCORD_GUILD_ID`
 
-If you want a admin role, do the steps above but for the role in the server above and paste it in `DISCORD_ROLE_ID`
-Go back to your .env
-Everything v is leftovers from other stuff
-### You can configure the bot [here](https://dlockly.glitch.me).
+If you want a admin role, do the steps above but for the role in the server above and paste it in `DISCORD_ROLE_ID`. This is not needed though
 
-#### Having troubles? Join our [support guild](https://discord.gg/cnTZNUF)!
+### Setting up server: 
+Now you need a redirect uri. This is a security measure to prevent people from pertending as your bot. Go back to your bot page and click OAuth2
+This page will load: ![OAuth2](https://cdn.discordapp.com/attachments/606876870063030273/606903427229810698/unknown.png)
+click Add Redirect under redirects and put `https://project.glitch.me/auth` where project is the name from glitch earlier and then click save changes.
+
+Now you need to invite the bot. Scroll down under this and you'll see this: ![invite](https://cdn.discordapp.com/attachments/606876870063030273/606904091683323925/unknown.png)
+click bot and then click copy. Paste this link into your browser and then invite the bot.
+
+
 
 <img src="https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2FIcon1.png?v=1561542756208" width="100px" height="100px"> 
 
