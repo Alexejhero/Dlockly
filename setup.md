@@ -47,6 +47,14 @@ once done paste your token in your .env file under `DISCORD_TOKEN`
 Now go back to the discord bot page and click the copy button under client secret
 
 ![secret](https://cdn.discordapp.com/attachments/606876870063030273/606894839283318833/unknown.png)
+
+once done paste your token in your .env file under `DISCORD_CLIENT_SECRET`
+
+Now you need to go to discord. In the settings go to appearance and turn on developer mode if it isn't already.
+
+Now go find the server you want to have the bot in, and right click it and hit, copy ID
+
+Go back to your .env
 Everything v is leftovers from other stuff
 ### You can configure the bot [here](https://dlockly.glitch.me).
 
