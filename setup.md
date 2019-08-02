@@ -14,7 +14,8 @@ Now you want to type in the name for your bot and hit "Create"
 You will get this page: ![new application](https://cdn.discordapp.com/attachments/606876870063030273/606878414477066245/unknown.png) 
 If you want you can change the description of the bot and add an icon.
 
-Next you want to a
+Next you want to go to the "Bot" setion on the side and this tab will open: ![create bot](https://cdn.discordapp.com/attachments/606876870063030273/606879322363658260/unknown.png)
+
 ### You can configure the bot [here](https://dlockly.glitch.me).
 
 #### Having troubles? Join our [support guild](https://discord.gg/cnTZNUF)!
