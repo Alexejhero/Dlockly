@@ -22,6 +22,10 @@ Leave this tab open for later
 ### Setting up the project:
 Dlockly is hosted on [glitch](https://glitch.com) and thats what we will be hosting for this tutorial.
 go to [glitch](https://glitch.com) and create an account by hitting sign in and choosing the method of your choosing: ![sign in](https://cdn.discordapp.com/attachments/606876870063030273/606886083136978975/unknown.png)
+then you want to click New Project and Clone from Git Repo. This will prompt you to enter a url and then you put in `https://github.com/AlexejheroYTB/Dlockly`, or if you want you just can click [this link](https://glitch.com/edit/#!/import/git?url=https://github.com/AlexejheroYTB/Dlockly).
+![clone from git repo](https://cdn.discordapp.com/attachments/606876870063030273/606886831413395492/unknown.png)
+Now you should be presented with this screen if everything went well: ![editor](https://cdn.discordapp.com/attachments/606876870063030273/606888668493512708/unknown.png)
+
 
 Everything v is leftovers from other stuff
 ### You can configure the bot [here](https://dlockly.glitch.me).
