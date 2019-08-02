@@ -25,6 +25,24 @@ go to [glitch](https://glitch.com) and create an account by hitting sign in and 
 then you want to click New Project and Clone from Git Repo. This will prompt you to enter a url and then you put in `https://github.com/AlexejheroYTB/Dlockly`, or if you want you just can click [this link](https://glitch.com/edit/#!/import/git?url=https://github.com/AlexejheroYTB/Dlockly).
 ![clone from git repo](https://cdn.discordapp.com/attachments/606876870063030273/606886831413395492/unknown.png)
 Now you should be presented with this screen if everything went well: ![editor](https://cdn.discordapp.com/attachments/606876870063030273/606888668493512708/unknown.png)
+Now you want to click the name on the top left (it will be something like `alexejheroytb-dlockly-#`). Click the name in the new box that appears and change it to what you want (not: it will be the url so if you name it `mycoolbot` than your site will be `mycoolbot.glitch.me`) ![name](https://cdn.discordapp.com/attachments/606876870063030273/606889477541199879/unknown.png)
+After this you want to click New File on the top left and name it `.env` and then paste this in: 
+```env
+DISCORD_TOKEN=
+DISCORD_CLIENT_SECRET=
+DISCORD_GUILD_ID=
+DISCORD_ROLE_ID=
+```
+Now you need to get these values
+
+### Values:
+Remeber the bot page I told you about earlier? Go back there. Click the Copy button. 
+
+***__NEVER SHARE YOUR TOKEN WITH ANYONE!!!__*** 
+
+once done paste your token in your .env file
+
+Now go back
 
 
 Everything v is leftovers from other stuff
