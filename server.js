@@ -21,7 +21,6 @@ const events = require('./config/events.json');
 
 const web = express();
 web.set("views", __dirname);
-web.use(require('express-useragent').express());
 web.use(require('cookie-parser')());
 web.use(require('body-parser').json());
 web.use(require('body-parser').urlencoded({
@@ -49,8 +48,6 @@ web.all('*', async (req, res) => {
     return res.sendFile(path.join(__dirname, req.path));
   if (fs.existsSync(path.join(__dirname, "/config/disable")))
     return res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
-  if (req.useragent.browser != "Chrome" && req.useragent.browser != "Firefox")
-    return res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
   if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js")))
     return require('./' + path.join('src/requests/', req.path))({
       authSession,
@@ -58,7 +55,7 @@ web.all('*', async (req, res) => {
       res,
       req,
       user,
-    });
+    }) && decache('./' + path.join('src/requests/', req.path));
 
   if (!auth.sessionValid(authUserID, authSession))
     return res.render(path.join(__dirname, "/www/html/login.ejs"));
@@ -67,7 +64,7 @@ web.all('*', async (req, res) => {
 
   if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {
-      user: user,
+      user,
       adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
       configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
     });
@@ -81,12 +78,12 @@ web.all('*', async (req, res) => {
   } = dlockly.initializeAllBlocks(categories);
 
   res.render("www/html/dlockly.ejs", {
-    blocks: blocks,
+    blocks,
     max: JSON.stringify(max),
-    categories: categories,
+    categories,
     restrictions: JSON.stringify(restrictions),
     xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
-    generators: generators,
+    generators,
     blocklyXml: dlockly.getBlocklyXml(req.query.guild),
     exampleXml: dlockly.getExampleXml(),
     guildName: this.bot.guilds.get(req.query.guild).name,

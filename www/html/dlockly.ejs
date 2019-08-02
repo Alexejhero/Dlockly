@@ -8,23 +8,23 @@
   <table>
     <tbody>
       <tr><td>
-          <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
-          <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
-          <br>
-          <a href="/"><button>Back to server list</button></a>
-          <% if (invite) { %>
-            <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
-          <% } %>
-          <br>
-          <br>
-          <form action="/save" method="post" onsubmit="saveConfig()">
-            <input type="hidden" name="guild" id="inputGuild" required>
-            <input type="hidden" name="xml" id="inputXml" required>
-            <input type="submit" id="save" value="Save Configuration">
-            <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
-            <button type="button" id="example" onclick="loadExample()">Load Example</button>
-            <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
-          </form>
+        <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+        <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+        <br>
+        <a href="/"><button>Back to server list</button></a>
+        <% if (invite) { %>
+          <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+        <% } %>
+        <br>
+        <br>
+        <form action="/save" method="post" onsubmit="saveConfig()">
+          <input type="hidden" name="guild" id="inputGuild" required>
+          <input type="hidden" name="xml" id="inputXml" required>
+          <input type="submit" id="save" value="Save Configuration">
+          <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
+          <button type="button" id="example" onclick="loadExample()">Load Example</button>
+          <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
+        </form>
       </td></tr>
       <tr><td id="blocklyArea"></td></tr>
       <tr><td style="padding-bottom:38px;"></td></tr>
