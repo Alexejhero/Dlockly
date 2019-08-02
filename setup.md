@@ -15,7 +15,11 @@ You will get this page: ![new application](https://cdn.discordapp.com/attachment
 If you want you can change the description of the bot and add an icon.
 
 Next you want to go to the "Bot" setion on the side and this tab will open: ![create bot](https://cdn.discordapp.com/attachments/606876870063030273/606879322363658260/unknown.png)
+This will popup: ![confirm create](https://cdn.discordapp.com/attachments/606876870063030273/606880123064549387/unknown.png)
+Choose "Yes, do it!"
 
+
+Everything v is leftovers from other stuff
 ### You can configure the bot [here](https://dlockly.glitch.me).
 
 #### Having troubles? Join our [support guild](https://discord.gg/cnTZNUF)!
