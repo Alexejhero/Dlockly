@@ -2,10 +2,12 @@
   "restrictions": [
     {
       "type": "toplevelparent",
-      "message": "The 'member' variable may only be used in an 'on member joined' or 'on member left' event",
+      "message": "The 'member' variable may only be used in an 'on member joined', 'on member left', 'on message received' or 'on message deleted' event",
       "types": [
         "on_member_join",
-        "on_member_leave"
+        "on_member_leave",
+        "on_message",
+        "on_message_delete"
       ]
     }
   ],
