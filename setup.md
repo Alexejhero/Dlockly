@@ -36,15 +36,17 @@ DISCORD_ROLE_ID=
 Now you need to get these values
 
 ### Values:
-Remeber the bot page I told you about earlier? Go back there. Click the Copy button. 
+Remeber the bot page I told you about earlier? Go back there. Click the Copy button under token. 
 
 ***__NEVER SHARE YOUR TOKEN WITH ANYONE!!!__*** 
 
-once done paste your token in your .env file
+![token](https://cdn.discordapp.com/attachments/606876870063030273/606894021448826950/unknown.png)
 
-Now go back
+once done paste your token in your .env file under `DISCORD_TOKEN`
 
+Now go back to the discord bot page and click the copy button under client secret
 
+![secret](https://cdn.discordapp.com/attachments/606876870063030273/606894839283318833/unknown.png)
 Everything v is leftovers from other stuff
 ### You can configure the bot [here](https://dlockly.glitch.me).
 
