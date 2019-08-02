@@ -16,8 +16,12 @@ If you want you can change the description of the bot and add an icon.
 
 Next you want to go to the "Bot" setion on the side and this tab will open: ![create bot](https://cdn.discordapp.com/attachments/606876870063030273/606879322363658260/unknown.png)
 This will popup: ![confirm create](https://cdn.discordapp.com/attachments/606876870063030273/606880123064549387/unknown.png)
-Choose "Yes, do it!"
+Choose "Yes, do it!" and then this page will pop up: ![a wild bot appeard](https://cdn.discordapp.com/attachments/606876870063030273/606884324427563009/unknown.png)
+Leave this tab open for later
 
+### Setting up the project:
+Dlockly is hosted on [glitch](https://glitch.com) and thats what we will be hosting for this tutorial.
+go to [glitch](https://glitch.com) and create an account by hitting sign in and choosing the method of your choosing: ![sign in](https://cdn.discordapp.com/attachments/606876870063030273/606886083136978975/unknown.png)
 
 Everything v is leftovers from other stuff
 ### You can configure the bot [here](https://dlockly.glitch.me).
