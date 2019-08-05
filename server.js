@@ -53,9 +53,6 @@ web.all('*', async (req, res) => {
   } else if (fs.existsSync(path.join(__dirname, "/config/disable"))) {
     res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
     return;
-  } else if (browser != "Chrome" && browser != "Firefox") {
-    res.render(path.join(__dirname, "/www/html/browserunsup.ejs"));
-    return;
   } else if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js"))) {
     require('./' + path.join('src/requests/', req.path))({
       authSession,
