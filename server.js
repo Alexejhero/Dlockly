@@ -55,7 +55,7 @@ web.all('*', async (req, res) => {
       res,
       req,
       user,
-    }) && decache('./' + path.join('src/requests/', req.path));
+    });
 
   if (!auth.sessionValid(authUserID, authSession))
     return res.render(path.join(__dirname, "/www/html/login.ejs"));

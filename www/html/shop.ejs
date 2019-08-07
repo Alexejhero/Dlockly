@@ -1,0 +1,52 @@
+<% include partials/head %>
+<% include partials/blockly %>
+
+<style>
+
+.shopContainer {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}
+
+</style>
+
+<div class="body">
+  <div class="shopContainer">
+    <div class="shopChild">
+      <% for (var block of blocks) { %>
+        <div id="blocklyDiv-<%= block.block.type %>" style="height: 480px; width: 600px; background-color: red;"></div>
+      <% } %>
+      <%= block.block.type %>
+    </div>
+  </div>
+</div>
+
+<% include partials/footer %>
+
+<script>
+  var workspaces = {};
+
+  <% for (var block of blocks) { %>
+    workspaces.<%= block.block.type %> = Blockly.inject(document.getElementById('blocklyDiv-<%= block.block.type %>'), {
+      collapse: false,
+      comments: false,
+      disable: false,
+      readOnly: true,
+      scrollbars: false,
+      grid: {
+        spacing: 20,
+        length: 1,
+        color: '#888'
+      },
+    });
+
+    Blockly.Blocks["<%= block.block.type %>"] = { 
+      init: function () {
+        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(block.block) %>')));
+      },
+    };
+
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom("<xml><block type='<%= block.block.type %>' id='<%= block.block.type %>' x='100' y='100'></block></xml>"), workspaces.<%= block.block.type %>);
+  <% } %>
+</script>
