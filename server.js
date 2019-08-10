@@ -110,13 +110,13 @@ web.all('*', async (req, res) => {
 this.bot.on("message", message => {
   if (!message.content.startsWith("d!")) return;
   if (!perms.isAdmin(message.author)) return;
+  if (message.author.bot) return;
 
   var args = message.content.substring(2).split(/ +/g);
   var command = args.shift();
 
   switch (command) {
     case "eval":
-      return;
       eval(args.join(" "));
       break;
     case "votes":
