@@ -116,6 +116,7 @@ this.bot.on("message", message => {
 
   switch (command) {
     case "eval":
+      return;
       eval(args.join(" "));
       break;
     case "votes":
