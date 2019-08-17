@@ -19,6 +19,6 @@ module.exports = function (data) {
     blocks,
     guildName: server.bot.guilds.get(data.req.query.guild).name,
     guildId: data.req.query.guild,
-    invite: perms.isAdmin(data.user),
+    invite: perms.isAdmin(data.user.user),
   });
 }

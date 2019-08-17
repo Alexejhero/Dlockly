@@ -89,3 +89,10 @@ svg#login {
 .body {
   padding-bottom: 24px;
 }
+
+.shopInput,
+.shopButton {
+  font-size: 20px;
+  color: gold;
+  border-color: gold;
+}

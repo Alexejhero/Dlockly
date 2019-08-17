@@ -11,15 +11,47 @@
 
 </style>
 
+<div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+<div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+<br>
+<a href="/"><button>Back to server list</button></a>
+<% if (invite) { %>
+  <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+<% } %>
+<br>
+<br>
+<form>
+  <input type="submit" value="Save Configuration" disabled title="Not available in the block shop!">
+  <button type="button" disabled title="Not available in the block shop!">Reset Changes</button>
+  <button type="button" disabled title="Not available in the block shop!">Load Example</button>
+  <a href="/?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;">Back To Server Configuration</button></a>
+</form>
+
 <div class="body">
-  <div class="shopContainer">
-    <div class="shopChild">
-      <% for (var block of blocks) { %>
-        <div id="blocklyDiv-<%= block.block.type %>" style="height: 480px; width: 600px; background-color: red;"></div>
-      <% } %>
-      <%= block.block.type %>
-    </div>
+
+  <div class="premiumNote">
+    <hr>
+    <h1>Dlockly Premium</h1>
+    <h3>Purchasing premium will give you instant access to all of the blocks below.</h3>
+
+    <select class="shopInput">
+      <option value="2">$2 - 1 month</option>
+    </select>
+
+    <button class="shopButton">Purchase</button>
+
+    <h3>Alternatively, you can purchase some of them using tokens, which you can obtain from voting.</h3>
   </div>
+
+  <div class="shopContainer">
+    <% for (var block of blocks) { %>
+      <div class="shopChild">
+        <div id="blocklyDiv-<%= block.block.type %>" style="height: 0; width: 0;"></div>
+        <%= block.block.type %>
+      </div>
+    <% } %>
+  </div>
+
 </div>
 
 <% include partials/footer %>
@@ -41,12 +73,25 @@
       },
     });
 
-    Blockly.Blocks["<%= block.block.type %>"] = { 
+    var type = "<%= block.block.type %>";
+
+    Blockly.Blocks[type] = { 
       init: function () {
         this.jsonInit(JSON.parse(decode('<%= JSON.stringify(block.block) %>')));
       },
     };
 
-    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom("<xml><block type='<%= block.block.type %>' id='<%= block.block.type %>' x='100' y='100'></block></xml>"), workspaces.<%= block.block.type %>);
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(`<xml><block type='${type}' id='${type}' x='10' y='10'></block></xml>`), workspaces[type]);
+
+    var block = workspaces[type].getAllBlocks()[0];
+
+    document.getElementById(`blocklyDiv-${type}`).setAttribute("style", `width:${block.width+20};height:${block.height+20}`);
+
+    if (block.outputConnection) {
+      workspaces[type].clear();
+      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(`<xml><block type='${type}' id='${type}' x='17' y='10'></block></xml>`), workspaces[type]);
+    }
+
+    Blockly.svgResize(workspaces[type]);
   <% } %>
 </script>

@@ -23,8 +23,9 @@
           <input type="submit" id="save" value="Save Configuration">
           <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
           <button type="button" id="example" onclick="loadExample()">Load Example</button>
-          <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
+          <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;">Purchase Premium</button></a>
         </form>
+        <hr>
       </td></tr>
       <tr><td id="blocklyArea"></td></tr>
       <tr><td style="padding-bottom:38px;"></td></tr>
