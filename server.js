@@ -3,7 +3,6 @@
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
-const decache = require('decache');
 const Discord = require('discord.js');
 const express = require('express');
 const fs = require('fs');
@@ -14,7 +13,6 @@ const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const init = require('./src/init');
 const perms = require('./src/perms');
-const themes = require('./src/themes');
 const votes = require('./src/votes');
 
 const events = require('./config/events.json');
@@ -44,7 +42,7 @@ web.all('*', async (req, res) => {
   } = auth.getCookies(req);
   var user = await discord.getUser(authUserID);
 
-  if (req.path.endsWith(".js") || req.path.endsWith(".css") || req.path.endsWith(".ico") || req.path.endsWith(".html"))
+  if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path))
     return res.sendFile(path.join(__dirname, req.path));
   if (fs.existsSync(path.join(__dirname, "/config/disable")))
     return res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
@@ -165,7 +163,7 @@ for (var event in events) {
                 if (module.${event}) { 
                   module.${event}(${parameters.join(",")});
                 }
-                decache(p);
+                require('decache')(p);
               }
             });`);
     } catch (e) {
