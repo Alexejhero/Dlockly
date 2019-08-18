@@ -2,6 +2,7 @@
 
 const http = require('http');
 
+const consts = require('./consts');
 const errors = require('./errors');
 const server = require('../server');
 const votes = require('./votes');
@@ -24,4 +25,9 @@ function initialize() {
   server.db.prepare("CREATE TABLE if not exists logindata (userid TEXT PRIMARY KEY, sessionkey TEXT, authkey TEXT);").run();
   server.db.prepare("CREATE TABLE if not exists votedata (userid TEXT PRIMARY KEY, votes NUMBER, totalVotes NUMBER);").run();
   server.bot.login(process.env.DISCORD_TOKEN);
+  
+  setInterval(async () => {
+    consts.guildCountChannel() && consts.guildCountChannel().setName(`${server.bot.guilds.size} Guilds`);
+    consts.memberCountChannel() && consts.memberCountChannel().setName(`${server.bot.users.size} Users`);
+  }, 10000);
 }

@@ -26,7 +26,9 @@ web.use(require('body-parser').urlencoded({
 }));
 
 module.exports.db = require('better-sqlite3')('data/db.db');
-module.exports.bot = new Discord.Client();
+module.exports.bot = new Discord.Client({
+  fetchAllMembers: true,
+});
 module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
@@ -93,6 +95,7 @@ web.all('*', async (req, res) => {
 this.bot.on("message", message => {
   if (!message.content.startsWith("d!")) return;
   if (!perms.isAdmin(message.author)) return;
+  if (message.author.bot) return;
 
   var args = message.content.substring(2).split(/ +/g);
   var command = args.shift();
