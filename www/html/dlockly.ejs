@@ -143,6 +143,11 @@
       document.getElementById("example").removeAttribute("title");
       document.getElementById("example").removeAttribute("disabled");
     }
+
+    if (document.getElementById("save").hasAttribute("disabled"))
+      window.onbeforeunload = null;
+    else
+      window.onbeforeunload = () => "You have unsaved changes!";
   }, 100);
 
   function saveConfig() {
@@ -176,4 +181,6 @@
       }
     }
   }
+
+  var generate = () => Blockly.JavaScript.workspaceToCode(workspace);
 </script>
