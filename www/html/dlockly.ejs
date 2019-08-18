@@ -157,13 +157,6 @@
     window.onbeforeunload = null;
   }
 
-  function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
-  }
-
   function resetConfig() {
     window.onbeforeunload = null;
     window.location.reload(false);

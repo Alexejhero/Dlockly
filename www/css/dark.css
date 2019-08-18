@@ -5,6 +5,7 @@ body {
   --disabled-color: #393939;
   --link-color: #0af;
   --main-color: white;
+  --accent-color: gold;
 }
 
 html,
@@ -94,4 +95,9 @@ a:-webkit-any-link {
 
 .blocklyScrollbarHandle:hover {
   fill: var(--alternate-color) !important;
+}
+
+.shopButton {
+  color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
 }

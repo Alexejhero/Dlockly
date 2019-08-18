@@ -1,16 +1,6 @@
 <% include partials/head %>
 <% include partials/blockly %>
 
-<style>
-
-.shopContainer {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto;
-}
-
-</style>
-
 <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
 <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
 <br>
@@ -27,6 +17,14 @@
   <a href="/?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;">Back To Server Configuration</button></a>
 </form>
 
+<script>
+
+function onPurchase() {
+  document.getElementById("inputGuild").setAttribute("value", getUrlParameter("guild"));
+}
+
+</script>
+
 <div class="body">
 
   <div class="premiumNote">
@@ -35,25 +33,33 @@
     <h1>Dlockly Premium</h1>
     <h3>Purchasing premium will give you instant access to all of the blocks below.</h3>
 
-    <select class="shopInput">
-      <option value="2">$2 - 1 month</option>
-    </select>
+    Purchase Dlockly Premium for <%= guildName %> for
 
-    <button class="shopButton">Purchase</button>
+    <form style="display:inline;" action="/purchase" method="get">
+      <input type="hidden" name="guild" id="inputGuild" required>
+
+      <select name="days" class="shopInput" style="margin-left:10px;">
+        <option value="7">1 week ($1)</option>
+        <option value="30">1 month ($3)</option>
+        <option value="60">2 months ($6)</option>
+        <option value="90">3 months ($9)</option>
+        <option value="180">6 months ($15)</option>
+        <option value="365">1 year ($28)</option>
+      </select>
+
+      <input type="submit" class="shopButton" style="margin-left:10px;" onclick="onPurchase()" value="Purchase with PayPal">
+    </form>
 
     <h3>Alternatively, you can purchase some of them using tokens, which you can obtain from voting.</h3>
 
     <hr>
   </div>
 
-  <div class="shopContainer">
-    <% for (var block of blocks) { %>
-      <div class="shopChild">
-        <div id="blocklyDiv-<%= block.block.type %>" style="height: 0; width: 0;"></div>
-        <%= block.block.type %>
-      </div>
-    <% } %>
-  </div>
+  <% for (var block of blocks) { %>
+    <div class="shopElement">
+      <div class="shopBlocklyDiv" id="blocklyDiv-<%= block.block.type %>" style="height: 0; width: 0;"></div>
+    </div>
+  <% } %>
 
 </div>
 
@@ -88,13 +94,37 @@
 
     var block = workspaces[type].getAllBlocks()[0];
 
-    document.getElementById(`blocklyDiv-${type}`).setAttribute("style", `width:${block.width+20};height:${block.height+20}`);
+    document.getElementById(`blocklyDiv-${type}`).setAttribute("style", `width:${block.width + 20};height:${block.height + 20}`);
 
     if (block.outputConnection) {
       workspaces[type].clear();
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(`<xml><block type='${type}' id='${type}' x='17' y='10'></block></xml>`), workspaces[type]);
     }
-
-    Blockly.svgResize(workspaces[type]);
   <% } %>
+
+  var elements = Object.values([...document.getElementsByClassName("shopBlocklyDiv")].reduce((obj, e) => {
+    var offset = e.offsetHeight + e.offsetTop;
+    if (!obj[offset]) obj[offset] = [];
+    obj[offset].push(e);
+    return obj;
+  }, {}));
+
+  var lastRemainingWidth;
+  for (var divs of elements) {
+    var height = Math.max(...divs.map(d => d.style.height.substring(0, d.style.height.length - 2)));
+    var remainingWidth = window.innerWidth - (divs[divs.length - 1].offsetLeft + divs[divs.length - 1].offsetWidth);
+    for (var div of divs) {
+      div.style.height = height + "px";
+      if (elements[elements.length - 1] != divs) {
+        if (div != divs[0]) div.style.paddingLeft = remainingWidth / (divs.length * 2) + "px";
+        if (div != divs[divs.length - 1]) div.style.paddingRight = remainingWidth / (divs.length * 2) + "px";
+      } else {
+        if (div != divs[0]) div.style.paddingLeft = lastRemainingWidth + "px";
+        if (div != divs[divs.length - 1]) div.style.paddingRight = lastRemainingWidth + "px";
+      }
+    }
+    lastRemainingWidth = remainingWidth / (divs.length * 2);
+  }
+
+  for (var ws in workspaces) Blockly.svgResize(workspaces[ws]);
 </script>

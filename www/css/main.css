@@ -90,9 +90,16 @@ svg#login {
   padding-bottom: 24px;
 }
 
-.shopInput,
+.shopInput {
+  font-size: 20px;
+}
+
 .shopButton {
   font-size: 20px;
-  color: gold;
-  border-color: gold;
+  color: darkgoldenrod;
+}
+
+.shopElement {
+  display: inline-block;
+  padding-top: 10px;
 }
