@@ -5,6 +5,10 @@ const path = require('path');
 
 const icons = require('../config/icons.json');
 
+module.exports.initialize = function () {
+  return this.initializeAllBlocks(this.initializeAllCategoriesRecursively());
+}
+
 module.exports.isConfigEmpty = function (id) {
   var mod = getJsConfig(id);
   if (!mod) {

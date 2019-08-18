@@ -67,13 +67,13 @@ web.all('*', async (req, res) => {
       configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
     });
 
-  var categories = dlockly.initializeAllCategoriesRecursively();
   var {
     blocks,
     max,
     restrictions,
-    generators
-  } = dlockly.initializeAllBlocks(categories);
+    generators,
+    categories
+  } = dlockly.initialize();
 
   res.render("www/html/dlockly.ejs", {
     blocks,
