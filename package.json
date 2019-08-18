@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "nodemon": "nodemon --ignore blocks/ --ignore config/ --ignore data/ --ignore www/"
+    "nodemon": "nodemon --ignore blocks/ --ignore data/ --ignore www/"
   },
   "dependencies": {
     "better-sqlite3": "^5.4.1",
