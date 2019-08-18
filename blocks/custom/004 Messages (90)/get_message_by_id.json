@@ -1,5 +1,4 @@
 {
-  "cost": 1,
   "restrictions": [
     {
       "type": "notempty",
@@ -32,5 +31,6 @@
     "tooltip": "Gets a message from a channel by its ID",
     "helpUrl": ""
   },
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.messages.get(' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.messages.get(' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
+  "extra": "<value name=\"id\"><shadow type=\"text\"><field name=\"TEXT\">596212908854214657</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
 }

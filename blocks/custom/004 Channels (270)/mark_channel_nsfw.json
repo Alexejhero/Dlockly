@@ -33,5 +33,5 @@
     "helpUrl": ""
   },
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.setNSFW(' + Blockly.JavaScript.valueToCode(block, 'val', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
-  "extra": "<value name=\"val\"><shadow type=\"logic_checkbox\"><field name=\"check\">TRUE</field></shadow></value>"
+  "extra": "<value name=\"val\"><shadow type=\"logic_checkbox\"><field name=\"check\">TRUE</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
 }

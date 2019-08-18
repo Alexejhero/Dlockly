@@ -46,8 +46,8 @@ web.all('*', async (req, res) => {
 
   if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path))
     return res.sendFile(path.join(__dirname, req.path));
-  if (fs.existsSync(path.join(__dirname, "/config/disable")))
-    return res.render(path.join(__dirname, "/www/html/maintenance.ejs"));
+  if (fs.existsSync(path.join(__dirname, "config/disable")))
+    return res.render(path.join(__dirname, "www/html/maintenance.ejs"));
   if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js")))
     return require('./' + path.join('src/requests/', req.path))({
       authSession,
@@ -58,9 +58,9 @@ web.all('*', async (req, res) => {
     });
 
   if (!auth.sessionValid(authUserID, authSession))
-    return res.render(path.join(__dirname, "/www/html/login.ejs"));
+    return res.render(path.join(__dirname, "www/html/login.ejs"));
   if (!user)
-    return res.render(path.join(__dirname, "/www/html/unknownuser.ejs"));
+    return res.render(path.join(__dirname, "www/html/unknownuser.ejs"));
 
   if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {

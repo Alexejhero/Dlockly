@@ -24,5 +24,6 @@
     "tooltip": "Gets the author of a message",
     "helpUrl": ""
   },
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.member', Blockly.JavaScript.ORDER_MEMBER]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.member', Blockly.JavaScript.ORDER_MEMBER]",
+  "extra": "<value name=\"msg\"><shadow type=\"message\"></shadow></value>"
 }
