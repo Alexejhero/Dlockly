@@ -42,10 +42,6 @@ web.all('*', async (req, res) => {
   } = auth.getCookies(req);
   var user = await discord.getUser(authUserID);
 
-  if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path))
-    return res.sendFile(path.join(__dirname, req.path));
-  if (fs.existsSync(path.join(__dirname, "config/disable")))
-    return res.render(path.join(__dirname, "www/html/maintenance.ejs"));
   if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js")))
     return require('./' + path.join('src/requests/', req.path))({
       authSession,
@@ -54,6 +50,8 @@ web.all('*', async (req, res) => {
       req,
       user,
     });
+  if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path))
+    return res.sendFile(path.join(__dirname, req.path));
 
   if (!auth.sessionValid(authUserID, authSession))
     return res.render(path.join(__dirname, "www/html/login.ejs"));
