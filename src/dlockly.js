@@ -1,5 +1,3 @@
-'use strict';
-
 const decache = require('decache');
 const fs = require('fs');
 const read = require('fs-readdir-recursive');

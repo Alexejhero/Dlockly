@@ -1,5 +1,3 @@
-'use strict';
-
 const request = require('request-promise');
 
 const server = require('../server');

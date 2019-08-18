@@ -1,9 +1,6 @@
-'use strict';
-
 const Discord = require('discord.js');
 
 const consts = require('./consts');
-const discord = require('./discord');
 const perms = require('./perms');
 const server = require('../server');
 

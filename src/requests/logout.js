@@ -1,5 +1,3 @@
-'use strict';
-
 const auth = require('../auth');
 const server = require('../../server');
 

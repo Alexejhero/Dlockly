@@ -1,5 +1,3 @@
-'use strict';
-
 require('dotenv').config();
 
 const DBL = require('dblapi.js');
@@ -144,7 +142,7 @@ this.bot.on("message", message => {
             .setColor(0xEB144C));
         }
       } catch (e) {
-
+        console.log(e);
       }
   }
 })

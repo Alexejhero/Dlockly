@@ -1,5 +1,3 @@
-'use strict';
-
 const consts = require('./consts');
 
 module.exports.isAdmin = function (user) {
