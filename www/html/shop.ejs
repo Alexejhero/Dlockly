@@ -94,9 +94,12 @@ function onPurchase() {
               }]
             });
           },
-          onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
-              alert('Transaction completed by ' + details.payer.name.given_name);
+          onApprove: function(data) {
+            return fetch(`purchase?orderID=${data.orderID}&guild=<%= guildId %>`).then(function(res) {
+              return res.json();
+            }).then(function(details) {
+              console.log(details);
+              if (!details.error) alert("Payment completed by " + details.payer.name.given_name + " " + details.payer.name.surname + " (" + details.payer.email_address + ")");
             });
           }
         }).render('.premiumNote');
