@@ -94,12 +94,17 @@ svg#login {
   font-size: 20px;
 }
 
-.shopButton {
+.shopInput {
   font-size: 20px;
   color: darkgoldenrod;
+  border-color: darkgoldenrod;
 }
 
 .shopElement {
   display: inline-block;
   padding-top: 10px;
+}
+
+iframe[title="paypal_buttons"] {
+  width: 310px !important;
 }

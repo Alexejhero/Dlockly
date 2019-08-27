@@ -20,5 +20,6 @@ module.exports = function (data) {
     guildName: server.bot.guilds.get(data.req.query.guild).name,
     guildId: data.req.query.guild,
     invite: perms.isAdmin(data.user.user),
+    paypalId: process.env.PAYPAL_ID,
   });
 }
