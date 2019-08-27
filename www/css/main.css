@@ -104,7 +104,7 @@ svg#login {
   padding-top: 10px;
 }
 
-.darkCheckbox {
+input.darkCheckbox {
   display: block;
   width: 30px;
   height: 30px;
@@ -115,10 +115,10 @@ svg#login {
   background-size: contain;
 }
 
-.darkCheckbox:not(:checked) {
+input.darkCheckbox:not(:checked) {
   background-image: url(https://www.iconexperience.com/_img/g_collection_png/standard/512x512/sun.png);
 }
 
-.darkCheckbox:checked {
+input.darkCheckbox:checked {
   background-image: url(checked.svg);
 }
