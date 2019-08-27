@@ -103,3 +103,22 @@ svg#login {
   display: inline-block;
   padding-top: 10px;
 }
+
+.darkCheckbox {
+  display: block;
+  width: 30px;
+  height: 30px;
+  -webkit-appearance: none;
+  outline: 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.darkCheckbox:not(:checked) {
+  background-image: url(https://www.iconexperience.com/_img/g_collection_png/standard/512x512/sun.png);
+}
+
+.darkCheckbox:checked {
+  background-image: url(checked.svg);
+}
