@@ -9,9 +9,9 @@ module.exports.votesChannel = function () {
 }
 
 module.exports.memberCountChannel = function () {
-  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get(process.env.DISCORD_MEMBER_CHANNEL || '606230563770335232') : null;
+  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get(process.env.DISCORD_MEMBER_TRACK_CHANNEL || '606230563770335232') : null;
 }
 
 module.exports.guildCountChannel = function () {
-  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get(process.env.DISCORD_GUILD_CHANNEL || '606230467514990613') : null;
+  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get(process.env.DISCORD_GUILD_TRACK_CHANNEL || '606230467514990613') : null;
 }
