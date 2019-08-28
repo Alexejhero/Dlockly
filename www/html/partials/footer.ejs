@@ -5,12 +5,11 @@
 
 <script>
   let check = document.getElementById('darkCheckbox');
-  let css = document.getElementById('darkCSS')
   check.checked = getCookie('darkTheme') == 'true';
   changeTheme();
   
   function changeTheme() {
-    css.disabled = !check.checked;
+    document.getElementById('darkCSS').disabled = !check.checked;
     setCookie('darkTheme', check.checked);
   }
 </script>
