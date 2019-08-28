@@ -97,7 +97,7 @@ a:-webkit-any-link {
   fill: var(--alternate-color) !important;
 }
 
-.shopButton {
+.shopInput {
   color: var(--accent-color) !important;
   border-color: var(--accent-color) !important;
 }

@@ -94,9 +94,10 @@ svg#login {
   font-size: 20px;
 }
 
-.shopButton {
+.shopInput {
   font-size: 20px;
   color: darkgoldenrod;
+  border-color: darkgoldenrod;
 }
 
 .shopElement {
@@ -104,3 +105,9 @@ svg#login {
   padding-top: 10px;
 }
 
+<<<<<<< HEAD
+=======
+iframe[title="paypal_buttons"] {
+  width: 310px !important;
+}
+>>>>>>> bea3765e47707cf9479c4fa93471642dc76112ff
