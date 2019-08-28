@@ -1,11 +1,13 @@
-'use strict';
-
 const decache = require('decache');
 const fs = require('fs');
 const read = require('fs-readdir-recursive');
 const path = require('path');
 
 const icons = require('../config/icons.json');
+
+module.exports.initialize = function () {
+  return this.initializeAllBlocks(this.initializeAllCategoriesRecursively());
+}
 
 module.exports.isConfigEmpty = function (id) {
   var mod = getJsConfig(id);
@@ -91,17 +93,24 @@ module.exports.generateXmlTreeRecursively = function (categories) {
 module.exports.initializeAllBlocks = function (categories) {
   var defaultBlocks = initializeDefaultBlocks(path.join(__dirname, "/../blocks/default/"), categories);
   var customBlocks = initializeCustomBlocks(path.join(__dirname, "/../blocks/custom/"), categories);
+  var hiddenBlocks = initializeHiddenBlocks(path.join(__dirname, "/../blocks/hidden/"));
+  var deprecatedBlocks = initializeDeprecatedBlocks(path.join(__dirname, "/../blocks/deprecated"));
 
-  var blocks = customBlocks.blocks.concat(defaultBlocks);
+  var blocks = customBlocks.blocks.concat(defaultBlocks).concat(deprecatedBlocks.blocks).concat(hiddenBlocks.blocks);
   var max = customBlocks.max;
-  var restrictions = customBlocks.restrictions;
-  var generators = customBlocks.generators;
+  var restrictions = {
+    ...customBlocks.restrictions,
+    ...deprecatedBlocks.restrictions,
+    ...hiddenBlocks.restrictions,
+  };
+  var generators = customBlocks.generators.concat(hiddenBlocks.generators);
 
   return {
     blocks,
     max,
     restrictions,
     generators,
+    categories,
   }
 }
 
@@ -111,8 +120,7 @@ function initializeDefaultBlocks(p, categories) {
   var files = read(p).filter(f => f.endsWith(".json"));
 
   for (var f of files) {
-    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
-    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
+    f = trim(f);
 
     var json = JSON.parse(fs.readFileSync(path.join(p, f)));
     var splits = f.split(/[\/\\]+/g);
@@ -138,8 +146,7 @@ function initializeCustomBlocks(p, categories) {
   var files = read(p).filter(f => f.endsWith(".json"));
 
   for (var f of files) {
-    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
-    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
+    f = trim(f);
 
     var json = JSON.parse(fs.readFileSync(path.join(p, f)));
     var splits = f.split(/[\/\\]+/g);
@@ -187,11 +194,97 @@ function initializeCustomBlocks(p, categories) {
   }
 
   return {
-    blocks: blocks,
-    max: max,
-    restrictions: restrictions,
-    generators: generators
+    blocks,
+    max,
+    restrictions,
+    generators,
   };
+}
+
+function initializeHiddenBlocks(p) {
+  var blocks = [];
+  var restrictions = {};
+  var generators = [];
+
+  var files = read(p).filter(f => f.endsWith(".json"));
+
+  for (var f of files) {
+    f = trim(f);
+
+    var json = JSON.parse(fs.readFileSync(path.join(p, f)));
+    var splits = f.split(/[\/\\]+/g);
+    splits.pop();
+
+    if (json.icons) {
+      var _icons = json.icons.reverse();
+      for (var icon of _icons) {
+        if (!json.block.args0) json.block.args0 = [];
+
+        json.block.args0.unshift({
+          "type": "field_image",
+          "src": icons[icon],
+          "width": 15,
+          "height": 15,
+          "alt": icon,
+          "flipRtl": false
+        });
+
+        json.block.message0 = bumpMessageNumbers(json.block.message0);
+      }
+    }
+
+    blocks.push(json.block);
+
+    if (json.restrictions) restrictions[json.block.type] = json.restrictions;
+
+    if (json.generator) {
+      generators.push({
+        type: json.block.type,
+        generator: json.generator
+      });
+    }
+  }
+
+  return {
+    blocks,
+    restrictions,
+    generators,
+  };
+}
+
+function initializeDeprecatedBlocks(p) {
+  var blocks = [];
+  var restrictions = {};
+
+  var files = read(p).filter(f => f.endsWith(".json"));
+
+  for (var f of files) {
+    f = trim(f);
+
+    var json = JSON.parse(fs.readFileSync(path.join(p, f)));
+    var splits = f.split(/[\/\\]+/g);
+    splits.pop();
+
+    json.block.deprecated = true;
+    blocks.push(json.block);
+
+    restrictions[json.block.type] = [{
+      type: "deprecated",
+      message: "This block is deprecated and can no longer be used."
+    }];
+  }
+
+  return {
+    blocks,
+    restrictions
+  };
+}
+
+function trim(f) {
+  var ff = f;
+  if (ff.startsWith("/") || ff.startsWith("\\")) ff = ff.substring(1);
+  if (ff.endsWith("/") || ff.endsWith("\\")) ff.substr(0, ff.length - 1);
+  return ff;
 }
 
 function findCategoryRecursively(categories, cat) {

@@ -2,9 +2,10 @@
   "restrictions": [
     {
       "type": "notempty",
-      "message": "You must provide a value for the 'channel' parameter",
+      "message": "You must provide a value for the 'channel' and 'topic' parameters",
       "types": [
-        "channel"
+        "channel",
+        "topic"
       ]
     }
   ],
@@ -32,5 +33,5 @@
     "helpUrl": ""
   },
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.setTopic(' + Blockly.JavaScript.valueToCode(block, 'topic', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
-  "extra": "<value name=\"topic\"><shadow type=\"text\"><field name=\"TEXT\">new topic</field></shadow></value>"
+  "extra": "<value name=\"topic\"><shadow type=\"text\"><field name=\"TEXT\">new topic</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 function disableUnapplicable(event) {
   var workspace = Blockly.Workspace.getById(event.workspaceId);
   var blocks = workspace.getAllBlocks(false);
@@ -39,6 +37,8 @@ function validateRestriction(block, blocks, res) {
       reverse = true;
     }
     switch (type) {
+      case "deprecated":
+        return false;
       case "toplevelparent":
         return (res.types.includes(getTopLevelParent(block).type)) != reverse;
       case "blockexists":
@@ -72,6 +72,7 @@ function validateConfiguration(block, res) {
       return block.getParent() && !block.getParent().disabled;
     case "custom":
     case "notempty":
+    case "deprecated":
       return true;
     default:
       return false;

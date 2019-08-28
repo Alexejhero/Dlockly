@@ -1,0 +1,37 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'channel' and 'name' parameters",
+      "types": [
+        "channel",
+        "name"
+      ]
+    }
+  ],
+  "block": {
+    "type": "set_channel_name",
+    "message0": "set channel %1 name to %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "channel",
+        "check": "Channel"
+      },
+      {
+        "type": "input_value",
+        "name": "name",
+        "check": "String",
+        "align": "RIGHT"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 270,
+    "tooltip": "Changes the name of a channel.",
+    "helpUrl": ""
+  },
+  "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.setName(' + Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
+  "extra": "<value name=\"name\"><shadow type=\"text\"><field name=\"TEXT\">new-name</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
+}

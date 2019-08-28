@@ -32,5 +32,5 @@
     "helpUrl": ""
   },
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.bulkDelete(' + 'Number.parseInt(Number.parseInt(' + Blockly.JavaScript.valueToCode(block, 'num', Blockly.JavaScript.ORDER_ATOMIC) + ') + 1));'",
-  "extra": "<value name=\"num\"><shadow type=\"math_number\"><field name=\"NUM\">10</field></shadow></value>"
+  "extra": "<value name=\"num\"><shadow type=\"math_number\"><field name=\"NUM\">10</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
 }

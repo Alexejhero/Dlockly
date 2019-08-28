@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "nodemon": "nodemon --ignore blocks/ --ignore config/ --ignore data/ --ignore www/"
+    "nodemon": "nodemon --ignore blocks/ --ignore data/ --ignore www/"
   },
   "dependencies": {
     "better-sqlite3": "^5.4.1",
@@ -17,7 +17,6 @@
     "dotenv": "^8.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "express-useragent": "^1.0.13",
     "form-data": "^2.5.0",
     "fs-readdir-recursive": "^1.1.0",
     "iconv-lite": "^0.4.24",
@@ -25,6 +24,7 @@
     "node-blockly": "^1.1.1",
     "node-cmd": "^3.0.0",
     "node-fetch": "^2.6.0",
+    "nodejs-base64": "^1.0.3",
     "querystring": "^0.2.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",

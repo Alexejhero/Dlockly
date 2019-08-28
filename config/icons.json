@@ -1,5 +1,4 @@
 {
-  "dlockly": "https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2FIcon1.png?v=1561542756208",
-  "async": "https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2Fclock-vector-minimal-5.png?v=1561542954449",
-  "event": "https://cdn.discordapp.com/emojis/324252365547110400.png?v=1"
+  "dlockly": "www/assets/logo.png",
+  "event": "www/assets/event.png"
 }
