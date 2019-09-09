@@ -56,7 +56,6 @@ function onPurchase() {
     <br>
     <br>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
     <script>
       paypal.Buttons({
         createOrder: function (data, actions) {
@@ -96,7 +95,11 @@ function onPurchase() {
             return res.json();
           }).then(function(details) {
             console.log(details);
-            if (!details.error) alert("Payment completed by " + details.payer.name.given_name + " " + details.payer.name.surname + " (" + details.payer.email_address + ")");
+            if (!details.error) {
+              if (!alert("Payment completed by " + details.payer.name.given_name + " " + details.payer.name.surname + " (" + details.payer.email_address + ")")) {
+                window.location.href = "/?guild=<%= guildId %>";
+              }
+            }
           });
         }
       }).render('.premiumNote');
