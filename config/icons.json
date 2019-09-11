@@ -1,4 +1,6 @@
 {
   "dlockly": "www/assets/logo.png",
-  "event": "www/assets/event.png"
+  "event": "www/assets/event.png",
+  "premium_unlocked": "https://discordapp.com/assets/e4d52f4d69d7bba67e5fd70ffe26b70d.svg",
+  "premium_locked": "https://discordapp.com/assets/86c36b8437a0bc80cf310733f54257c2.svg"
 }

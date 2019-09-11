@@ -1,5 +1,6 @@
 const base64 = require('nodejs-base64');
 const fs = require("fs");
+const path = require("path");
 const request = require("request-promise");
 
 module.exports = async function (data) {
@@ -32,18 +33,25 @@ module.exports = async function (data) {
   if (!capture.error) {
     captureID = capture.purchase_units[0].payments.captures[0].id;
 
-    var json = {
-      boughtOn: Date.now(),
-      for: days,
-      endsOn: new Date(new Date().getTime() + (86400000) * days),
-      paid: capture.purchase_units[0].payments.captures[0].amount
+    try {
+      var json = {
+        boughtOn: new Date(Date.now()),
+        for: data.req.query.days,
+        endsOn: new Date(new Date().getTime() + (86400000) * data.req.query.days),
+        paid: capture.purchase_units[0].payments.captures[0].amount,
+        purchasedBy: `${capture.payer.name.given_name} ${capture.payer.name.surname} (${capture.payer.email_address})`
+      }
+
+      if (!fs.existsSync(path.join(__dirname, "/../../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
+      if (!fs.existsSync(path.join(__dirname, "/../../data/", data.req.query.guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", data.req.query.guild));
+      fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.query.guild, "/premium.json"), JSON.stringify(json));
+
+      return data.res.status(200).send(JSON.stringify(capture));
+    } catch (e) {
+      console.error("Payment error at " + captureID);
+      console.error(e);
+      return data.res.sendStatus(500).send(e.toString());
     }
-
-    if (!fs.existsSync(path.join(__dirname, "/../../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
-    if (!fs.existsSync(path.join(__dirname, "/../../data/", data.req.body.guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", data.req.body.guild));
-    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/premium.json"), JSON.stringify(json));
-
-    return data.res.status(200).send(JSON.stringify(capture));
   } else {
     console.error(capture.error);
     return data.res.sendStatus(500).send(JSON.stringify(capture.error));

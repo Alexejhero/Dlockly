@@ -5,8 +5,8 @@ const path = require('path');
 
 const icons = require('../config/icons.json');
 
-module.exports.initialize = function () {
-  return this.initializeAllBlocks(this.initializeAllCategoriesRecursively());
+module.exports.initialize = function (premium) {
+  return this.initializeAllBlocks(this.initializeAllCategoriesRecursively(), premium);
 }
 
 module.exports.isConfigEmpty = function (id) {
@@ -90,9 +90,9 @@ module.exports.generateXmlTreeRecursively = function (categories) {
   return result;
 }
 
-module.exports.initializeAllBlocks = function (categories) {
+module.exports.initializeAllBlocks = function (categories, premium) {
   var defaultBlocks = initializeDefaultBlocks(path.join(__dirname, "/../blocks/default/"), categories);
-  var customBlocks = initializeCustomBlocks(path.join(__dirname, "/../blocks/custom/"), categories);
+  var customBlocks = initializeCustomBlocks(path.join(__dirname, "/../blocks/custom/"), categories, premium);
   var hiddenBlocks = initializeHiddenBlocks(path.join(__dirname, "/../blocks/hidden/"));
   var deprecatedBlocks = initializeDeprecatedBlocks(path.join(__dirname, "/../blocks/deprecated"));
 
@@ -137,7 +137,7 @@ function initializeDefaultBlocks(p, categories) {
   return blocks;
 }
 
-function initializeCustomBlocks(p, categories) {
+function initializeCustomBlocks(p, categories, premium) {
   var blocks = [];
   var max = {};
   var restrictions = {};
@@ -170,9 +170,31 @@ function initializeCustomBlocks(p, categories) {
       }
     }
 
+    if (json.cost) {
+      if (!json.block.args0) json.block.args0 = [];
+
+      var src;
+      if (premium) src = "premium_unlocked";
+      else {
+        src = "premium_locked";
+        max[json.block.type] = -1;
+      }
+
+      json.block.args0.unshift({
+        "type": "field_image",
+        "src": icons[src],
+        "width": 15,
+        "height": 15,
+        "alt": src,
+        "flipRtl": false
+      });
+
+      json.block.message0 = bumpMessageNumbers(json.block.message0);
+    }
+
     blocks.push(json.block);
 
-    if (json.max) max[json.block.type] = json.max;
+    if (json.max && !max[json.block.type]) max[json.block.type] = json.max;
 
     if (json.restrictions) restrictions[json.block.type] = json.restrictions;
 

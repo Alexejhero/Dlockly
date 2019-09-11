@@ -23,7 +23,7 @@
           <input type="submit" id="save" value="Save Configuration">
           <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
           <button type="button" id="example" onclick="loadExample()">Load Example</button>
-          <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;">Get Premium</button></a>
+          <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;"><% if (!premium) { %>Get<% } else { %>Manage<% } %> Premium</button></a>
         </form>
         <hr>
       </td></tr>
@@ -49,11 +49,7 @@
     <% if (v.default) continue; %>
     Blockly.Blocks["<%= v.type %>"] = { 
       init: function () {
-        <% if (v.init) { %>
-          eval(decode("<%= v.init %>"));
-        <% } else { %>
-          this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
-        <% } %>
+        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
       },
     };
   <% } %>

@@ -11,6 +11,7 @@ const discord = require('./src/discord');
 const dlockly = require('./src/dlockly');
 const init = require('./src/init');
 const perms = require('./src/perms');
+const premium = require('./src/premium');
 const votes = require('./src/votes');
 
 const events = require('./config/events.json');
@@ -71,20 +72,21 @@ web.all('*', async (req, res) => {
     restrictions,
     generators,
     categories
-  } = dlockly.initialize();
+  } = dlockly.initialize(premium.hasPremium(this.bot.guilds.get(req.query.guild).id));
 
   res.render("www/html/dlockly.ejs", {
+    blocklyXml: dlockly.getBlocklyXml(req.query.guild),
     blocks,
-    max: JSON.stringify(max),
     categories,
+    exampleXml: dlockly.getExampleXml(),
+    generators,
+    guildId: this.bot.guilds.get(req.query.guild).id,
+    guildName: this.bot.guilds.get(req.query.guild).name,
+    invite: perms.isAdmin(user.user),
+    premium: premium.hasPremium(this.bot.guilds.get(req.query.guild).id),
+    max: JSON.stringify(max),
     restrictions: JSON.stringify(restrictions),
     xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
-    generators,
-    blocklyXml: dlockly.getBlocklyXml(req.query.guild),
-    exampleXml: dlockly.getExampleXml(),
-    guildName: this.bot.guilds.get(req.query.guild).name,
-    guildId: this.bot.guilds.get(req.query.guild).id,
-    invite: perms.isAdmin(user.user),
   });
 });
 
