@@ -16,5 +16,5 @@
     "tooltip": "Stop! Wait a minute.",
     "helpUrl": ""
   },
-  "generator": "_return = [console.log(block.getFieldValue('time')) , Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = [block.getFieldValue('time') , Blockly.JavaScript.ORDER_ATOMIC]"
 }
