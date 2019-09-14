@@ -23,7 +23,7 @@ web.use(require('body-parser').json());
 web.use(require('body-parser').urlencoded({
   extended: false
 }));
-
+global.sleep = require('util').promisify(setTimeout);//idk where to put this
 module.exports.db = require('better-sqlite3')('data/db.db');
 module.exports.bot = new Discord.Client({
   fetchAllMembers: true,

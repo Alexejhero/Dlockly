@@ -16,5 +16,5 @@
     "tooltip": "Stop! Wait a minute.",
     "helpUrl": ""
   },
-  "generator": "'const wait = require(`util`).promisify(setTimeout);_return = await wait(' + Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC) *1000 + ');'"
+  "generator": "_return = 'await global.sleep(' + block.getFieldValue('time') * 1000 + ');'"
   }
