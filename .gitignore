@@ -12,3 +12,4 @@ pull-f.sh
 push.sh
 push-f.sh
 !/**/.gitkeep
+pnpm-lock.yaml
