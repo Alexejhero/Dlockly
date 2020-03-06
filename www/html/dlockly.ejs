@@ -171,5 +171,12 @@
     }
   }
 
-  var generate = () => Blockly.JavaScript.workspaceToCode(workspace);
+  var generate = function () {
+    postprocess(Blockly.JavaScript.workspaceToCode(workspace)).then(res => console.log(res.toString()));
+  }
+
+  async function postprocess(js) {
+    var txt = (await fetch("postprocess?js=" + encodeURIComponent(js))).text();
+    return txt;
+  }
 </script>

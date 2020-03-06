@@ -6,6 +6,7 @@ const read = require('fs-readdir-recursive');
 
 const auth = require('../src/auth');
 const discord = require('../src/discord');
+const pp = require('../src/postprocess');
 const server = require('..');
 
 module.exports = function (data) {
@@ -47,7 +48,7 @@ module.exports = function (data) {
       oneBasedIndex: true,
     });
     Blockly.Xml.domToWorkspace(dom, workspace);
-    var js = Blockly.JavaScript.workspaceToCode(workspace);
+    var js = pp(Blockly.JavaScript.workspaceToCode(workspace));
 
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
