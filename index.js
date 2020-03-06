@@ -70,7 +70,7 @@ web.all('*', async (req, res) => {
   if (!user)
     return res.render(path.join(__dirname, "www/html/unknownuser.ejs"));
 
-  if (!discord.getConfigurableGuildsIncludingAdmin(user).map(g => g.id).includes(req.query.guild))
+  if (!discord.getAllConfigurableGuilds(user).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {
       user,
       adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
@@ -91,7 +91,7 @@ web.all('*', async (req, res) => {
     premium: premium.hasPremium(req.query.guild),
     max: JSON.stringify(dlocklyInstance.max),
     restrictions: JSON.stringify(dlocklyInstance.res),
-    xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
+    xmlCategoryTree: dlockly.generateXmlTreeRecursively(dlocklyInstance.categories),
   });
 });
 

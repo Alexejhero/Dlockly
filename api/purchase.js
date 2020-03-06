@@ -42,9 +42,9 @@ module.exports = async function (data) {
         purchasedBy: `${capture.payer.name.given_name} ${capture.payer.name.surname} (${capture.payer.email_address})`
       }
 
-      if (!fs.existsSync(path.join(__dirname, "/../../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
-      if (!fs.existsSync(path.join(__dirname, "/../../data/", data.req.query.guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", data.req.query.guild));
-      fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.query.guild, "/premium.json"), JSON.stringify(json));
+      if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../data/"));
+      if (!fs.existsSync(path.join(__dirname, "/../data/", data.req.query.guild))) fs.mkdirSync(path.join(__dirname, "/../data/", data.req.query.guild));
+      fs.writeFileSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"), JSON.stringify(json));
 
       return data.res.status(200).send(JSON.stringify(capture));
     } catch (e) {

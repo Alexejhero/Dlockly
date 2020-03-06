@@ -1,5 +1,5 @@
-const auth = require('../auth');
-const server = require('../../server');
+const auth = require('../src/auth');
+const server = require('..');
 
 module.exports = function (data) {
   if (auth.sessionValid(data.authUserID, data.authSession)) data.res.redirect("/");

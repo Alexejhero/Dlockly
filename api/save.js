@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const read = require('fs-readdir-recursive');
 
-const auth = require('../auth');
-const discord = require('../discord');
-const server = require('../../server');
+const auth = require('../src/auth');
+const discord = require('../src/discord');
+const server = require('..');
 
 module.exports = function (data) {
   try {
@@ -20,10 +20,10 @@ module.exports = function (data) {
       return;
     }
 
-    if (!fs.existsSync(path.join(__dirname, "/../../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
-    if (!fs.existsSync(path.join(__dirname, "/../../data/", data.req.body.guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", data.req.body.guild));
+    if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../data/"));
+    if (!fs.existsSync(path.join(__dirname, "/../data/", data.req.body.guild))) fs.mkdirSync(path.join(__dirname, "/../data/", data.req.body.guild));
 
-    var blocks = getBlocks(path.join(__dirname, "/../../blocks/custom/")).concat(getBlocks(path.join(__dirname, "/../../blocks/hidden/")));
+    var blocks = getBlocks(path.join(__dirname, "/../blocks/custom/")).concat(getBlocks(path.join(__dirname, "/../blocks/hidden/")));
     for (var block of blocks) {
       eval(`
         Blockly.JavaScript['${block.block.type}'] = function(block) {
@@ -49,8 +49,8 @@ module.exports = function (data) {
     Blockly.Xml.domToWorkspace(dom, workspace);
     var js = Blockly.JavaScript.workspaceToCode(workspace);
 
-    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/blockly.xml"), xml);
-    fs.writeFileSync(path.join(__dirname, "/../../data/", data.req.body.guild, "/config.js"), js);
+    fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
+    fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
 
     data.res.redirect("/?guild=" + data.req.body.guild);
   } catch (e) {

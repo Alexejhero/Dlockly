@@ -15,13 +15,12 @@ module.exports.getUsers = async function () {
   return result;
 }
 
-module.exports.getConfigurableGuildsIncludingAdmin = function (_member) {
-  return this.getConfigurableGuilds(_member).concat(this.getConfigurableGuilds(_member, true));
+module.exports.getAllConfigurableGuilds = function (user) {
+  return this.getConfigurableGuilds(user).concat(this.getConfigurableGuilds(user, true));
 }
 
-module.exports.getConfigurableGuilds = function (_member, adminAccessOnly = false) {
+module.exports.getConfigurableGuilds = function (user, adminAccessOnly = false) {
   var guilds = server.bot.guilds.cache.array();
-  var user = _member.user;
   var admin = perms.isAdmin(user);
 
   var goodGuilds = [];
@@ -46,5 +45,5 @@ function addEmptyMark(guilds) {
 module.exports.guildSort = function (a, b) {
   if (a.hasEmptyConfig && !b.hasEmptyConfig) return 1;
   else if (b.hasEmptyConfig && !a.hasEmptyConfig) return -1;
-  return a.name.localeCompare(b.name);
+  return a.name && b.name ? a.name.localeCompare(b.name) : 0;
 }

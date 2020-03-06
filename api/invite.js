@@ -1,6 +1,6 @@
-const auth = require('../auth');
-const perms = require('../perms');
-const server = require('../../server');
+const auth = require('../src/auth');
+const perms = require('../src/perms');
+const server = require('..');
 
 module.exports = async function (data) {
   if (!auth.sessionValid(data.authUserID, data.authSession) || !data.user || !perms.isAdmin(data.user.user)) {

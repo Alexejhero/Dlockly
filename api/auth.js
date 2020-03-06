@@ -2,7 +2,7 @@ const querystring = require('querystring');
 const request = require('request-promise');
 
 const auth = require('../src/auth');
-const server = require('../../server');
+const server = require('..');
 
 module.exports = function (data) {
   try {
