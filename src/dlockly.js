@@ -193,7 +193,7 @@ function initializeCustomBlocks(p, categories, premium) {
     }
 
     if (json.optionalReturn) {
-      json.block.optionalReturn = true;
+      json.block.optionalReturn = json.optionalReturn;
       json.block.mutator = json.block.type + "_optional_return_mutator";
 
       blocks.push({
@@ -241,7 +241,8 @@ function initializeCustomBlocks(p, categories, premium) {
     if (json.generator) {
       generators.push({
         type: json.block.type,
-        generator: json.generator
+        generator: json.generator,
+        returnGen: json.returnGen,
       });
     }
   }
@@ -293,7 +294,8 @@ function initializeHiddenBlocks(p) {
     if (json.generator) {
       generators.push({
         type: json.block.type,
-        generator: json.generator
+        generator: json.generator,
+        returnGen: json.returnGen,
       });
     }
   }

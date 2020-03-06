@@ -6,7 +6,9 @@ const read = require('fs-readdir-recursive');
 
 const auth = require('../src/auth');
 const discord = require('../src/discord');
-const pp = require('../src/postprocess');
+const dlockly = require('../src/dlockly');
+const postprocess = require('../src/postprocess');
+const premium = require('../src/premium');
 const server = require('..');
 
 module.exports = function (data) {
@@ -24,20 +26,80 @@ module.exports = function (data) {
     if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../data/"));
     if (!fs.existsSync(path.join(__dirname, "/../data/", data.req.body.guild))) fs.mkdirSync(path.join(__dirname, "/../data/", data.req.body.guild));
 
-    var blocks = getBlocks(path.join(__dirname, "/../blocks/custom/")).concat(getBlocks(path.join(__dirname, "/../blocks/hidden/")));
-    for (var block of blocks) {
-      eval(`
-        Blockly.JavaScript['${block.block.type}'] = function(block) {
-          var _return;
-          ${block.generator.replace(/\\\\/g, "\\")}
-          return _return;
-        }
+    var dlocklyInstance = dlockly.initialize(premium.hasPremium(data.req.body.guild));
 
-        Blockly.Blocks['${block.block.type}'] = {
+    for (var block of dlocklyInstance.blocks) {
+      if (block.default) continue;
+      eval(`
+        Blockly.Blocks['${block.type}'] = {
           init: function() {
-            this.jsonInit(JSON.parse('${JSON.stringify(block.block).replace(/'/g, "\\'")}'));
+            this.jsonInit(JSON.parse('${JSON.stringify(block).replace(/'/g, "\\'")}'));
           }
         }
+      `);
+    }
+
+    for (var generator of dlocklyInstance.generators) {
+      console.log(generator);
+      Blockly.JavaScript[generator.type] = function (block) {
+        var _return;
+        if (block.returns) eval(generator.returnGen.replace(/\\\\/g, "\\"));
+        else eval(generator.generator.replace(/\\\\/g, "\\"));
+        console.log(_return);
+        return _return;
+      }
+    }
+
+    for (var block of dlocklyInstance.blocks) {
+      if (!block.optionalReturn) continue;
+      eval(`    
+        Blockly.Extensions.registerMutator("${block.type}_optional_return_mutator", {
+          returns: false,
+
+          mutationToDom: function () {
+            if (!this.returns) return;
+
+            var mutation = Blockly.utils.xml.createElement("mutation");
+            mutation.setAttribute("returns", "true");
+            return mutation;
+          },
+
+          domToMutation: function (xml) {
+            this.returns = xml.getAttribute("returns") == "true";
+            //this.updateShape();
+          },
+
+          decompose: function (workspace) {
+            workspace.options.maxInstances = { "${block.type}_mutator_dummy": -1 };
+            var containerBlock = workspace.newBlock("${block.type}_mutator_container");
+            containerBlock.initSvg();
+            containerBlock.setFieldValue(this.returns, "val");
+            return containerBlock;
+          },
+
+          compose: function (containerBlock) {
+            this.returns = containerBlock.getFieldValue("val") == "TRUE";
+            this.updateShape();
+          },
+
+          updateShape: function () {
+            if (this.returns && (this.previousConnection || this.nextConnection || !this.outputConnection)) {
+              if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
+              this.previousConnection = null;
+              if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
+              this.nextConnection = null;
+
+              this.outputConnection = new Blockly.RenderedConnection(this, 2);
+              this.outputConnection.setCheck("${block.optionalReturn}");
+            } else if (!this.returns && (!this.previousConnection || !this.nextConnection || this.outputConnection)) {
+              if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
+              this.outputConnection = null;
+
+              this.previousConnection = new Blockly.RenderedConnection(this, 4);
+              this.nextConnection = new Blockly.RenderedConnection(this, 3);
+            }
+          }
+        }, null, ["${block.type}_mutator_dummy"]);
       `);
     }
 
@@ -48,14 +110,27 @@ module.exports = function (data) {
       oneBasedIndex: true,
     });
     Blockly.Xml.domToWorkspace(dom, workspace);
-    var js = pp(Blockly.JavaScript.workspaceToCode(workspace));
+    var js = postprocess(Blockly.JavaScript.workspaceToCode(workspace));
 
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
 
+    for (var block of dlocklyInstance.blocks) {
+      if (!block.optionalReturn) continue;
+      Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+    }
+
     data.res.redirect("/?guild=" + data.req.body.guild);
   } catch (e) {
     console.error(e);
+
+    if (dlocklyInstance && Array.isArray(dlocklyInstance.blocks)) {
+      for (var block of dlocklyInstance.blocks) {
+        if (!block.optionalReturn) continue;
+        Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+      }
+    }
+
     data.res.redirect("/?guild=" + data.req.body.guild + "#error");
   }
 }

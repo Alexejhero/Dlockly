@@ -57,7 +57,8 @@
   <% generators.forEach(g => { %>
     Blockly.JavaScript['<%= g.type %>'] = function(block) {
       var _return;
-      eval(decode("<%= g.generator %>"));
+      if (block.returns) eval(decode("<%= g.returnGen %>"));
+      else eval(decode("<%= g.generator %>"));
       return _return;
     }
   <% }); %>
@@ -96,17 +97,17 @@
       updateShape: function() {
         if (this.returns && (this.previousConnection || this.nextConnection || !this.outputConnection)) {
           if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
-          this.previousConnection = null;
+          this.setPreviousStatement(false);
           if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
-          this.nextConnection = null;
+          this.setNextStatement(false);
 
-          this.outputConnection = new Blockly.RenderedConnection(this, 2);
+          this.setOutput(true, "<%= v.optionalReturn %>");
         } else if (!this.returns && (!this.previousConnection || !this.nextConnection || this.outputConnection)) {
           if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
-          this.outputConnection = null;
+          this.setOutput(false);
           
-          this.previousConnection = new Blockly.RenderedConnection(this, 4);
-          this.nextConnection = new Blockly.RenderedConnection(this, 3);
+          this.setPreviousStatement(true);
+          this.setNextStatement(true);
         }
       }
     }, null, ["<%= v.type %>_mutator_dummy"]);
