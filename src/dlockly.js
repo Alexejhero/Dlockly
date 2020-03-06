@@ -196,7 +196,31 @@ function initializeCustomBlocks(p, categories, premium) {
       json.block.optionalReturn = true;
       json.block.mutator = json.block.type + "_optional_return_mutator";
 
-      json.block.output = json.block.previousStatement = json.block.nextStatement = null;
+      blocks.push({
+        "type": json.block.type + "_mutator_container",
+        "message0": json.block.message0.replace(/%\d+/g, "").replace(/ +/g, " ") + " %1 and return output %2",
+        "args0": [
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "field_checkbox",
+            "name": "val",
+            "checked": false
+          }
+        ],
+        "inputsInline": false,
+        "colour": json.block.colour,
+        "helpUrl": ""
+      });
+
+      blocks.push({
+        "type": json.block.type + "_mutator_dummy",
+        "message0": "Block Editor",
+        "args0": [],
+        "inputsInline": true,
+        "helpUrl": ""
+      });
     }
 
     blocks.push(json.block);

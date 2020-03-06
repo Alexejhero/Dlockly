@@ -65,78 +65,51 @@
   <% for (var v of blocks) { %>
     <% if (!v.optionalReturn) continue; %>
     Blockly.Extensions.registerMutator("<%= v.type %>_optional_return_mutator", {
+      returns: false,
+      
       mutationToDom: function() {
-        if (!this.getConnectionType()) return;
+        if (!this.returns) return;
 
         var mutation = Blockly.utils.xml.createElement("mutation");
-        mutation.setAttribute("connection", this.getConnectionType());
-        
+        mutation.setAttribute("returns", "true");
         return mutation;
       },
 
       domToMutation: function(xml) {
-        switch (this.getConnectionType()) {
-          case 0: {
-            if (!this.outputConnection) this.outputConnection = new Blockly.RenderedConnection(this, 2);
-            if (!this.previousConnection) this.previousConnection = new Blockly.RenderedConnection(this, 4);
-            if (!this.nextConnection) this.nextConnection = new Blockly.RenderedConnection(this, 3);
-            break;
-          }
-          case 1: {
-            if (!this.outputConnection) this.outputConnection = new Blockly.RenderedConnection(this, 2);
-            if (this.previousConnection) {
-              if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
-              this.previousConnection = null;
-            }
-            if (this.nextConnection) {
-              if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
-              this.nextConnection = null;
-            }
-            break;
-          }
-          case 2: {
-            if (this.outputConnection) {
-              if (this.outputConnection.isConnected()) {
-                this.outputConnection.disconnect();
-              }
-              this.outputConnection = null;
-            }
-            if (!this.previousConnection) this.previousConnection = new Blockly.RenderedConnection(this, 4);
-            if (!this.nextConnection) this.nextConnection = new Blockly.RenderedConnection(this, 3);
-            break;
-          }
-          default: {
-            if (this.outputConnection) {
-              if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
-            } else {
-              this.outputConnection = new Blockly.RenderedConnection(this, 2);
-            }
-            if (this.previousConnection) {
-              if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
-            } else {
-              this.previousConnection = new Blockly.RenderedConnection(this, 4);
-            }
-            if (this.nextConnection) {
-              if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
-            } else {
-              this.nextConnection = new Blockly.RenderedConnection(this, 3);
-            }
-          }
+        this.returns = xml.getAttribute("returns") == "true";
+        this.updateShape();
+      },
+
+      decompose: function(workspace) {
+        workspace.options.maxInstances = {"<%= v.type %>_mutator_dummy": -1};
+        var containerBlock = workspace.newBlock("<%= v.type %>_mutator_container");
+        containerBlock.initSvg();
+        containerBlock.setFieldValue(this.returns, "val");
+        return containerBlock;
+      },
+
+      compose: function(containerBlock) {
+        this.returns = containerBlock.getFieldValue("val") == "TRUE";
+        this.updateShape();
+      },
+
+      updateShape: function() {
+        if (this.returns && (this.previousConnection || this.nextConnection || !this.outputConnection)) {
+          if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
+          this.previousConnection = null;
+          if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
+          this.nextConnection = null;
+
+          this.outputConnection = new Blockly.RenderedConnection(this, 2);
+        } else if (!this.returns && (!this.previousConnection || !this.nextConnection || this.outputConnection)) {
+          if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
+          this.outputConnection = null;
+          
+          this.previousConnection = new Blockly.RenderedConnection(this, 4);
+          this.nextConnection = new Blockly.RenderedConnection(this, 3);
         }
-      },
-
-      getConnectionType: function() {
-        if (!this.icann(this.outputConnection) && !this.icann(this.previousConnection) && !this.icann(this.nextConnection)) return 0;
-        if (this.icann(this.outputConnection) && !this.icann(this.previousConnection) && !this.icann(this.nextConnection)) return 1;
-        if (!this.icann(this.outputConnection) && (this.icann(this.previousConnection) || this.icann(this.nextConnection))) return 2;
-        return -1;
-      },
-
-      // isConnectedAndNotNull
-      icann: function(connection) {
-        return connection && connection.isConnected();
       }
-    });
+    }, null, ["<%= v.type %>_mutator_dummy"]);
   <% } %>
 
   var blocklyArea = document.getElementById('blocklyArea');
