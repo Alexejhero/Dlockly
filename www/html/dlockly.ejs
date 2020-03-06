@@ -1,5 +1,5 @@
-<% include partials/head %>
-<% include partials/blockly %>
+<%- include ("partials/head") %>
+<%- include ("partials/blockly") %>
 
 <html style="overflow:hidden;">
 
@@ -39,7 +39,7 @@
 
 </div>
 
-<% include partials/footer %>
+<%- include ("partials/footer") %>
 
 <script>
   document.getElementById("blocklyDiv").style.height = window.innerHeight - 20 + "px";

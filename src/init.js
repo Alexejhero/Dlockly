@@ -2,7 +2,7 @@ const http = require('http');
 
 const consts = require('./consts');
 const errors = require('./errors');
-const server = require('../server');
+const server = require('..');
 const votes = require('./votes');
 
 module.exports = function () {

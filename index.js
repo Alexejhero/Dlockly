@@ -24,10 +24,21 @@ web.use(require('body-parser').urlencoded({
   extended: false
 }));
 
-module.exports.db = require('better-sqlite3')('data/db.db');
 module.exports.bot = new Discord.Client({
   fetchAllMembers: true,
 });
+this.bot.on("ready", () => {
+  this.bot.guilds.size = this.bot.guilds.cache.size;
+});
+this.bot.on("guildCreate", () => {
+  this.bot.guilds.size = this.bot.guilds.cache.size;
+});
+this.bot.on("guildDelete", () => {
+  this.bot.guilds.size = this.bot.guilds.cache.size;
+});
+
+module.exports.db = require('better-sqlite3')('data/db.db');
+
 module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
@@ -41,10 +52,10 @@ web.all('*', async (req, res) => {
     authUserID,
     authSession
   } = auth.getCookies(req);
-  var user = await discord.getUser(authUserID);
+  var user = await this.bot.users.fetch(authUserID);
 
-  if (fs.existsSync(path.join(__dirname, "/src/requests/", req.path + ".js")))
-    return require('./' + path.join('src/requests/', req.path))({
+  if (fs.existsSync(path.join(__dirname, "/api/", req.path + ".js")))
+    return require('./' + path.join('api/', req.path))({
       authSession,
       authUserID,
       res,
@@ -59,33 +70,27 @@ web.all('*', async (req, res) => {
   if (!user)
     return res.render(path.join(__dirname, "www/html/unknownuser.ejs"));
 
-  if (!discord.getConfigurableGuilds(user).concat(discord.getConfigurableGuilds(user, true)).map(g => g.id).includes(req.query.guild))
+  if (!discord.getConfigurableGuildsIncludingAdmin(user).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {
       user,
       adminGuilds: discord.getConfigurableGuilds(user, true).sort(discord.guildSort),
       configurableGuilds: discord.getConfigurableGuilds(user).sort(discord.guildSort),
     });
 
-  var {
-    blocks,
-    max,
-    restrictions,
-    generators,
-    categories
-  } = dlockly.initialize(premium.hasPremium(this.bot.guilds.get(req.query.guild).id));
+  var dlocklyInstance = dlockly.initialize(premium.hasPremium(req.query.guild));
 
   res.render("www/html/dlockly.ejs", {
     blocklyXml: dlockly.getBlocklyXml(req.query.guild),
-    blocks,
-    categories,
+    blocks: dlocklyInstance.blocks,
+    categories: dlocklyInstance.categories,
     exampleXml: dlockly.getExampleXml(),
-    generators,
-    guildId: this.bot.guilds.get(req.query.guild).id,
-    guildName: this.bot.guilds.get(req.query.guild).name,
+    generators: dlocklyInstance.generators,
+    guildId: req.query.guild,
+    guildName: this.bot.guilds.cache.get(req.query.guild).name,
     invite: perms.isAdmin(user.user),
-    premium: premium.hasPremium(this.bot.guilds.get(req.query.guild).id),
-    max: JSON.stringify(max),
-    restrictions: JSON.stringify(restrictions),
+    premium: premium.hasPremium(req.query.guild),
+    max: JSON.stringify(dlocklyInstance.max),
+    restrictions: JSON.stringify(dlocklyInstance.res),
     xmlCategoryTree: dlockly.generateXmlTreeRecursively(categories),
   });
 });
@@ -105,17 +110,17 @@ this.bot.on("message", message => {
     case "votes":
       try {
         if (message.mentions.users.size != 1)
-          return message.channel.send(new Discord.RichEmbed()
+          return message.channel.send(new Discord.MessageEmbed()
             .setTitle("Invalid Usage")
             .setDescription("You must mention exactly one user")
             .setColor(0xEB144C));
         if (!args[0].match(/<@!?[0-9]*>/g))
-          return message.channel.send(new Discord.RichEmbed()
+          return message.channel.send(new Discord.MessageEmbed()
             .setTitle("Invalid Usage")
             .setDescription("Expected a user mention as the first argument")
             .setColor(0xEB144C));
         if (isNaN(Number(args[1])) || !isFinite(Number(args[1])))
-          return message.channel.send(new Discord.RichEmbed()
+          return message.channel.send(new Discord.MessageEmbed()
             .setTitle("Invalid Usage")
             .setDescription("Expected a finite non-zero number as the second argument")
             .setColor(0xEB144C));
@@ -123,20 +128,20 @@ this.bot.on("message", message => {
         if (Number(args[1]) != 0) {
           votes.addVotes(message.mentions.users.first().id, Number(args[1]));
           if (Number(args[1]) > 0) {
-            message.channel.send(new Discord.RichEmbed()
+            message.channel.send(new Discord.MessageEmbed()
               .setTitle("Success")
               .setDescription(`${message.mentions.users.first()} has received ${Number(args[1])} vote${Number(args[1]) == 1 ? "" : "s"}!`)
               .setColor(0x00D084)
               .addField("Total Votes", String(votes.getTotalVotes(message.mentions.users.first().id))));
           } else {
-            message.channel.send(new Discord.RichEmbed()
+            message.channel.send(new Discord.MessageEmbed()
               .setTitle("Success")
               .setDescription(`${message.mentions.users.first()} has lost ${Number(args[1]) * -1} vote${Number(args[1]) == -1 ? "" : "s"}!`)
               .setColor(0x00D084)
               .addField("Total Votes", String(votes.getTotalVotes(message.mentions.users.first().id))));
           }
         } else {
-          message.channel.send(new Discord.RichEmbed()
+          message.channel.send(new Discord.MessageEmbed()
             .setTitle("Invalid Usage")
             .setDescription(`Expected a finite non-zero number as the second argument`)
             .setColor(0xEB144C));
@@ -145,7 +150,7 @@ this.bot.on("message", message => {
         console.log(e);
       }
   }
-})
+});
 
 for (var event in events) {
   if (events.hasOwnProperty(event)) {

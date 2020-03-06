@@ -1,4 +1,4 @@
-const server = require('../server');
+const server = require('..');
 
 module.exports.initialize = function () {
   process.on('unhandledRejection', (reason, p) => {

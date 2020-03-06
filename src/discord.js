@@ -1,17 +1,13 @@
 const dlockly = require('./dlockly');
 const perms = require('./perms');
-const server = require('../server');
-
-module.exports.getUser = async function (id) {
-  return (await this.getUsers())[id];
-}
+const server = require('..');
 
 module.exports.getUsers = async function () {
-  var guilds = server.bot.guilds.array();
+  var guilds = server.bot.guilds.cache.array();
   var result = {};
 
   for (var guild of guilds) {
-    var _guild = await server.bot.guilds.get(guild.id).fetchMembers();
+    var _guild = await server.bot.guilds.cache.get(guild.id).fetchMembers();
 
     _guild.members.forEach((v, k) => result[k] = v);
   }
@@ -19,8 +15,12 @@ module.exports.getUsers = async function () {
   return result;
 }
 
+module.exports.getConfigurableGuildsIncludingAdmin = function (_member) {
+  return this.getConfigurableGuilds(_member).concat(this.getConfigurableGuilds(_member, true));
+}
+
 module.exports.getConfigurableGuilds = function (_member, adminAccessOnly = false) {
-  var guilds = server.bot.guilds.array();
+  var guilds = server.bot.guilds.cache.array();
   var user = _member.user;
   var admin = perms.isAdmin(user);
 

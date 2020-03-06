@@ -1,4 +1,4 @@
-const server = require('../server');
+const server = require('..');
 
 module.exports.dlocklyGuild = function () {
   return server.bot.guilds.get(process.env.DISCORD_GUILD_ID || '591692042304880815');

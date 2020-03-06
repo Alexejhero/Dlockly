@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 const consts = require('./consts');
 const perms = require('./perms');
-const server = require('../server');
+const server = require('..');
 
 module.exports.initialize = function () {
   server.dbl.webhook.on("vote", vote => {
