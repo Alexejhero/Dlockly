@@ -27,25 +27,17 @@ web.use(require('body-parser').urlencoded({
 module.exports.bot = new Discord.Client({
   fetchAllMembers: true,
 });
-this.bot.on("ready", () => {
-  this.bot.guilds.size = this.bot.guilds.cache.size;
-});
-this.bot.on("guildCreate", () => {
-  this.bot.guilds.size = this.bot.guilds.cache.size;
-});
-this.bot.on("guildDelete", () => {
-  this.bot.guilds.size = this.bot.guilds.cache.size;
-});
+init.bot();
 
 module.exports.db = require('better-sqlite3')('data/db.db');
+init.db();
 
 module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
   webhookPort: process.env.PORT,
   webhookAuth: process.env.DBL_WEBHOOK_AUTH,
   webhookServer: web.listen(process.env.PORT),
 }, this.bot);
-
-init();
+init.dbl();
 
 web.all('*', async (req, res) => {
   var {
@@ -87,7 +79,7 @@ web.all('*', async (req, res) => {
     generators: dlocklyInstance.generators,
     guildId: req.query.guild,
     guildName: this.bot.guilds.cache.get(req.query.guild).name,
-    invite: perms.isAdmin(user.user),
+    invite: perms.isAdmin(user),
     premium: premium.hasPremium(req.query.guild),
     max: JSON.stringify(dlocklyInstance.max),
     restrictions: JSON.stringify(dlocklyInstance.res),

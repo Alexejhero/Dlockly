@@ -3,12 +3,12 @@ const perms = require('../src/perms');
 const server = require('..');
 
 module.exports = async function (data) {
-  if (!auth.sessionValid(data.authUserID, data.authSession) || !data.user || !perms.isAdmin(data.user.user)) {
+  if (!auth.sessionValid(data.authUserID, data.authSession) || !data.user || !perms.isAdmin(data.user)) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidLogin`);
     return;
   }
 
-  var guild = server.bot.guilds.get(data.req.query.guild);
+  var guild = server.bot.guilds.cache.get(data.req.query.guild);
   if (!guild) {
     data.res.redirect(`/?guild=${data.req.query.guild}#invalidGuild`);
     return;

@@ -17,7 +17,7 @@ module.exports = function (data) {
 
   data.res.render("www/html/shop.ejs", {
     blocks,
-    guildName: server.bot.guilds.get(data.req.query.guild).name,
+    guildName: server.bot.guilds.cache.get(data.req.query.guild).name,
     guildId: data.req.query.guild,
     invite: perms.isAdmin(data.user.user),
     paypalId: process.env.PAYPAL_ID,
