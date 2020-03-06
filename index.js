@@ -82,7 +82,7 @@ web.all('*', async (req, res) => {
     invite: perms.isAdmin(user),
     premium: premium.hasPremium(req.query.guild),
     max: JSON.stringify(dlocklyInstance.max),
-    restrictions: JSON.stringify(dlocklyInstance.res),
+    restrictions: JSON.stringify(dlocklyInstance.restrictions),
     xmlCategoryTree: dlockly.generateXmlTreeRecursively(dlocklyInstance.categories),
   });
 });

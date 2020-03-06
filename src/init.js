@@ -12,15 +12,15 @@ module.exports.bot = function () {
 
   server.bot.on("ready", () => {
     server.bot.user.setActivity("with blocks. https://dlockly.glitch.me");
-    this.bot.guilds.size = this.bot.guilds.cache.size;
+    server.bot.guilds.size = server.bot.guilds.cache.size;
   });
 
   server.bot.on("guildCreate", () => {
-    this.bot.guilds.size = this.bot.guilds.cache.size;
+    server.bot.guilds.size = server.bot.guilds.cache.size;
   });
 
   server.bot.on("guildDelete", () => {
-    this.bot.guilds.size = this.bot.guilds.cache.size;
+    server.bot.guilds.size = server.bot.guilds.cache.size;
   });
 
   server.bot.login(process.env.DISCORD_TOKEN);
