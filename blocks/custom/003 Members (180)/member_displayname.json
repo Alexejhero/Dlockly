@@ -24,5 +24,6 @@
     "tooltip": "Gets the display name of a member (their nickname, if they have one, otherwise their username)",
     "helpUrl": ""
   },
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.displayName', Blockly.JavaScript.ORDER_MEMBER]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.displayName', Blockly.JavaScript.ORDER_MEMBER]",
+  "extra": "<value name=\"member\"><shadow type=\"member\"></shadow></value>"
 }

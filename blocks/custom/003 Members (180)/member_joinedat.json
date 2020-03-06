@@ -24,5 +24,6 @@
     "tooltip": "Gets the date a member joined the server",
     "helpUrl": ""
   },
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.joinedAt', Blockly.JavaScript.ORDER_MEMBER]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.joinedAt', Blockly.JavaScript.ORDER_MEMBER]",
+  "extra": "<value name=\"member\"><shadow type=\"member\"></shadow></value>"
 }

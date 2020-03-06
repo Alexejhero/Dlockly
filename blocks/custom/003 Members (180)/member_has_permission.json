@@ -143,5 +143,6 @@
     "tooltip": "Checks the permissions of a member",
     "helpUrl": ""
   },
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.hasPermission(\"' + block.getFieldValue('perm') + '\")', Blockly.JavaScript.ORDER_FUNCTION_CALL]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.hasPermission(\"' + block.getFieldValue('perm') + '\")', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
+  "extra": "<value name=\"member\"><shadow type=\"member\"></shadow></value>"
 }
