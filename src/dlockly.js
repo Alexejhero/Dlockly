@@ -76,7 +76,7 @@ module.exports.generateXmlTreeRecursively = function (categories) {
       result += "<sep></sep>";
       continue;
     }
-    result += "<category name='" + c.name.substring(4) + "' colour='" + c.color + "'";
+    result += "<category name='" + c.name.replace(/^\d+ /g, "") + "' colour='" + c.color + "'";
     if (c.custom) result += " custom='" + c.custom + "'";
     result += ">";
     result += this.generateXmlTreeRecursively(c.subcategories);
@@ -190,6 +190,13 @@ function initializeCustomBlocks(p, categories, premium) {
       });
 
       json.block.message0 = bumpMessageNumbers(json.block.message0);
+    }
+
+    if (json.optionalReturn) {
+      json.block.optionalReturn = true;
+      json.block.mutator = json.block.type + "_optional_return_mutator";
+
+      json.block.output = json.block.previousStatement = json.block.nextStatement = null;
     }
 
     blocks.push(json.block);

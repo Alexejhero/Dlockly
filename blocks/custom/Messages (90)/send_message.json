@@ -33,5 +33,6 @@
     "helpUrl": ""
   },
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.send(' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
-  "extra": "<value name=\"msg\"><shadow type=\"text\"><field name=\"TEXT\">Hi!</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
+  "extra": "<value name=\"msg\"><shadow type=\"text\"><field name=\"TEXT\">Hi!</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>",
+  "optionalReturn": true
 }

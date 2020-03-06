@@ -25,5 +25,5 @@
     "helpUrl": ""
   },
   "generator": "_return = ['guild.channels.get(' + Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
-  "extra": "<value name=\"id\"><shadow type=\"text\"><field name=\"TEXT\">596212908854214657</field></shadow></value><value name=\"channel\"><shadow type=\"channel\"></shadow></value>"
+  "extra": "<value name=\"id\"><shadow type=\"text\"><field name=\"TEXT\">596212908854214657</field></shadow></value>"
 }

@@ -62,6 +62,83 @@
     }
   <% }); %>
 
+  <% for (var v of blocks) { %>
+    <% if (!v.optionalReturn) continue; %>
+    Blockly.Extensions.registerMutator("<%= v.type %>_optional_return_mutator", {
+      mutationToDom: function() {
+        if (!this.getConnectionType()) return;
+
+        var mutation = Blockly.utils.xml.createElement("mutation");
+        mutation.setAttribute("connection", this.getConnectionType());
+        
+        return mutation;
+      },
+
+      domToMutation: function(xml) {
+        switch (this.getConnectionType()) {
+          case 0: {
+            if (!this.outputConnection) this.outputConnection = new Blockly.RenderedConnection(this, 2);
+            if (!this.previousConnection) this.previousConnection = new Blockly.RenderedConnection(this, 4);
+            if (!this.nextConnection) this.nextConnection = new Blockly.RenderedConnection(this, 3);
+            break;
+          }
+          case 1: {
+            if (!this.outputConnection) this.outputConnection = new Blockly.RenderedConnection(this, 2);
+            if (this.previousConnection) {
+              if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
+              this.previousConnection = null;
+            }
+            if (this.nextConnection) {
+              if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
+              this.nextConnection = null;
+            }
+            break;
+          }
+          case 2: {
+            if (this.outputConnection) {
+              if (this.outputConnection.isConnected()) {
+                this.outputConnection.disconnect();
+              }
+              this.outputConnection = null;
+            }
+            if (!this.previousConnection) this.previousConnection = new Blockly.RenderedConnection(this, 4);
+            if (!this.nextConnection) this.nextConnection = new Blockly.RenderedConnection(this, 3);
+            break;
+          }
+          default: {
+            if (this.outputConnection) {
+              if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
+            } else {
+              this.outputConnection = new Blockly.RenderedConnection(this, 2);
+            }
+            if (this.previousConnection) {
+              if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
+            } else {
+              this.previousConnection = new Blockly.RenderedConnection(this, 4);
+            }
+            if (this.nextConnection) {
+              if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
+            } else {
+              this.nextConnection = new Blockly.RenderedConnection(this, 3);
+            }
+          }
+        }
+      },
+
+      getConnectionType: function() {
+        if (!this.icann(this.outputConnection) && !this.icann(this.previousConnection) && !this.icann(this.nextConnection)) return 0;
+        if (this.icann(this.outputConnection) && !this.icann(this.previousConnection) && !this.icann(this.nextConnection)) return 1;
+        if (!this.icann(this.outputConnection) && (this.icann(this.previousConnection) || this.icann(this.nextConnection))) return 2;
+        return -1;
+      },
+
+      // isConnectedAndNotNull
+      icann: function(connection) {
+        return connection && connection.isConnected();
+      }
+    });
+  <% } %>
+
   var blocklyArea = document.getElementById('blocklyArea');
   var blocklyDiv = document.getElementById('blocklyDiv');
   var workspace = Blockly.inject(blocklyDiv, {
