@@ -23,7 +23,10 @@
       }
     ],
     "inputsInline": false,
-    "output": "String",
+    "output": [
+      "ChannelType",
+      "String"
+    ],
     "colour": 270,
     "tooltip": "Contains all of the possible channel types. Useful for 'if' blocks",
     "helpUrl": ""
