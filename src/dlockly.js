@@ -238,7 +238,7 @@ function initializeCustomBlocks(p, categories, premium) {
     if (json.extra) obj.extra = json.extra;
     if (desiredCategory) desiredCategory.blocks.push(obj);
 
-    if (json.generator) {
+    if (json.generator || json.returnGen) {
       generators.push({
         type: json.block.type,
         generator: json.generator,

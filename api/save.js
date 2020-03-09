@@ -40,19 +40,19 @@ module.exports = function (data) {
     }
 
     for (var generator of dlocklyInstance.generators) {
-      console.log(generator);
-      Blockly.JavaScript[generator.type] = function (block) {
-        var _return;
-        if (block.returns) eval(generator.returnGen.replace(/\\\\/g, "\\"));
-        else eval(generator.generator.replace(/\\\\/g, "\\"));
-        console.log(_return);
-        return _return;
-      }
+      eval(`  
+        Blockly.JavaScript["${generator.type}"] = function (block) {
+          var _return;
+          if (block.returns) eval("${generator.returnGen ? generator.returnGen.replace(/\"/g, "\\\"") : ""}".replace(/\\\\\\\\/g, "\\\\"));
+          else eval("${generator.generator ? generator.generator.replace(/\"/g, "\\\"") : ""}".replace(/\\\\\\\\/g, "\\\\"));
+          return _return;
+        }
+      `);
     }
 
     for (var block of dlocklyInstance.blocks) {
       if (!block.optionalReturn) continue;
-      eval(`    
+      eval(`
         Blockly.Extensions.registerMutator("${block.type}_optional_return_mutator", {
           returns: false,
 
@@ -66,7 +66,7 @@ module.exports = function (data) {
 
           domToMutation: function (xml) {
             this.returns = xml.getAttribute("returns") == "true";
-            //this.updateShape();
+            this.updateShape();
           },
 
           decompose: function (workspace) {
@@ -82,21 +82,18 @@ module.exports = function (data) {
             this.updateShape();
           },
 
-          updateShape: function () {
+          updateShape: function() {
             if (this.returns && (this.previousConnection || this.nextConnection || !this.outputConnection)) {
               if (this.previousConnection.isConnected()) this.previousConnection.disconnect();
-              this.previousConnection = null;
+              this.setPreviousStatement(false);
               if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
-              this.nextConnection = null;
-
-              this.outputConnection = new Blockly.RenderedConnection(this, 2);
-              this.outputConnection.setCheck("${block.optionalReturn}");
+              this.setNextStatement(false);
+              this.setOutput(true, "${block.optionalReturn}");
             } else if (!this.returns && (!this.previousConnection || !this.nextConnection || this.outputConnection)) {
               if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
-              this.outputConnection = null;
-
-              this.previousConnection = new Blockly.RenderedConnection(this, 4);
-              this.nextConnection = new Blockly.RenderedConnection(this, 3);
+              this.setOutput(false);
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
             }
           }
         }, null, ["${block.type}_mutator_dummy"]);

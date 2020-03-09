@@ -100,12 +100,10 @@
           this.setPreviousStatement(false);
           if (this.nextConnection.isConnected()) this.nextConnection.disconnect();
           this.setNextStatement(false);
-
           this.setOutput(true, "<%= v.optionalReturn %>");
         } else if (!this.returns && (!this.previousConnection || !this.nextConnection || this.outputConnection)) {
           if (this.outputConnection.isConnected()) this.outputConnection.disconnect();
           this.setOutput(false);
-          
           this.setPreviousStatement(true);
           this.setNextStatement(true);
         }

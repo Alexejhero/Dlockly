@@ -25,6 +25,7 @@ web.use(require('body-parser').urlencoded({
 }));
 
 module.exports.bot = new Discord.Client({
+  disableMentions: "everyone",
   fetchAllMembers: true,
 });
 init.bot();
