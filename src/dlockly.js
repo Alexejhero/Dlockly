@@ -96,21 +96,35 @@ module.exports.initializeAllBlocks = function (categories, premium) {
   var hiddenBlocks = initializeHiddenBlocks(path.join(__dirname, "/../blocks/hidden/"));
   var deprecatedBlocks = initializeDeprecatedBlocks(path.join(__dirname, "/../blocks/deprecated"));
 
-  var blocks = customBlocks.blocks.concat(defaultBlocks).concat(deprecatedBlocks.blocks).concat(hiddenBlocks.blocks);
-  var max = customBlocks.max;
+  var blocks = [
+    ...customBlocks.blocks,
+    ...defaultBlocks,
+    ...deprecatedBlocks.blocks,
+    ...hiddenBlocks.blocks,
+  ];
+  var max = {
+    ...customBlocks.max,
+  };
   var restrictions = {
     ...customBlocks.restrictions,
     ...deprecatedBlocks.restrictions,
     ...hiddenBlocks.restrictions,
   };
-  var generators = customBlocks.generators.concat(hiddenBlocks.generators);
+  var generators = [
+    ...customBlocks.generators,
+    ...hiddenBlocks.generators
+  ];
+  var mutators = [
+    ...customBlocks.mutators,
+  ]
 
   return {
     blocks,
-    max,
-    restrictions,
-    generators,
     categories,
+    generators,
+    max,
+    mutators,
+    restrictions,
   }
 }
 
@@ -142,6 +156,7 @@ function initializeCustomBlocks(p, categories, premium) {
   var max = {};
   var restrictions = {};
   var generators = [];
+  var mutators = [];
 
   var files = read(p).filter(f => f.endsWith(".json"));
 
@@ -245,6 +260,11 @@ function initializeCustomBlocks(p, categories, premium) {
         returnGen: json.returnGen,
       });
     }
+
+    if (fs.existsSync(path.join(p, f.substr(0, f.length - 5) + "_mutator.js"))) {
+      var mutator = fs.readFileSync(path.join(p, f.substr(0, f.length - 5) + "_mutator.js"), 'utf-8');
+      mutators.push(mutator);
+    }
   }
 
   return {
@@ -252,6 +272,7 @@ function initializeCustomBlocks(p, categories, premium) {
     max,
     restrictions,
     generators,
+    mutators,
   };
 }
 
@@ -266,8 +287,6 @@ function initializeHiddenBlocks(p) {
     f = trim(f);
 
     var json = JSON.parse(fs.readFileSync(path.join(p, f)));
-    var splits = f.split(/[\/\\]+/g);
-    splits.pop();
 
     if (json.icons) {
       var _icons = json.icons.reverse();

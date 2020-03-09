@@ -1,0 +1,12 @@
+{
+  "block": {
+    "type": "embed_mutator_color",
+    "lastDummyAlign0": "RIGHT",
+    "message0": "with color",
+    "previousStatement": "EmbedMutatorOption",
+    "nextStatement": "EmbedMutatorOption",
+    "colour": 330,
+    "tooltip": "",
+    "helpUrl": ""
+  }
+}

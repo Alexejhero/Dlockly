@@ -83,6 +83,7 @@ web.all('*', async (req, res) => {
     invite: perms.isAdmin(user),
     premium: premium.hasPremium(req.query.guild),
     max: JSON.stringify(dlocklyInstance.max),
+    mutators: dlocklyInstance.mutators,
     restrictions: JSON.stringify(dlocklyInstance.restrictions),
     xmlCategoryTree: dlockly.generateXmlTreeRecursively(dlocklyInstance.categories),
   });

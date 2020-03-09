@@ -111,6 +111,10 @@
     }, null, ["<%= v.type %>_mutator_dummy"]);
   <% } %>
 
+  <% mutators.forEach(m => { %>
+    eval(decode(`<%= m %>`));
+  <% }); %>
+
   var blocklyArea = document.getElementById('blocklyArea');
   var blocklyDiv = document.getElementById('blocklyDiv');
   var workspace = Blockly.inject(blocklyDiv, {

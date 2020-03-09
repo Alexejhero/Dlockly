@@ -16,7 +16,10 @@
       {
         "type": "input_value",
         "name": "msg",
-        "check": "String"
+        "check": [
+          "String",
+          "Embed"
+        ]
       },
       {
         "type": "input_value",
