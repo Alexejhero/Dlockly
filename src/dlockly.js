@@ -39,6 +39,7 @@ function initializeBlocks(p, categories, premium) {
   var generators = [];
   var max = {};
   var mutators = [];
+  var reserved = [];
   var restrictions = {};
 
   var files = read(p).filter(f => f.endsWith(".json"));
@@ -118,6 +119,11 @@ function initializeBlocks(p, categories, premium) {
       });
     }
 
+    if (block.reserved) reserved = [
+      ...reserved,
+      ...block.reserved,
+    ];
+
     if (block.max && !max[block.type]) max[block.type] = block.max;
 
     if (block.restrictions) restrictions[block.type] = block.restrictions;
@@ -151,6 +157,7 @@ function initializeBlocks(p, categories, premium) {
     generators,
     max,
     mutators,
+    reserved,
     restrictions,
   }
 }

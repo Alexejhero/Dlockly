@@ -215,21 +215,4 @@
     document.workspace.clear();
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= exampleXml %>")), workspace);
   }
-
-  data = {
-    req: {
-      body: {
-        guild: "<%= guildId %>"
-      }
-    }
-  }
-
-  var generate = function () {
-    postprocess(Blockly.JavaScript.workspaceToCode(workspace)).then(res => console.log(res.toString()));
-  }
-
-  async function postprocess(js) {
-    var txt = (await fetch("postprocess?js=" + encodeURIComponent(js))).text();
-    return txt;
-  }
 </script>

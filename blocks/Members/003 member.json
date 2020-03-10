@@ -17,5 +17,8 @@
   "colour": 0,
   "tooltip": "The member that triggered the event",
   "helpUrl": "",
-  "generator": "_return = ['member', Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = ['member', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "member"
+  ]
 }

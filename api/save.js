@@ -100,6 +100,10 @@ module.exports = function (data) {
       `);
     }
 
+    for (var reserved of [...new Set(dlocklyInstance.reserved)]) {
+      Blockly.JavaScript.addReservedWords(reserved);
+    }
+
     var xml = decodeURIComponent(data.req.body.xml);
     var parsedXml = convert.js2xml(removeOverwrittenShadowsRecursively(convert.xml2js(xml)));
     var dom = Blockly.Xml.textToDom(parsedXml);

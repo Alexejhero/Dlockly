@@ -21,4 +21,7 @@
   "tooltip": "The error that was thrown",
   "helpUrl": "",
   "generator": "_return = ['error', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "error"
+  ]
 }

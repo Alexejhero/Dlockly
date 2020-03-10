@@ -15,5 +15,8 @@
   "colour": 0,
   "tooltip": "The emoji that triggered the event",
   "helpUrl": "",
-  "generator": "_return = ['emoji', Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = ['emoji', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "emoji"
+  ]
 }

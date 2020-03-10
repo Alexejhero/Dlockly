@@ -17,5 +17,8 @@
   "colour": 0,
   "tooltip": "The channel that triggered the event",
   "helpUrl": "",
-  "generator": "_return = ['channel', Blockly.JavaScript.ORDER_ATOMIC]"
+  "generator": "_return = ['channel', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "channel"
+  ]
 }
