@@ -8,7 +8,7 @@
       ]
     }
   ],
-  "type": "member_username",
+  "type": "member_tag",
   "message0": "get tag of member %1",
   "args0": [
     {
