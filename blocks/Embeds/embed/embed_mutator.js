@@ -4,7 +4,7 @@ var mutator = {
     "embed_mutator_name": 1,
     "embed_mutator_color": 1,
     "embed_mutator_description": 1,
-    "embed_mutator_field": 25,
+    "embed_mutator_field": 10,
     "embed_mutator_footer": 1,
   },
   mixin: {

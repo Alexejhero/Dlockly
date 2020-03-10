@@ -1,0 +1,30 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'member' parameter",
+      "types": [
+        "member"
+      ]
+    }
+  ],
+  "type": "member_avatar",
+  "message0": "get avatar url of member %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "member",
+      "check": "Member"
+    }
+  ],
+  "inputsInline": false,
+  "output": [
+    "String",
+    "Avatar"
+  ],
+  "colour": 180,
+  "tooltip": "Gets the avatar URL of a member",
+  "helpUrl": "",
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.user.displayAvatarURL()', Blockly.JavaScript.ORDER_MEMBER]",
+  "extra": "<value name='member'><shadow type='member'></shadow></value>"
+}
