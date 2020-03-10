@@ -1,4 +1,4 @@
-const dlockly = require('./dlockly');
+const config = require('./config');
 const perms = require('./perms');
 const server = require('..');
 
@@ -37,7 +37,7 @@ module.exports.getConfigurableGuilds = function (user, adminAccessOnly = false) 
 
 function addEmptyMark(guilds) {
   for (var guild of guilds) {
-    guild.hasEmptyConfig = dlockly.isConfigEmpty(guild.id);
+    guild.hasEmptyConfig = config.isConfigEmpty(guild.id);
   }
   return guilds;
 }

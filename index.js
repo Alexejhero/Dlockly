@@ -1,26 +1,27 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const DBL = require('dblapi.js');
-const Discord = require('discord.js');
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const DBL = require("dblapi.js");
+const Discord = require("discord.js");
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 
-const auth = require('./src/auth');
-const discord = require('./src/discord');
-const dlockly = require('./src/dlockly');
-const init = require('./src/init');
-const perms = require('./src/perms');
-const premium = require('./src/premium');
-const votes = require('./src/votes');
+const auth = require("./src/auth");
+const config = require("./src/config")
+const discord = require("./src/discord");
+const dlockly = require("./src/dlockly");
+const init = require("./src/init");
+const perms = require("./src/perms");
+const premium = require("./src/premium");
+const votes = require("./src/votes");
 
-const events = require('./config/events.json');
+const events = require("./config/events.json");
 
 const web = express();
 web.set("views", __dirname);
-web.use(require('cookie-parser')());
-web.use(require('body-parser').json());
-web.use(require('body-parser').urlencoded({
+web.use(require("cookie-parser")());
+web.use(require("body-parser").json());
+web.use(require("body-parser").urlencoded({
   extended: false
 }));
 
@@ -30,7 +31,7 @@ module.exports.bot = new Discord.Client({
 });
 init.bot();
 
-module.exports.db = require('better-sqlite3')('data/db.db');
+module.exports.db = require("better-sqlite3")("data/db.db");
 init.db();
 
 module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
@@ -40,7 +41,7 @@ module.exports.dbl = new DBL(process.env.DBL_TOKEN, {
 }, this.bot);
 init.dbl();
 
-web.all('*', async (req, res) => {
+web.all("*", async (req, res) => {
   var {
     authUserID,
     authSession
@@ -48,7 +49,7 @@ web.all('*', async (req, res) => {
   var user = await this.bot.users.fetch(authUserID);
 
   if (fs.existsSync(path.join(__dirname, "/api/", req.path + ".js")))
-    return require('./' + path.join('api/', req.path))({
+    return require("./" + path.join("api/", req.path))({
       authSession,
       authUserID,
       res,
@@ -73,10 +74,10 @@ web.all('*', async (req, res) => {
   var dlocklyInstance = dlockly.initialize(premium.hasPremium(req.query.guild));
 
   res.render("www/html/dlockly.ejs", {
-    blocklyXml: dlockly.getBlocklyXml(req.query.guild),
+    blocklyXml: config.getXml(req.query.guild),
     blocks: dlocklyInstance.blocks,
     categories: dlocklyInstance.categories,
-    exampleXml: dlockly.getExampleXml(),
+    exampleXml: config.getExampleXml(),
     generators: dlocklyInstance.generators,
     guildId: req.query.guild,
     guildName: this.bot.guilds.cache.get(req.query.guild).name,
@@ -153,7 +154,7 @@ for (var event in events) {
     var guild = events[event].guildGetter;
 
     try {
-      eval(`this.bot.on('${event}', (${parameters.join(",")}) => {
+      eval(`this.bot.on("${event}", (${parameters.join(",")}) => {
               if (!(${check})) return;
               var guild = ${guild};
               var p = path.join(__dirname, "data", guild.id, "config.js");
@@ -163,7 +164,7 @@ for (var event in events) {
                 if (module.${event}) { 
                   module.${event}(${parameters.join(",")});
                 }
-                require('decache')(p);
+                require("decache")(p);
               }
             });`);
     } catch (e) {

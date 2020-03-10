@@ -1,0 +1,5 @@
+{
+  "type": "text_indexOf",
+  "extra": "<value name='VALUE'><shadow type='text'><field name='TEXT'>abc</field></shadow></value><value name='FIND'><shadow type='text'><field name='TEXT'>abc</field></shadow></value>",
+  "default": true
+}

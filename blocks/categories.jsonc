@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Logic",
+    "color": "210"
+  },
+  {
+    "name": "Loops",
+    "color": "120"
+  },
+  {
+    "name": "Math",
+    "color": "230"
+  },
+  {
+    "name": "Text",
+    "color": "160"
+  },
+  {
+    "name": "Lists",
+    "color": "260"
+  },
+  {
+    "name": "Color",
+    "color": "20"
+  },
+  {
+    "sep": true
+  },
+  {
+    "name": "Variables",
+    "color": "330",
+    "custom": "VARIABLE"
+  },
+  {
+    "name": "Functions",
+    "color": "290",
+    "custom": "PROCEDURE"
+  },
+  {
+    "sep": true
+  },
+  {
+    "name": "Channels",
+    "color": "270"
+  },
+  {
+    "name": "Embeds",
+    "color": "300"
+  },
+  {
+    "name": "Emojis",
+    "color": "30"
+  },
+  {
+    "name": "Members",
+    "color": "180"
+  },
+  {
+    "name": "Messages",
+    "color": "90"
+  }
+]
