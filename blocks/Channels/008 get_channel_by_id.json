@@ -22,6 +22,6 @@
   "colour": 270,
   "tooltip": "Gets a channel from the guild by its ID",
   "helpUrl": "",
-  "generator": "_return = ['guild.channels.get(' + Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
+  "generator": "_return = ['guild.channels.cache.get(' + Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
   "extra": "<value name='id'><shadow type='text'><field name='TEXT'>596212908854214657</field></shadow></value>"
 }

@@ -5,6 +5,6 @@
   "colour": 160,
   "tooltip": "Creates a new line in the string. Equivalent to '\\n'",
   "helpUrl": "",
-  "generator": "_return = ['\\\\'\\\\\\\\n\\\\'', Blockly.JavaScript.ORDER_ATOMIC]",
+  "generator": "_return = ['\\\\\\\\'\\\\\\\\\\\\\\\\n\\\\\\\\'', Blockly.JavaScript.ORDER_ATOMIC]",
   "category": "Text"
 }
