@@ -1,0 +1,24 @@
+{
+  "restrictions": [
+    {
+      "type": "surroundparent",
+      "message": "The 'error' variable may only be used in an 'on error' event or a 'catch' block.",
+      "types": [
+        "on_error",
+        "try_catch"
+      ]
+    },
+    {
+      "type": "custom",
+      "message": "The 'error' variable may only be used in an 'on error' event or a 'catch' block.",
+      "code": "var parent = block.getSurroundParent(); while (parent && parent.type != 'try_catch') parent = parent.getSurroundParent(); if (parent) { if (parent.inputList[3].connection.targetBlock()) { var id = parent.inputList[3].connection.targetBlock().id; parent = block.getSurroundParent(); while (parent && parent.id != id) parent = parent.getSurroundParent(); if (!parent) _return = false; } else _return = false; }"
+    }
+  ],
+  "type": "error",
+  "message0": "error",
+  "output": "Error",
+  "colour": "#A00000",
+  "tooltip": "The error that was thrown",
+  "helpUrl": "",
+  "generator": "_return = ['error', Blockly.JavaScript.ORDER_ATOMIC]",
+}
