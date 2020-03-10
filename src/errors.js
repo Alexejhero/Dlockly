@@ -1,3 +1,4 @@
+const config = require("./config");
 const server = require('..');
 
 module.exports.initialize = function () {
@@ -14,6 +15,11 @@ module.exports.initialize = function () {
   });
 }
 
-module.exports.onerror = function (id, err) {
+module.exports.onerror = function (id, err, dontsend) {
   console.error("Guild: ", id, "Error:", err);
+  var cfg = config.getJsConfig(id);
+  if (!dontsend && cfg && cfg.error) {
+    var guild = server.bot.guilds.cache.get(id);
+    cfg.error(err, guild);
+  }
 }

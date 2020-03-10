@@ -58,5 +58,12 @@
   {
     "name": "Messages",
     "color": "90"
+  },
+  {
+    "sep": true
+  },
+  {
+    "name": "Errors",
+    "color": "#A00000"
   }
 ]

@@ -6,6 +6,11 @@ function disableUnapplicable(event) {
     if (!block) continue;
     if (!document.restrictions[block.type]) document.restrictions[block.type] = [];
 
+    if (block.getInheritedDisabled()) {
+      block.setWarningText(null);
+      continue;
+    }
+
     var messages = [];
     var issues = 0;
 
@@ -13,8 +18,7 @@ function disableUnapplicable(event) {
       if (!validateConfiguration(block, res)) continue;
 
       if (!validateRestriction(block, blocks, res)) {
-        if (res.message)
-          messages.push(decode(res.message));
+        if (res.message) messages.push(decode(res.message));
         issues++;
       }
     }
@@ -22,8 +26,7 @@ function disableUnapplicable(event) {
     if (issues < 1) {
       block.setWarningText(null);
     } else {
-      if (messages.length > 0)
-        block.setWarningText(messages.join('\n'));
+      if (messages.length > 0) block.setWarningText(messages.join('\n'));
     }
   }
 };
@@ -42,9 +45,11 @@ function validateRestriction(block, blocks, res) {
       case "toplevelparent":
         return (res.types.includes(getTopLevelParent(block).type)) != reverse;
       case "blockexists":
-        return (blocks.filter(b => res.types.includes(b.type) && !b.disabled).length > 0) != reverse;
+        return (blocks.filter(b => res.types.includes(b.type) && !b.getInheritedDisabled()).length > 0) != reverse;
       case "parent":
         return (res.types.includes(block.getParent().type)) != reverse;
+      case "surroundparent":
+        return (getSurroundParents(block).filter(t => res.types.includes(t)).length > 0) != reverse;
       case "notempty":
         for (var t of res.types)
           if (!block.getInput(t).connection.targetBlock()) return false;
@@ -53,7 +58,7 @@ function validateRestriction(block, blocks, res) {
         return true;
     }
   } else {
-    var _return;
+    var _return = true;
     eval(res.code);
     return _return;
   }
@@ -63,13 +68,16 @@ function validateConfiguration(block, res) {
   switch (res.type) {
     case "toplevelparent":
     case "!toplevelparent":
-      return getTopLevelParent(block) && !getTopLevelParent(block).disabled;
+      return getTopLevelParent(block) && !getTopLevelParent(block).getInheritedDisabled();
     case "blockexists":
     case "!blockexists":
       return true;
     case "parent":
     case "!parent":
-      return block.getParent() && !block.getParent().disabled;
+      return block.getParent() && !block.getParent().getInheritedDisabled();
+    case "surroundparent":
+    case "!surroundparent":
+      return block.getSurroundParent() && !block.getSurroundParent().getInheritedDisabled();
     case "custom":
     case "notempty":
     case "deprecated":
@@ -84,4 +92,14 @@ function getTopLevelParent(block) {
   if (!block.getParent()) return block;
 
   return getTopLevelParent(block.getParent());
+}
+
+function getSurroundParents(block) {
+  var result = [];
+  block = block.getSurroundParent();
+  while (block) {
+    result.push(block.type);
+    block = block.getSurroundParent();
+  }
+  return result;
 }

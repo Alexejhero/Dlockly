@@ -3,14 +3,14 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports.isConfigEmpty = function (id) {
-  var cfg = getJsConfig(id);
+  var cfg = this.getJsConfig(id);
   if (!cfg) cfg = getDeprecatedConfig(id);
   if (!cfg) return true;
   for (var key in cfg) if (cfg.hasOwnProperty(key)) return false;
   return true;
 }
 
-function getJsConfig(id) {
+module.exports.getJsConfig = function (id) {
   return getConfig(id, "config.js");
 }
 
