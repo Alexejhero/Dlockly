@@ -43,8 +43,8 @@ module.exports = function (data) {
       eval(`  
         Blockly.JavaScript["${generator.type}"] = function (block) {
           var _return;
-          if (block.returns) eval("${generator.returnGen ? generator.returnGen.replace(/\"/g, "\\\"") : ""}".replace(/\\\\\\\\/g, "\\\\"));
-          else eval("${generator.generator ? generator.generator.replace(/\"/g, "\\\"") : ""}".replace(/\\\\\\\\/g, "\\\\"));
+          if (block.returns) eval("${generator.returnGen ? generator.returnGen : ""}".replace(/\\\\\\\\/g, "\\\\"));
+          else eval("${generator.generator ? generator.generator : ""}".replace(/\\\\\\\\/g, "\\\\"));
           return _return;
         }
       `);

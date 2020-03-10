@@ -93,7 +93,7 @@ function initializeBlocks(p, categories, premium) {
 
       blocks.push({
         "type": block.type + "_mutator_container",
-        "message0": block.message0.replace(/%\d+/g, "").replace(/ +/g, " ") + " %1 and return output %2",
+        "message0": block.message0 ? block.message0.replace(/%\d+/g, "").replace(/ +/g, " ") + " %1 and return output %2" : "return output %1 %2",
         "args0": [
           {
             "type": "input_dummy"
@@ -122,7 +122,7 @@ function initializeBlocks(p, categories, premium) {
 
     if (block.restrictions) restrictions[block.type] = block.restrictions;
 
-    var categoryName = splits.pop(); // TODO: Get category from file instead of folder name
+    var categoryName = block.category ? block.category : splits.pop();
     var category = findCategoryRecursively(categories, categoryName);
     if (!block.hidden && !block.deprecated && category) category.blocks.push(block);
 
@@ -134,7 +134,7 @@ function initializeBlocks(p, categories, premium) {
       });
     }
 
-    if (!block.default && block.mutator) {
+    if (!block.default && block.mutator && !block.optionalReturn) {
       var matches = read(p).filter(_p => path.parse(path.join(p, _p)).base == block.mutator + ".js");
       if (matches.length > 1) throw Error("Found multiple mutator files for mutator type: " + block.mutator);
       if (matches.length < 1) throw Error("Found no matching mutator files for mutator: " + block.mutator);

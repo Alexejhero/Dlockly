@@ -1,0 +1,35 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'text one' and 'text two' parameters",
+      "types": [
+        "s_one",
+        "s_two"
+      ]
+    }
+  ],
+  "type": "string_ends_with",
+  "message0": "text %1 ends with %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "s_one",
+      "check": "String",
+      "align": "RIGHT"
+    },
+    {
+      "type": "input_value",
+      "name": "s_two",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": 160,
+  "tooltip": "Checks if a string ends with another string",
+  "helpUrl": "",
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 's_one', Blockly.JavaScript.ORDER_ATOMIC) + '.endsWith(' + Blockly.JavaScript.valueToCode(block, 's_two', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
+  "extra": "<value name='s_one'><shadow type='text'><field name='TEXT'>abc</field></shadow></value><value name='s_two'><shadow type='text'><field name='TEXT'>c</field></shadow></value>",
+  "category": "Text"
+}

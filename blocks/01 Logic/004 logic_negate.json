@@ -1,0 +1,5 @@
+{
+  "type": "logic_negate",
+  "default": true,
+  "category": "Logic"
+}

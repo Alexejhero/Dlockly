@@ -1,0 +1,21 @@
+{
+  "icons": [
+    "event"
+  ],
+  "max": 1,
+  "type": "on_message_delete",
+  "message0": "on message deleted %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "code"
+    }
+  ],
+  "colour": 0,
+  "tooltip": "Triggers when a message is deleted",
+  "helpUrl": "",
+  "generator": "_return = '\\\\nmodule.exports.messageDelete = async message => { try { var channel = message.channel; var member = message.member; var guild = message.guild; ' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { require(\\\"../../src/errors\\\").onerror(\\\"' + data.req.body.guild  + '\\\", e); } }'"
+}

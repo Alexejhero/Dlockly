@@ -1,0 +1,11 @@
+{
+  "type": "embed",
+  "message0": "new embed",
+  "output": "Embed",
+  "colour": 330,
+  "tooltip": "Generates a message embed",
+  "helpUrl": "",
+  "mutator": "embed_mutator",
+  "generator": "",
+  "category": "Embeds"
+}

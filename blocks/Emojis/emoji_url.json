@@ -1,0 +1,26 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'emoji' parameter",
+      "types": [
+        "emoji"
+      ]
+    }
+  ],
+  "type": "emoji_url",
+  "message0": "get url of emoji %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "emoji",
+      "check": "Emoji"
+    }
+  ],
+  "inputsInline": false,
+  "output": "String",
+  "colour": 30,
+  "tooltip": "Gets the URL of an emoji",
+  "helpUrl": "",
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'emoji', Blockly.JavaScript.ORDER_ATOMIC) + '.url', Blockly.JavaScript.ORDER_MEMBER]"
+}

@@ -1,0 +1,5 @@
+{
+  "type": "lists_isEmpty",
+  "default": true,
+  "category": "Lists"
+}

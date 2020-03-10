@@ -1,0 +1,5 @@
+{
+  "type": "logic_ternary",
+  "default": true,
+  "category": "Logic"
+}

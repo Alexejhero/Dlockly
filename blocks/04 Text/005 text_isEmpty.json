@@ -1,0 +1,6 @@
+{
+  "type": "text_isEmpty",
+  "extra": "<value name='VALUE'><shadow type='text'><field name='TEXT'></field></shadow></value>",
+  "default": true,
+  "category": "Text"
+}

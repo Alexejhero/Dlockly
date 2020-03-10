@@ -1,0 +1,19 @@
+{
+  "restrictions": [
+    {
+      "type": "toplevelparent",
+      "message": "The 'message' variable may only be used in an 'on message' event",
+      "types": [
+        "on_message",
+        "on_message_delete"
+      ]
+    }
+  ],
+  "type": "message",
+  "message0": "message",
+  "output": "Message",
+  "colour": 0,
+  "tooltip": "The message that triggered the event",
+  "helpUrl": "",
+  "generator": "_return = ['message', Blockly.JavaScript.ORDER_ATOMIC]"
+}
