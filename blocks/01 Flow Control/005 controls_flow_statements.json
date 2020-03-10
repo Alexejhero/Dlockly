@@ -1,5 +1,5 @@
 {
   "type": "controls_flow_statements",
   "default": true,
-  "category": "Loops"
+  "category": "Flow Control"
 }

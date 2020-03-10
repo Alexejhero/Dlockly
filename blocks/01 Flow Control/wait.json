@@ -1,0 +1,19 @@
+{
+  "type": "wait",
+  "message0": "wait for %1 seconds",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "amount",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 120,
+  "tooltip": "Waits a specified amount of seconds",
+  "helpUrl": "",
+  "generator": "_return = 'await require(\\\"../../src/utils\\\").wait(' + Blockly.JavaScript.valueToCode(block, 'amount', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
+  "category": "Flow Control",
+  "extra": "<value name='amount'><shadow type='math_number'></shadow></value>"
+}

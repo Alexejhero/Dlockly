@@ -1,11 +1,11 @@
 [
   {
-    "name": "Logic",
-    "color": "210"
+    "name": "Flow Control",
+    "color": "120"
   },
   {
-    "name": "Loops",
-    "color": "120"
+    "name": "Logic",
+    "color": "210"
   },
   {
     "name": "Math",

@@ -1,5 +1,5 @@
 {
   "type": "controls_forEach",
   "default": true,
-  "category": "Loops"
+  "category": "Flow Control"
 }
