@@ -55,7 +55,7 @@ module.exports = function (data) {
     }
 
     var xml = decodeURIComponent(data.req.body.xml);
-    var parsedXml = convert.js2xml(removeOverwrittenShadowsRecursively(convert.xml2js(xml)));
+    var parsedXml = convert.js2xml(removeOverriddenShadows(convert.xml2js(xml)));
     var dom = Blockly.Xml.textToDom(parsedXml);
     var workspace = new Blockly.Workspace({
       oneBasedIndex: true,
@@ -63,9 +63,39 @@ module.exports = function (data) {
 
     for (var mutator of dlocklyInstance.mutators) {
       eval(mutator);
+      for (var block in mutator.blocks) {
+        dlocklyInstance.max[block] = mutator.blocks[block];
+      }
     }
+    workspace.options.maxInstances = dlocklyInstance.max;
 
     Blockly.Xml.domToWorkspace(dom, workspace);
+
+    document = {
+      restrictions: dlocklyInstance.restrictions,
+    }
+    eval(fs.readFileSync(path.join(__dirname, "../www/js/restrictions.js"), "utf-8"));
+
+    var warnings = disableUnapplicable({
+      type: Blockly.Events.MOVE,
+      workspaceId: workspace.id,
+    });
+    if (warnings.length > 0) {
+      console.log(warnings);
+      throw Error("Cannot save with warnings. " + warnings.length + " warnings found.");
+    }
+
+    var blocks = {};
+    for (var block of workspace.getAllBlocks()) {
+      if (!blocks[block.type]) blocks[block.type] = 0;
+      blocks[block.type]++;
+    }
+    for (var block in blocks) {
+      if (blocks[block] > workspace.options.maxInstances[block]) {
+        throw Error("Too many blocks of type " + block + ". Found " + blocks[block] + ", expecting <= " + workspace.options.maxInstances[block]);
+      }
+    }
+
     var js = postprocess(Blockly.JavaScript.workspaceToCode(workspace));
 
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
@@ -110,7 +140,7 @@ function getBlocks(p) {
   return blocks;
 }
 
-function removeOverwrittenShadowsRecursively(obj) {
+function removeOverriddenShadows(obj) {
   var shadowElement, blockElement;
   if (obj.elements) {
     for (var element of obj.elements) {
@@ -123,7 +153,7 @@ function removeOverwrittenShadowsRecursively(obj) {
 
   if (obj.elements) {
     for (var index in obj.elements) {
-      obj.elements[index] = removeOverwrittenShadowsRecursively(obj.elements[index]);
+      obj.elements[index] = removeOverriddenShadows(obj.elements[index]);
     }
   }
 

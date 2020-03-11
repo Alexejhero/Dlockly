@@ -11,24 +11,20 @@ function disableUnapplicable(event) {
       continue;
     }
 
-    var messages = [];
-    var issues = 0;
+    var warnings = [];
 
-    for (var res of document.restrictions[block.type]) {
+    for (var i = 0; i < document.restrictions[block.type].length; i++) {
+      var res = document.restrictions[block.type][i];
       if (!validateConfiguration(block, res)) continue;
-
       if (!validateRestriction(block, blocks, res)) {
-        if (res.message) messages.push(decode(res.message));
-        issues++;
+        block.setWarningText(res.message, i.toString());
+        warnings.push(res.message);
+      } else {
+        block.setWarningText(null, i.toString());
       }
     }
-
-    if (issues < 1) {
-      block.setWarningText(null);
-    } else {
-      if (messages.length > 0) block.setWarningText(messages.join('\n'));
-    }
   }
+  return warnings;
 };
 
 function validateRestriction(block, blocks, res) {
