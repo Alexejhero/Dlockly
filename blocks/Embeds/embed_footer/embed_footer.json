@@ -25,7 +25,7 @@
   "colour": 330,
   "tooltip": "Represents an embed footer",
   "generator": "_return = ['{text: ' + `${Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC)},` + (this.icon ? `iconURL: ${Blockly.JavaScript.valueToCode(block, 'icon', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + '}', Blockly.JavaScript.ORDER_ATOMIC]",
-  "extra": "<value name='text'><shadow type='text'><field name='TEXT'>text</field></shadow></value><value name='icon'><shadow type='text'><field name='TEXT'>https://cdn.discordapp.com/avatars/591694201230721043/d9144ef96b4dda2392c1151bb444539e.png?size=1024</field></shadow></value>",
+  "extra": "<value name='text'><shadow type='text'><field name='TEXT'>text</field></shadow></value>",
   "mutator": "embed_footer_mutator",
   "category": "Embeds"
 }
