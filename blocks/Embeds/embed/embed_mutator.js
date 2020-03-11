@@ -421,7 +421,6 @@ var mutator = {
       }
 
       // TODO: Fix field inputs deleting/adding in wrong places
-      // TODO: Fix timestamp
 
       this.orderInputs();
     },

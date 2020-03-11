@@ -33,6 +33,12 @@ body {
   fill: var(--disabled-color);
 }
 
+:not(.blocklyTreeSelected) > .blocklyTreeIconOpen, 
+:not(.blocklyTreeSelected) > .blocklyTreeIconClosedLtr,
+:not(.blocklyTreeSelected) > .blocklyTreeIconClosedRtl  {
+  filter: invert(1);
+}
+
 .gray {
   color: var(--disabled-color) !important;
 }

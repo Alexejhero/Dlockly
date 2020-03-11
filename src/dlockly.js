@@ -13,7 +13,7 @@ module.exports.initialize = function (premium) {
   };
 }
 
-module.exports.generateXmlTreeRecursively = function (categories) {
+module.exports.generateXmlTree = function (categories) {
   var result = "";
   for (var c of categories) {
     if (c.sep) {
@@ -23,7 +23,7 @@ module.exports.generateXmlTreeRecursively = function (categories) {
     result += "<category name='" + c.name + "' colour='" + c.color + "'";
     if (c.custom) result += " custom='" + c.custom + "'";
     result += ">";
-    //result += this.generateXmlTreeRecursively(c.subcategories);
+    result += this.generateXmlTree(c.subcategories);
     for (var b of c.blocks) {
       result += "<block type='" + b.type + "'>";
       if (b.extra) result += b.extra;
@@ -127,7 +127,7 @@ function initializeBlocks(p, categories, premium) {
 
       categoryName = oldCategoryName;
     }
-    var category = findCategoryRecursively(categories, categoryName);
+    var category = findCategory(categories, categoryName);
     if (!block.hidden && !block.deprecated && category) category.blocks.push(block);
 
     if (typeof block.color == "undefined" && typeof block.colour == "undefined") block.colour = block.color;
@@ -170,19 +170,22 @@ function initializeCategories(p) {
   var categories = JSON.parse(fs.readFileSync(p, 'utf-8'));
 
   for (var category of categories) {
-    // TODO: Add support for sub-categories
-    result.push({
-      ...category,
-      blocks: [],
-      color: category.colour || category.color,
-      colour: category.colour || category.color,
-    });
+    prepareCategory(category);
+    result.push(category);
   }
 
   return result;
 }
 
-function findCategoryRecursively(categories, cat) {
+function prepareCategory(category) {
+  category.blocks = [];
+  category.color = category.colour || category.color;
+  category.colour = category.color;
+  if (!category.subcategories) category.subcategories = [];
+  for (var subcategory of category.subcategories) prepareCategory(subcategory);
+}
+
+function findCategory(categories, cat) {
   cat = cat.trim();
 
   for (var c of categories) {

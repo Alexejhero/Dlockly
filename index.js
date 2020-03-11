@@ -84,7 +84,7 @@ web.all("*", async (req, res) => {
     max: JSON.stringify(dlocklyInstance.max),
     mutators: dlocklyInstance.mutators,
     restrictions: JSON.stringify(dlocklyInstance.restrictions),
-    xmlCategoryTree: dlockly.generateXmlTreeRecursively(dlocklyInstance.categories),
+    xmlCategoryTree: dlockly.generateXmlTree(dlocklyInstance.categories),
   });
 });
 
