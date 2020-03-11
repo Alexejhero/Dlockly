@@ -111,10 +111,6 @@
     }, null, ["<%= v.type %>_mutator_dummy"]);
   <% } %>
 
-  <% mutators.forEach(m => { %>
-    eval(decode(`<%= m %>`));
-  <% }); %>
-
   var blocklyArea = document.getElementById('blocklyArea');
   var blocklyDiv = document.getElementById('blocklyDiv');
   var workspace = Blockly.inject(blocklyDiv, {
@@ -129,8 +125,17 @@
     disable: false,
     scrollbars: true,
     toolbox: document.getElementById('toolbox'),
+    trashcan: false, // TODO: Fix trashcan
   });
   document.workspace = workspace;
+
+  var mutatorMax = {};
+  <% mutators.forEach(m => { %>
+    eval(decode(`<%= m %>`));
+    for (var block in mutator.blocks) {
+      mutatorMax[block] = mutator.blocks[block];
+    }
+  <% }); %>
 
   var onresize = function(e) {
     var element = blocklyArea;
@@ -193,10 +198,20 @@
       document.getElementById("example").removeAttribute("disabled");
     }
 
-    if (document.getElementById("save").hasAttribute("disabled"))
-      window.onbeforeunload = null;
-    else
-      window.onbeforeunload = () => "You have unsaved changes!";
+    for (var ws of Object.values(Blockly.Workspace.WorkspaceDB_)) {
+      var exec;
+      if (!ws.options.maxInstances) exec = true;
+      ws.options.maxInstances = {
+        ...JSON.parse(decode('<%= max %>')),
+        ...mutatorMax,
+      };
+      if (exec) {
+        ws.topBlocks_[0] ? ws.topBlocks_[0].moveBy(0, 1) : null;
+      }
+    }
+
+    if (document.getElementById("save").hasAttribute("disabled")) window.onbeforeunload = null;
+    else window.onbeforeunload = () => "You have unsaved changes!";
   }, 100);
 
   function saveConfig() {

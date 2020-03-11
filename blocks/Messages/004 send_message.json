@@ -33,7 +33,7 @@
   "colour": 90,
   "tooltip": "Sends a message to a channel",
   "helpUrl": "",
-  "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.send(' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
+  "generator": "_return = 'await require(\\\"../../src/utils\\\").sendToChannel(' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + ',' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + ');'",
   "extra": "<value name='msg'><shadow type='text'><field name='TEXT'>Hi!</field></shadow></value><value name='channel'><shadow type='channel'></shadow></value>",
   "optionalReturn": "Message",
   "returnGen": "_return = ['await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.send(' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]"

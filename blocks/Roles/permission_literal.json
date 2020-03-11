@@ -137,6 +137,5 @@
   "colour": 290,
   "tooltip": "Contains all of the possible permissions. Can be used with the 'member has permission' block",
   "helpUrl": "",
-  "generator": "_return = ['\\\"' + block.getFieldValue('type') + '\\\"', Blockly.JavaScript.ORDER_ATOMIC]",
-  "hidden": true
+  "generator": "_return = ['\\\"' + block.getFieldValue('type') + '\\\"', Blockly.JavaScript.ORDER_ATOMIC]"
 }

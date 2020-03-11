@@ -22,5 +22,6 @@
   "colour": 30,
   "tooltip": "Gets the name of an emoji",
   "helpUrl": "",
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'emoji', Blockly.JavaScript.ORDER_ATOMIC) + '.name', Blockly.JavaScript.ORDER_MEMBER]"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'emoji', Blockly.JavaScript.ORDER_ATOMIC) + '.name', Blockly.JavaScript.ORDER_MEMBER]",
+  "extra": "<value name='emoji'><shadow type='emoji'></shadow></value>"
 }

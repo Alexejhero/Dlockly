@@ -1,0 +1,11 @@
+{
+  "type": "embed_author_mutator_icon",
+  "lastDummyAlign0": "RIGHT",
+  "message0": "with icon",
+  "previousStatement": "EmbedAuthorMutatorOption",
+  "nextStatement": "EmbedAuthorMutatorOption",
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": "",
+  "hidden": true
+}

@@ -1,0 +1,42 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'name' and 'value' parameters",
+      "types": [
+        "name",
+        "value"
+      ]
+    }
+  ],
+  "type": "embed_field",
+  "message0": "new embed field %1 with name %2 with value %3 inline? %4",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String",
+      "align": "RIGHT"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "String",
+      "align": "RIGHT"
+    },
+    {
+      "type": "input_value",
+      "name": "inline",
+      "check": "Boolean",
+      "align": "RIGHT"
+    }
+  ],
+  "output": "EmbedField",
+  "colour": 330,
+  "tooltip": "Represents an embed field",
+  "generator": "_return = ['{name: ' + Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC) + ', value: ' + Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC) + ', inline: ' + Blockly.JavaScript.valueToCode(block, 'inline', Blockly.JavaScript.ORDER_ATOMIC) + '}', Blockly.JavaScript.ORDER_ATOMIC]",
+  "extra": "<value name='name'><shadow type='text'><field name='TEXT'>name</field></shadow></value><value name='value'><shadow type='text'><field name='TEXT'>value</field></shadow></value><value name='inline'><shadow type='logic_checkbox'><field name='check'>TRUE</field></shadow></value>"
+}

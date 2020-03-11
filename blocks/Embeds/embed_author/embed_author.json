@@ -1,0 +1,31 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'name' parameter",
+      "types": [
+        "name"
+      ]
+    }
+  ],
+  "type": "embed_author",
+  "message0": "new embed author %1 with name %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String",
+      "align": "RIGHT"
+    }
+  ],
+  "output": "EmbedAuthor",
+  "colour": 330,
+  "tooltip": "Represents an embed author",
+  "generator": "_return = ['{name: ' + `${Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC)},` + (this.icon ? `iconURL: ${Blockly.JavaScript.valueToCode(block, 'icon', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + (this.url ? `url: ${Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + '}', Blockly.JavaScript.ORDER_ATOMIC]",
+  "extra": "<value name='name'><shadow type='text'><field name='TEXT'>name</field></shadow></value><value name='icon'><shadow type='text'><field name='TEXT'>https://cdn.discordapp.com/avatars/591694201230721043/d9144ef96b4dda2392c1151bb444539e.png?size=1024</field></shadow></value><value name='url'><shadow type='text'><field name='TEXT'>https://www.youtube.com/watch?v=dQw4w9WgXcQ</field></shadow></value>",
+  "mutator": "embed_author_mutator",
+  "category": "Embeds"
+}

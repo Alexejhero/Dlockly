@@ -1,5 +1,5 @@
 {
-  "type": "embed_mutator_name",
+  "type": "embed_mutator_title",
   "lastDummyAlign0": "RIGHT",
   "message0": "with title",
   "previousStatement": "EmbedMutatorOption",

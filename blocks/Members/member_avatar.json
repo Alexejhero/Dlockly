@@ -20,7 +20,7 @@
   "inputsInline": false,
   "output": [
     "String",
-    "Avatar"
+    "Image"
   ],
   "colour": 180,
   "tooltip": "Gets the avatar URL of a member",

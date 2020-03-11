@@ -1,0 +1,11 @@
+{
+  "type": "embed_mutator_image",
+  "lastDummyAlign0": "RIGHT",
+  "message0": "with image",
+  "previousStatement": "EmbedMutatorOption",
+  "nextStatement": "EmbedMutatorOption",
+  "colour": 330,
+  "tooltip": "",
+  "helpUrl": "",
+  "hidden": true
+}

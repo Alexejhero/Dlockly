@@ -6,7 +6,7 @@ function disableUnapplicable(event) {
     if (!block) continue;
     if (!document.restrictions[block.type]) document.restrictions[block.type] = [];
 
-    if (block.getInheritedDisabled()) {
+    if (block.disabled || block.getInheritedDisabled()) {
       block.setWarningText(null);
       continue;
     }

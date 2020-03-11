@@ -110,6 +110,11 @@ module.exports = function (data) {
     var workspace = new Blockly.Workspace({
       oneBasedIndex: true,
     });
+
+    for (var mutator of dlocklyInstance.mutators) {
+      eval(mutator);
+    }
+
     Blockly.Xml.domToWorkspace(dom, workspace);
     var js = postprocess(Blockly.JavaScript.workspaceToCode(workspace));
 
@@ -117,8 +122,8 @@ module.exports = function (data) {
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
 
     for (var block of dlocklyInstance.blocks) {
-      if (!block.optionalReturn) continue;
-      Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+      if (block.optionalReturn) Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+      if (block.mutator && Blockly.Extensions.ALL_[block.mutator]) Blockly.Extensions.unregister(block.mutator);
     }
 
     data.res.redirect("/?guild=" + data.req.body.guild);
@@ -127,8 +132,8 @@ module.exports = function (data) {
 
     if (dlocklyInstance && Array.isArray(dlocklyInstance.blocks)) {
       for (var block of dlocklyInstance.blocks) {
-        if (!block.optionalReturn) continue;
-        Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+        if (block.optionalReturn) Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
+        if (block.mutator && Blockly.Extensions.ALL_[block.mutator]) Blockly.Extensions.unregister(block.mutator);
       }
     }
 
