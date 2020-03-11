@@ -1,0 +1,20 @@
+{
+  "type": "list_contains",
+  "message0": "%1 contains %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "Array"
+    },
+    {
+      "type": "input_value",
+      "name": "contains"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "tooltip": "Checks if a list contains a given value",
+  "helpUrl": "",
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'list', Blockly.JavaScript.ORDER_NONE) + '.includes(' + Blockly.JavaScript.valueToCode(block, 'contains', Blockly.JavaScript.ORDER_MEMBER) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];"
+}

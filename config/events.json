@@ -41,6 +41,14 @@
     "check": "member.guild",
     "guildGetter": "member.guild"
   },
+  "guildMemberUpdate": {
+    "parameters": [
+      "oldmember",
+      "member"
+    ],
+    "check": "member.guild && oldmember.nickname != member.nickname",
+    "guildGetter": "member.guild"
+  },
   "message": {
     "parameters": [
       "message"

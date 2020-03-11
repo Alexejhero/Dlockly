@@ -1,0 +1,36 @@
+{
+  "type": "date_to_string",
+  "message0": "date %1 to text as %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "date",
+      "check": [
+        "Date",
+        "Time"
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "func",
+      "options": [
+        [
+          "date & time",
+          "toString"
+        ],
+        [
+          "date",
+          "toDateString"
+        ],
+        [
+          "time",
+          "toTimeString"
+        ]
+      ]
+    }
+  ],
+  "output": "String",
+  "tooltip": "Gets the text representation of a date",
+  "generator": "_return = ['new Date(' + Blockly.JavaScript.valueToCode(block, 'date', Blockly.JavaScript.ORDER_NONE) + ').' + block.getFieldValue('func') + '()', Blockly.JavaScript.ORDER_FUNCTION_CALL]",
+  "extra": "<value name='date'><shadow type='date_now'></shadow></value>"
+}

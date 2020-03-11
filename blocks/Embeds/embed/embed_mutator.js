@@ -413,11 +413,11 @@ var mutator = {
         this.appendValueInput("footer").setCheck("EmbedFooter").setAlign(Blockly.ALIGN_RIGHT).appendField("with footer").connection.connect(block.outputConnection);
       }
       if (this.timestamp && !this.getInput("timestamp")) {
-        var block = workspace.newBlock("text");
+        var block = workspace.newBlock("date_now");
         block.initSvg ? block.initSvg() : null;
         block.render ? block.render() : null;
         block.setShadow(true);
-        this.appendValueInput("timestamp").setCheck(["Date", "Time", "String"]).setAlign(Blockly.ALIGN_RIGHT).appendField("with timestamp").connection.connect(block.outputConnection);
+        this.appendValueInput("timestamp").setCheck(["Date", "Time"]).setAlign(Blockly.ALIGN_RIGHT).appendField("with timestamp").connection.connect(block.outputConnection);
       }
 
       // TODO: Fix field inputs deleting/adding in wrong places

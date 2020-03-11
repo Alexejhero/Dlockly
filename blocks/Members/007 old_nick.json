@@ -1,0 +1,21 @@
+{
+  "restrictions": [
+    {
+      "type": "toplevelparent",
+      "message": "The 'old nickname' variable may only be used in an 'on member nickname changed' event",
+      "types": [
+        "on_member_nick_change"
+      ]
+    }
+  ],
+  "type": "old_nick",
+  "message0": "old nickname",
+  "output": "String",
+  "colour": 0,
+  "tooltip": "The old nickname of the member",
+  "helpUrl": "",
+  "generator": "_return = ['oldmember.nickname', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "oldmember"
+  ]
+}
