@@ -90,34 +90,20 @@ function initializeBlocks(p, categories, premium) {
       block.message0 = bumpMessageNumbers(block.message0);
     }
 
+    var first = true;
     if (!block.default && block.optionalReturn) {
       block.mutator = block.type + "_optional_return_mutator";
 
-      blocks.push({
-        "type": block.type + "_mutator_container",
-        "message0": block.message0 ? block.message0.replace(/%\d+/g, "").replace(/ +/g, " ") + " %1 and return output %2" : "return output %1 %2",
-        "args0": [
-          {
-            "type": "input_dummy"
-          },
-          {
-            "type": "field_checkbox",
-            "name": "val",
-            "checked": false
-          }
-        ],
-        "inputsInline": false,
-        "colour": block.colour,
-        "helpUrl": ""
-      });
+      if (first) {
+        first = false;
+        blocks.push(JSON.parse(fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator_container.json"), "utf-8")));
+        blocks.push(JSON.parse(fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator_dummy.json"), "utf-8")));
+      }
 
-      blocks.push({
-        "type": block.type + "_mutator_dummy",
-        "message0": "Block Editor",
-        "args0": [],
-        "inputsInline": true,
-        "helpUrl": ""
-      });
+      var mutator = fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator.js"), "utf-8");
+      mutator += `mutator.name = '${block.type}_optional_return_mutator'; mutator.mixin.output = '${block.optionalReturn}'; Blockly.Extensions.registerMutator(mutator.name, mutator.mixin, null, Object.keys(mutator.blocks));`;
+
+      mutators.push(mutator);
     }
 
     if (block.reserved) reserved = [
@@ -156,7 +142,7 @@ function initializeBlocks(p, categories, premium) {
       });
     }
 
-    if (!block.default && block.mutator && !block.optionalReturn) {
+    if (block.mutator && !block.optionalReturn) {
       var matches = read(p).filter(_p => path.parse(path.join(p, _p)).base == block.mutator + ".js");
       if (matches.length > 1) throw Error("Found multiple mutator files for mutator type: " + block.mutator);
       if (matches.length < 1) throw Error("Found no matching mutator files for mutator: " + block.mutator);
