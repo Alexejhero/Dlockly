@@ -1,0 +1,21 @@
+{
+  "restrictions": [
+    {
+      "type": "toplevelparent",
+      "message": "The 'old message' variable may only be used in an 'on message edited' event",
+      "types": [
+        "on_message_edit"
+      ]
+    }
+  ],
+  "type": "old_message",
+  "message0": "old message",
+  "output": "Message",
+  "colour": 0,
+  "tooltip": "The old message",
+  "helpUrl": "",
+  "generator": "_return = ['oldmessage', Blockly.JavaScript.ORDER_ATOMIC]",
+  "reserved": [
+    "oldmessage"
+  ]
+}

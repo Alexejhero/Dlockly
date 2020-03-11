@@ -60,7 +60,15 @@
     "parameters": [
       "message"
     ],
-    "check": "message.guild",
+    "check": "message.guild && !message.author.bot",
+    "guildGetter": "message.guild"
+  },
+  "messageUpdate": {
+    "parameters": [
+      "oldmessage",
+      "message"
+    ],
+    "check": "message.guild && !message.author.bot && oldmessage.content != message.content",
     "guildGetter": "message.guild"
   }
 }

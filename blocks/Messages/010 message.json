@@ -5,7 +5,8 @@
       "message": "The 'message' variable may only be used in an 'on message' event",
       "types": [
         "on_message",
-        "on_message_delete"
+        "on_message_delete",
+        "on_message_edit"
       ]
     }
   ],
