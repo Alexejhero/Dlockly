@@ -50,7 +50,7 @@ function initializeBlocks(p, categories, premium) {
     var splits = f.split(/[\/\\]+/g);
     splits.pop();
 
-    if (block.icons) {
+    if (typeof premium != "removeicons" && block.icons) {
       var _icons = block.icons.reverse();
       for (var icon of _icons) {
         if (!block.args0) block.args0 = [];

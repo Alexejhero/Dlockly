@@ -8,9 +8,9 @@ module.exports.hasPremium = function (guild) {
 
   try {
     var data = JSON.parse(fs.readFileSync(path.join(__dirname, "/../data/", guild, "premium.json")));
-    if (!data || !data.endsOn) return false;
+    if (!data || !data.expires) return false;
 
-    var end = new Date(data.endsOn);
+    var end = new Date(data.expires);
     if (!end) return false;
 
     if (new Date(Date.now()) < end) return true;

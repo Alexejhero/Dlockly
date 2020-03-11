@@ -37,14 +37,25 @@ module.exports = async function (data) {
       var json = {
         boughtOn: new Date(Date.now()),
         for: data.req.query.days,
-        endsOn: new Date(new Date().getTime() + (86400000) * data.req.query.days),
         paid: capture.purchase_units[0].payments.captures[0].amount,
         purchasedBy: `${capture.payer.name.given_name} ${capture.payer.name.surname} (${capture.payer.email_address})`
       }
 
       if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../data/"));
       if (!fs.existsSync(path.join(__dirname, "/../data/", data.req.query.guild))) fs.mkdirSync(path.join(__dirname, "/../data/", data.req.query.guild));
-      fs.writeFileSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"), JSON.stringify(json));
+      if (!fs.existsSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"))) fs.writeFileSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"), JSON.stringify({
+        expires: new Date(Date.now() - 1),
+        purchases: []
+      }));
+
+      var purchaseData = JSON.parse(fs.readFileSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"), "utf-8"));
+
+      if (!purchaseData.expires || new Date(purchaseData.expires) < new Date(Date.now())) purchaseData.expires = new Date(new Date().getTime() + 86400000 * data.req.query.days);
+      else purchaseData.expires = new Date(new Date(purchaseData.expires).getTime() + 86400000 * data.req.query.days);
+
+      purchaseData.purchases.push(json);
+
+      fs.writeFileSync(path.join(__dirname, "/../data/", data.req.query.guild, "/premium.json"), JSON.stringify(purchaseData, null, 2));
 
       return data.res.status(200).send(JSON.stringify(capture));
     } catch (e) {

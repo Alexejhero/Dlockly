@@ -80,7 +80,7 @@ module.exports = function (data) {
       type: Blockly.Events.MOVE,
       workspaceId: workspace.id,
     });
-    if (warnings.length > 0) {
+    if (warnings && warnings.length > 0) {
       console.log(warnings);
       throw Error("Cannot save with warnings. " + warnings.length + " warnings found.");
     }

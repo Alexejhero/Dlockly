@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <script src="https://www.paypal.com/sdk/js?client-id=<%= paypalId %>"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=<%= paypalId %>&disable-funding=card"></script>
 </body>
 
 <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
@@ -110,7 +110,7 @@ function onPurchase() {
 
   <% for (var block of blocks) { %>
     <div class="shopElement">
-      <div class="shopBlocklyDiv" id="blocklyDiv-<%= block.block.type %>" style="height: 0; width: 0;"></div>
+      <div class="shopBlocklyDiv" id="blocklyDiv-<%= block.type %>"></div>
     </div>
   <% } %>
 
@@ -122,7 +122,7 @@ function onPurchase() {
   var workspaces = {};
 
   <% for (var block of blocks) { %>
-    workspaces.<%= block.block.type %> = Blockly.inject(document.getElementById('blocklyDiv-<%= block.block.type %>'), {
+    workspaces.<%= block.type %> = Blockly.inject(document.getElementById('blocklyDiv-<%= block.type %>'), {
       collapse: false,
       comments: false,
       disable: false,
@@ -135,11 +135,11 @@ function onPurchase() {
       },
     });
 
-    var type = "<%= block.block.type %>";
+    var type = "<%= block.type %>";
 
     Blockly.Blocks[type] = { 
       init: function () {
-        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(block.block) %>')));
+        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(block) %>')));
       },
     };
 

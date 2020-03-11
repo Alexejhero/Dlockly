@@ -1,5 +1,4 @@
 {
-  "cost": 1,
   "restrictions": [
     {
       "type": "notempty",
