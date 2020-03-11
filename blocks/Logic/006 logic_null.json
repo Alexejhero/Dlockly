@@ -1,5 +1,4 @@
 {
   "type": "logic_null",
-  "default": true,
-  "category": "Logic"
+  "default": true
 }

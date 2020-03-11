@@ -76,6 +76,7 @@ web.all("*", async (req, res) => {
   res.render("www/html/dlockly.ejs", {
     blocklyXml: config.getXml(req.query.guild),
     blocks: dlocklyInstance.blocks,
+    colors: dlocklyInstance.colors,
     categories: dlocklyInstance.categories,
     exampleXml: config.getExampleXml(),
     generators: dlocklyInstance.generators,

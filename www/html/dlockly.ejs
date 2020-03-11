@@ -208,11 +208,15 @@
       if (exec) {
         ws.topBlocks_[0] ? ws.topBlocks_[0].moveBy(0, 1) : null;
       }
+
+      <% for (var c of colors) { %>
+        ws.getBlocksByType("<%= c.type %>").forEach(b => b.setColour("<%= c.color %>"));
+      <% } %>
     }
 
     if (document.getElementById("save").hasAttribute("disabled")) window.onbeforeunload = null;
     else window.onbeforeunload = () => "You have unsaved changes!";
-  }, 100);
+  }, 10);
 
   function saveConfig() {
     var code = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));

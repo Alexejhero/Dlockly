@@ -1,5 +1,4 @@
 {
   "type": "controls_flow_statements",
-  "default": true,
-  "category": "Flow Control"
+  "default": true
 }

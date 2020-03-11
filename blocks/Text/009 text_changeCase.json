@@ -1,6 +1,5 @@
 {
   "type": "text_changeCase",
   "extra": "<value name='TEXT'><shadow type='text'><field name='TEXT'>abc</field></shadow></value>",
-  "default": true,
-  "category": "Text"
+  "default": true
 }

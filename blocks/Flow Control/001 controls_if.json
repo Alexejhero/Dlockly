@@ -1,5 +1,5 @@
 {
   "type": "controls_if",
   "default": true,
-  "category": "Flow Control"
+  "color": "120"
 }

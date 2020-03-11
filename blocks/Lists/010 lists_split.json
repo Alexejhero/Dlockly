@@ -1,6 +1,5 @@
 {
   "type": "lists_split",
   "extra": "<value name=\"DELIM\"><shadow type=\"text\"><field name=\"TEXT\">,</field></shadow></value>",
-  "default": true,
-  "category": "Lists"
+  "default": true
 }

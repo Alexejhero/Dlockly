@@ -36,6 +36,7 @@ module.exports.generateXmlTreeRecursively = function (categories) {
 
 function initializeBlocks(p, categories, premium) {
   var blocks = [];
+  var colors = [];
   var generators = [];
   var max = {};
   var mutators = [];
@@ -124,6 +125,8 @@ function initializeBlocks(p, categories, premium) {
       ...block.reserved,
     ];
 
+    if (block.color || block.colour) colors.push({ type: block.type, color: block.color || block.colour });
+
     if (block.max && !max[block.type]) max[block.type] = block.max;
 
     if (block.restrictions) restrictions[block.type] = block.restrictions;
@@ -154,6 +157,7 @@ function initializeBlocks(p, categories, premium) {
 
   return {
     blocks,
+    colors,
     generators,
     max,
     mutators,

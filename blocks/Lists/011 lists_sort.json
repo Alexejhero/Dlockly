@@ -1,5 +1,4 @@
 {
   "type": "lists_sort",
-  "default": true,
-  "category": "Lists"
+  "default": true
 }

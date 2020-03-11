@@ -1,5 +1,4 @@
 {
   "type": "logic_operation",
-  "default": true,
-  "category": "Logic"
+  "default": true
 }

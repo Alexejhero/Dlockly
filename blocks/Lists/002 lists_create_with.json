@@ -1,5 +1,4 @@
 {
   "type": "lists_create_with",
-  "default": true,
-  "category": "Lists"
+  "default": true
 }

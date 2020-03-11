@@ -36,6 +36,5 @@
   "previousStatement": null,
   "nextStatement": null,
   "helpUrl": "",
-  "generator": "_return = 'try { ' + Blockly.JavaScript.statementToCode(block, 'try') + '} catch (error) { ' + Blockly.JavaScript.statementToCode(block, 'catch') + ' }'",
-  "category": "Flow Control"
+  "generator": "_return = 'try { ' + Blockly.JavaScript.statementToCode(block, 'try') + '} catch (error) { ' + Blockly.JavaScript.statementToCode(block, 'catch') + ' }'"
 }

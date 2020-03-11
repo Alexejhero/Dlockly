@@ -1,5 +1,4 @@
 {
   "type": "controls_whileUntil",
-  "default": true,
-  "category": "Flow Control"
+  "default": true
 }

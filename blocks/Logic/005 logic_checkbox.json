@@ -12,6 +12,5 @@
   "colour": 210,
   "tooltip": "Returns either true or false.",
   "helpUrl": "",
-  "generator": "_return = [block.getFieldValue('check') == 'TRUE', Blockly.JavaScript.ORDER_ATOMIC]",
-  "category": "Logic"
+  "generator": "_return = [block.getFieldValue('check') == 'TRUE', Blockly.JavaScript.ORDER_ATOMIC]"
 }

@@ -5,6 +5,5 @@
   "colour": 160,
   "tooltip": "Represents a space. Equivalent to ' '",
   "helpUrl": "",
-  "generator": "_return = ['` `', Blockly.JavaScript.ORDER_ATOMIC]",
-  "category": "Text"
+  "generator": "_return = ['` `', Blockly.JavaScript.ORDER_ATOMIC]"
 }

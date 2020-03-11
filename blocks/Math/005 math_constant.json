@@ -1,5 +1,4 @@
 {
   "type": "math_constant",
-  "default": true,
-  "category": "Math"
+  "default": true
 }

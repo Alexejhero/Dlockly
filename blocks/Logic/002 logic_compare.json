@@ -1,5 +1,4 @@
 {
   "type": "logic_compare",
-  "default": true,
-  "category": "Logic"
+  "default": true
 }

@@ -1,5 +1,4 @@
 {
   "type": "controls_forEach",
-  "default": true,
-  "category": "Flow Control"
+  "default": true
 }

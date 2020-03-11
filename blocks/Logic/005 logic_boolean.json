@@ -1,5 +1,4 @@
 {
   "type": "logic_boolean",
-  "default": true,
-  "category": "Logic"
+  "default": true
 }
