@@ -57,6 +57,12 @@
   Blockly.Msg["COLOUR_RGB_TOOLTIP"] = "Create a color with the specified amount of red, green, and blue. All values must be between 0 and 100.";
   Blockly.Msg["NEW_COLOUR_VARIABLE"] = "Create color variable...";
 
+  var orig_generateContextMenu = Blockly.BlockSvg.prototype.generateContextMenu;
+  Blockly.BlockSvg.prototype.generateContextMenu = function() {
+    var menuItems = orig_generateContextMenu.call(this);
+    return menuItems.filter(m => m.text != Blockly.Msg["EXTERNAL_INPUTS"]).filter(m => m.enabled || m.text != Blockly.Msg["HELP"]);
+  }
+
   <% for (var v of blocks) { %>
     <% if (v.default) continue; %>
     Blockly.Blocks["<%= v.type %>"] = { 
