@@ -20,7 +20,6 @@
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 180,
   "tooltip": "Bans a member",
   "helpUrl": "",
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.ban();'",

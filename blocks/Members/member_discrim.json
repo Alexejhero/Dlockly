@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 180,
   "tooltip": "Gets the discriminator of a member (the 4 digits after the #)",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.user.discriminator', Blockly.JavaScript.ORDER_MEMBER]",

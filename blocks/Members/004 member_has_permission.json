@@ -27,7 +27,6 @@
   ],
   "inputsInline": false,
   "output": "Boolean",
-  "colour": 180,
   "tooltip": "Checks the permissions of a member",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.hasPermission(' + Blockly.JavaScript.valueToCode(block, 'permission', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",

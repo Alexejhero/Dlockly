@@ -125,15 +125,28 @@ function initializeBlocks(p, categories, premium) {
       ...block.reserved,
     ];
 
-    if (block.color || block.colour) colors.push({ type: block.type, color: block.color || block.colour });
-
     if (block.max && !max[block.type]) max[block.type] = block.max;
 
     if (block.restrictions) restrictions[block.type] = block.restrictions;
 
-    var categoryName = block.category ? block.category : splits.pop();
+    var categoryName = block.category;
+    if (!categoryName) {
+      var oldCategoryName;
+      categoryName = splits.pop();
+
+      while (categoryName) {
+        oldCategoryName = categoryName;
+        categoryName = splits.pop();
+      }
+
+      categoryName = oldCategoryName;
+    }
     var category = findCategoryRecursively(categories, categoryName);
     if (!block.hidden && !block.deprecated && category) category.blocks.push(block);
+
+    if (typeof block.color == "undefined" && typeof block.colour == "undefined") block.colour = block.color;
+    if (typeof block.colour == "undefined" && category) block.colour = category.color;
+    if (typeof block.color != "undefined" || typeof block.colour != "undefined") colors.push({ type: block.type, color: block.color || block.colour });
 
     if (!block.default && !block.deprecated && (block.generator || block.returnGen)) {
       generators.push({
@@ -174,7 +187,9 @@ function initializeCategories(p) {
     // TODO: Add support for sub-categories
     result.push({
       ...category,
-      blocks: []
+      blocks: [],
+      color: category.colour || category.color,
+      colour: category.colour || category.color,
     });
   }
 

@@ -22,7 +22,6 @@
     "Color",
     "Colour"
   ],
-  "colour": 180,
   "tooltip": "Gets the display color of a member",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.displayHexColor', Blockly.JavaScript.ORDER_MEMBER]",

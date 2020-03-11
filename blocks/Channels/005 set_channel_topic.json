@@ -27,7 +27,6 @@
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 270,
   "tooltip": "Changes the topic of a channel. Only available for text channels",
   "helpUrl": "",
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.setTopic(' + Blockly.JavaScript.valueToCode(block, 'topic', Blockly.JavaScript.ORDER_ATOMIC) + ');'",

@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 180,
   "tooltip": "Gets the username of a member",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.user.username', Blockly.JavaScript.ORDER_MEMBER]",

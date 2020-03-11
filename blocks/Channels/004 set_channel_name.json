@@ -27,7 +27,6 @@
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 270,
   "tooltip": "Changes the name of a channel.",
   "helpUrl": "",
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.setName(' + Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC) + ');'",

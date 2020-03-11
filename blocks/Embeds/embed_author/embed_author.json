@@ -22,7 +22,6 @@
     }
   ],
   "output": "EmbedAuthor",
-  "colour": 330,
   "tooltip": "Represents an embed author",
   "generator": "_return = ['{name: ' + `${Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC)},` + (this.icon ? `iconURL: ${Blockly.JavaScript.valueToCode(block, 'icon', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + (this.url ? `url: ${Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + '}', Blockly.JavaScript.ORDER_ATOMIC]",
   "extra": "<value name='name'><shadow type='text'><field name='TEXT'>name</field></shadow></value>",

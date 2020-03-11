@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 180,
   "tooltip": "Gets the date a member joined the server",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.joinedAt', Blockly.JavaScript.ORDER_MEMBER]",

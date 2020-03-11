@@ -10,7 +10,6 @@
   ],
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 120,
   "tooltip": "Waits a specified amount of seconds",
   "helpUrl": "",
   "generator": "_return = 'await require(\\\"../../src/utils\\\").wait(' + Blockly.JavaScript.valueToCode(block, 'amount', Blockly.JavaScript.ORDER_ATOMIC) + ');'",

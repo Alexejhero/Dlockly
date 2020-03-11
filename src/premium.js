@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports.hasPremium = function (guild) {
-  if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../../data/"));
-  if (!fs.existsSync(path.join(__dirname, "/../data/", guild))) fs.mkdirSync(path.join(__dirname, "/../../data/", guild));
+  if (!fs.existsSync(path.join(__dirname, "/../data/"))) fs.mkdirSync(path.join(__dirname, "/../data/"));
+  if (!fs.existsSync(path.join(__dirname, "/../data/", guild))) fs.mkdirSync(path.join(__dirname, "/../data/", guild));
   if (!fs.existsSync(path.join(__dirname, "/../data/", guild, "premium.json"))) return false;
 
   try {

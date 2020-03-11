@@ -35,7 +35,6 @@
     }
   ],
   "output": "EmbedField",
-  "colour": 330,
   "tooltip": "Represents an embed field",
   "generator": "_return = ['{name: ' + Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC) + ', value: ' + Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC) + ', inline: ' + Blockly.JavaScript.valueToCode(block, 'inline', Blockly.JavaScript.ORDER_ATOMIC) + '}', Blockly.JavaScript.ORDER_ATOMIC]",
   "extra": "<value name='name'><shadow type='text'><field name='TEXT'>name</field></shadow></value><value name='value'><shadow type='text'><field name='TEXT'>value</field></shadow></value><value name='inline'><shadow type='logic_checkbox'><field name='check'>TRUE</field></shadow></value>"

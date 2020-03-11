@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "Channel",
-  "colour": 270,
   "tooltip": "Gets a channel from the guild by its ID",
   "helpUrl": "",
   "generator": "_return = ['guild.channels.cache.get(' + Blockly.JavaScript.valueToCode(block, 'id', Blockly.JavaScript.ORDER_ATOMIC) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL]",

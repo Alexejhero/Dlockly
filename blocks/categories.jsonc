@@ -41,27 +41,27 @@
   },
   {
     "name": "Channels",
-    "color": "270"
+    "color": "#bb6d51"
   },
   {
     "name": "Embeds",
-    "color": "300"
+    "color": "#5e04a1"
   },
   {
     "name": "Emojis",
-    "color": "30"
+    "color": "#808080"
   },
   {
     "name": "Members",
-    "color": "180"
+    "color": "#008080"
   },
   {
     "name": "Messages",
-    "color": "90"
+    "color": "#b49145"
   },
   {
     "name": "Roles",
-    "color": "290"
+    "color": "#f86883"
   },
   {
     "sep": true

@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 270,
   "tooltip": "Gets the name of a channel",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.name', Blockly.JavaScript.ORDER_MEMBER]",

@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "Member",
-  "colour": 90,
   "tooltip": "Gets the author of a message",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + '.member', Blockly.JavaScript.ORDER_MEMBER]",

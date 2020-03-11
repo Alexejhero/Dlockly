@@ -22,7 +22,6 @@
     "String",
     "ChannelType"
   ],
-  "colour": 270,
   "tooltip": "Gets the type of a channel",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.type', Blockly.JavaScript.ORDER_MEMBER]",

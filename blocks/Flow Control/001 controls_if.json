@@ -1,5 +1,4 @@
 {
   "type": "controls_if",
-  "default": true,
-  "color": "120"
+  "default": true
 }

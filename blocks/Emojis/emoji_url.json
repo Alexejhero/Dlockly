@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 30,
   "tooltip": "Gets the URL of an emoji",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'emoji', Blockly.JavaScript.ORDER_ATOMIC) + '.url', Blockly.JavaScript.ORDER_MEMBER]",

@@ -19,7 +19,6 @@
   ],
   "inputsInline": false,
   "output": "String",
-  "colour": 180,
   "tooltip": "Gets the tag of a member (the username plus the discriminator)",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.user.tag', Blockly.JavaScript.ORDER_MEMBER]",

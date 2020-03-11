@@ -30,7 +30,6 @@
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 90,
   "tooltip": "Sends a message to a channel",
   "helpUrl": "",
   "generator": "_return = 'await require(\\\"../../src/utils\\\").sendToChannel(' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + ',' + Blockly.JavaScript.valueToCode(block, 'msg', Blockly.JavaScript.ORDER_ATOMIC) + ');'",

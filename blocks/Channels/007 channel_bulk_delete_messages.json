@@ -26,7 +26,6 @@
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 270,
   "tooltip": "Deletes a number of messages from a channel",
   "helpUrl": "",
   "generator": "_return = 'await ' + Blockly.JavaScript.valueToCode(block, 'channel', Blockly.JavaScript.ORDER_ATOMIC) + '.bulkDelete(' + 'Number.parseInt(Number.parseInt(' + Blockly.JavaScript.valueToCode(block, 'num', Blockly.JavaScript.ORDER_ATOMIC) + ') + 1));'",

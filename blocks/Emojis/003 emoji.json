@@ -11,7 +11,10 @@
   ],
   "type": "emoji",
   "message0": "emoji",
-  "output": "Emoji",
+  "output": [
+    "Emoji",
+    "String"
+  ],
   "colour": 0,
   "tooltip": "The emoji that triggered the event",
   "helpUrl": "",

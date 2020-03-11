@@ -22,7 +22,6 @@
     "String",
     "Image"
   ],
-  "colour": 180,
   "tooltip": "Gets the avatar URL of a member",
   "helpUrl": "",
   "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'member', Blockly.JavaScript.ORDER_ATOMIC) + '.user.displayAvatarURL()', Blockly.JavaScript.ORDER_MEMBER]",
