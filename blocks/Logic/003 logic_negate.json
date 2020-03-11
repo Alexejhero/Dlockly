@@ -1,0 +1,13 @@
+{
+  "type": "logic_negate",
+  "default": true,
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the input parameter",
+      "types": [
+        "BOOL"
+      ]
+    }
+  ]
+}

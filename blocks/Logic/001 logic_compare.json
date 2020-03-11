@@ -1,0 +1,15 @@
+{
+  "type": "logic_compare",
+  "default": true,
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the input parameters",
+      "types": [
+        "A",
+        "B"
+      ]
+    }
+  ],
+  "extra": "<value name='A'><shadow type='text'/></value><value name='B'><shadow type='text'/></value>"
+}

@@ -56,13 +56,10 @@ web.all("*", async (req, res) => {
       req,
       user,
     });
-  if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path))
-    return res.sendFile(path.join(__dirname, req.path));
+  if (/[\s\S]*?.[html|css|js|ico|ttf|png|jpg]$/g.test(req.path)) return res.sendFile(path.join(__dirname, req.path));
 
-  if (!auth.sessionValid(authUserID, authSession))
-    return res.render(path.join(__dirname, "www/html/login.ejs"));
-  if (!user)
-    return res.render(path.join(__dirname, "www/html/unknownuser.ejs"));
+  if (!auth.sessionValid(authUserID, authSession)) return res.render(path.join(__dirname, "www/html/login.ejs"));
+  if (!user) return res.render(path.join(__dirname, "www/html/unknownuser.ejs"));
 
   if (!discord.getAllConfigurableGuilds(user).map(g => g.id).includes(req.query.guild))
     return res.render("www/html/guildpicker.ejs", {

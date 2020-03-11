@@ -1,4 +1,5 @@
 {
   "type": "logic_ternary",
-  "default": true
+  "default": true,
+  "extra": "<value name='IF'><shadow type='logic_compare'></shadow></value><value name='THEN'><shadow type='logic_null'></shadow></value><value name='ELSE'><shadow type='logic_null'></shadow></value>"
 }

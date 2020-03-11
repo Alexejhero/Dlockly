@@ -1,0 +1,14 @@
+{
+  "type": "logic_operation",
+  "default": true,
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the input parameters",
+      "types": [
+        "A",
+        "B"
+      ]
+    }
+  ]
+}
