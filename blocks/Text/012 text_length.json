@@ -1,5 +1,5 @@
 {
   "type": "text_length",
-  "extra": "<value name='VALUE'><shadow type='text'><field name='TEXT'>abc</field></shadow></value>",
+  "extra": "<value name='VALUE'><shadow type='text'></shadow></value>",
   "default": true
 }

@@ -9,5 +9,6 @@
         "BOOL"
       ]
     }
-  ]
+  ],
+  "extra": "<value name='BOOL'><shadow type='logic_checkbox'><field name='check'>FALSE</field></shadow></value>"
 }

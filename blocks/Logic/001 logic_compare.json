@@ -11,5 +11,5 @@
       ]
     }
   ],
-  "extra": "<value name='A'><shadow type='text'/></value><value name='B'><shadow type='text'/></value>"
+  "extra": "<value name='A'><shadow type='logic_compare_any_shadow'/></value><value name='B'><shadow type='logic_compare_any_shadow'/></value>"
 }

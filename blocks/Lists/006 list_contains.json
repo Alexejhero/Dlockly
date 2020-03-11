@@ -16,5 +16,6 @@
   "output": "Boolean",
   "tooltip": "Checks if a list contains a given value",
   "helpUrl": "",
-  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'list', Blockly.JavaScript.ORDER_NONE) + '.includes(' + Blockly.JavaScript.valueToCode(block, 'contains', Blockly.JavaScript.ORDER_MEMBER) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];"
+  "generator": "_return = [Blockly.JavaScript.valueToCode(block, 'list', Blockly.JavaScript.ORDER_NONE) + '.includes(' + Blockly.JavaScript.valueToCode(block, 'contains', Blockly.JavaScript.ORDER_MEMBER) + ')', Blockly.JavaScript.ORDER_FUNCTION_CALL];",
+  "extra": "<value name='list'><shadow type='lists_create_with'><mutation items='0'/></shadow></value><value name='contains'><shadow type='text'/></value>"
 }

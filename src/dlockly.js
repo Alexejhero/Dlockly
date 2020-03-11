@@ -132,6 +132,7 @@ function initializeBlocks(p, categories, premium) {
 
     if (typeof block.color == "undefined" && typeof block.colour == "undefined") block.colour = block.color;
     if (typeof block.colour == "undefined" && category) block.colour = category.color;
+    if (block.style) block.color = block.colour = undefined;
     if (typeof block.color != "undefined" || typeof block.colour != "undefined") colors.push({ type: block.type, color: block.color || block.colour });
 
     if (!block.default && !block.deprecated && (block.generator || block.returnGen)) {

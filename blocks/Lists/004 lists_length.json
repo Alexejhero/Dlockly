@@ -1,4 +1,5 @@
 {
   "type": "lists_length",
-  "default": true
+  "default": true,
+  "extra": "<value name='VALUE'><shadow type='lists_create_with'><mutation items='0'/></shadow></value>"
 }

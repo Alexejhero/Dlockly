@@ -1,5 +1,5 @@
 {
   "type": "lists_repeat",
-  "extra": "<value name=\"NUM\"><shadow type=\"math_number\"><field name=\"NUM\">5</field></shadow></value>",
+  "extra": "<value name='ITEM'><shadow type='text'/></value><value name='NUM'><shadow type='math_number'><field name='NUM'>5</field></shadow></value>",
   "default": true
 }

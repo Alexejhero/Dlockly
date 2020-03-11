@@ -1,5 +1,5 @@
 {
-  "type": "math_on_list",
+  "type": "lists_sort",
   "default": true,
   "extra": "<value name='LIST'><shadow type='lists_create_with'><mutation items='0'/></shadow></value>"
 }
