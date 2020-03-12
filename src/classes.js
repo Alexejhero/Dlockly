@@ -1,18 +1,38 @@
+const Blockly = require("node-blockly");
 const decache = require("decache");
 const fs = require("fs");
 const path = require("path");
 
-const Blockly = require("node-blockly");
-
 /**
  * @typedef {"input_value" | "input_statement" | "input_dummy" | "field_label_serializable" | "field_input" | "field_number" | "field_angle" | "field_dropdown" | "field_checkbox" | "field_colour" | "field_variable" | "field_image"} BlockType
  * @typedef {"LEFT" | "CENTRE" | "RIGHT"} BlockAlign
+ * @typedef {"toplevelparent" | "!toplevelparent" | "blockexists" | "!blockexists" | "parent" | "!parent" | "surroundparent" | "!surroundparent" | "custom" | "notempty"} RestrictionType
  */
 
-class Block {
-  /** @type {BlockRestriction[]} */
-  restrictions = [];
+class Base {
+  /** @type {string} */
+  _dirname;
 
+  /** @param {string} dirname */
+  constructor(dirname) {
+    this._dirname = dirname;
+  }
+
+  /** @param {string} p */
+  readFromFile(p) {
+    p = path.join(this._dirname, p);
+    return fs.readFileSync(p, "utf-8");
+  }
+
+  /** @param {string} m */
+  require(m) {
+    m = path.join(this._dirname, m);
+    decache(m);
+    return require(m);
+  }
+}
+
+class Block extends Base {
   /** @type {string[]} */
   icons = [];
 
@@ -49,11 +69,14 @@ class Block {
   /** @type {string} */
   category;
 
-  /** @type {function(block):[string,number]|string} */
+  /** @type {function(b.Block):[string,number]|string} */
   generator;
 
   /** @type {function():string} */
   extra = function () { return ""; }
+
+  /** @type {Restriction[]} */
+  restrictions;
 
   /** @type {boolean} */
   default = false;
@@ -63,31 +86,10 @@ class Block {
 
   /** @type {boolean} */
   hidden = false;
-
-  /** 
-   * @type {string}
-   * @private 
-   */
-  _dirname;
-
-  constructor(dirname) {
-    this._dirname = dirname;
-  }
-
-  readFromFile(p) {
-    p = path.join(this._dirname, p);
-    return fs.readFileSync(p, "utf-8");
-  }
-
-  require(m) {
-    m = path.join(this._dirname, m);
-    decache(m);
-    return require(m);
-  }
 }
 
-class BlockRestriction {
-  /** @type {"toplevelparent" | "!toplevelparent" | "blockexists" | "!blockexists" | "parent" | "!parent" | "surroundparent" | "!surroundparent" | "custom" | "notempty"} */
+class Restriction {
+  /** @type {RestrictionType} */
   type;
 
   /** @type {string} */
@@ -95,6 +97,40 @@ class BlockRestriction {
 
   /** @type {string[]} */
   types;
+
+  /** 
+   * @type {function(Blockly,Blockly.Block):boolean} 
+   */
+  code;
+
+  /** 
+   * @param {RestrictionType} type
+   * @param {string} message
+   * @param {function(Blockly,Blockly.Block):boolean|string[]} types 
+   */
+  constructor(type, message, types) {
+    this.type = type;
+    this.message = message;
+    if (this.type == "custom") this.code = types;
+    else this.types = types;
+  }
+}
+
+class Category extends Base {
+  /** @type {string} */
+  name = "";
+
+  /** @type {string|number} */
+  colour;
+
+  /** @type {Block[]} */
+  blocks = [];
+
+  /** @type {"PROCEDURE"|"VARIABLE"} */
+  custom;
+
+  /** @type {Category[]} */
+  subcategories = [];
 }
 
 // #region Arg
@@ -367,7 +403,8 @@ class ArgImage extends Arg {
 
 module.exports = {
   Block,
-  Restriction: BlockRestriction,
+  Restriction,
+  Category,
   Arg,
   ArgDummy,
   ArgValue,
