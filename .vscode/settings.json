@@ -14,7 +14,8 @@
     "data": true,
     "**/.sep": true,
     "**/.gitkeep": true,
-    "pnpm-lock.yaml": true
+    "pnpm-lock.yaml": true,
+    "debug.log": true
   },
   "explorerExclude.backup": null
 }

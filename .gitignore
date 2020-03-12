@@ -12,3 +12,5 @@ push-f.sh
 !/**/.gitkeep
 pnpm-lock.yaml
 pnpm-debug.log
+
+debug.log

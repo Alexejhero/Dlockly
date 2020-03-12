@@ -1,0 +1,51 @@
+<%- include ("../../www/html/partials/blockly") %>
+
+<script>
+
+  function generateTypeObject(obj, typeobj, path) {
+    for (var key in obj) {
+      console.log(path + "." + key);
+      switch (typeof obj[key]) {
+        case "boolean":
+        case "number":
+        case "bigint":
+        case "string":
+        case "symbol":
+          typeobj[key] = typeof obj[key];
+          break;
+        case "function":
+          typeobj[key] = "function " + obj[key].length;
+          break;
+        case "undefined":
+          break;
+        case "object":
+          if (Array.isArray(obj[key])) {
+            typeobj[key] = "array";
+            break;
+          }
+          typeobj[key] = {};
+          if (obj[key] instanceof Window) break;
+          generateTypeObject(obj[key], typeobj[key], path + "." + key);
+          break;
+        default:
+          throw Error("Unknown type: " + typeof obj[key]);
+      }
+    }
+  }
+
+  window.onload = function () {
+    var types = {};
+    generateTypeObject(Blockly, types, "Blockly");
+
+    console.log(types);
+    window.types = types;
+
+    fetch("result", { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }, 
+      body: JSON.stringify(types, null, 2), 
+    });
+  };
+</script>

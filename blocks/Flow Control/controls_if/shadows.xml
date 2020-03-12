@@ -1,0 +1,10 @@
+<value name='IF0'>
+  <shadow type='logic_compare'>
+    <value name='A'>
+      <shadow type='logic_compare_any_shadow'/>
+    </value>
+    <value name='B'>
+      <shadow type='logic_compare_any_shadow'/>
+    </value>
+  </shadow>
+</value>

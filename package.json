@@ -1,7 +1,5 @@
 {
   "name": "dlockly",
-  "version": "1.0.0",
-  "description": "A fully customizable Discord bot with a Scratch-like interface!",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -35,7 +33,8 @@
     "useragent": "^2.3.0",
     "xml-js": "^1.6.11"
   },
-  "repository": {
-    "url": "https://github.com/alexejheroytb/dlockly"
+  "devDependencies": {
+    "chalk": "^3.0.0",
+    "puppeteer-core": "^2.1.1"
   }
 }
