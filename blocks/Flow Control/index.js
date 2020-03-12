@@ -2,7 +2,7 @@ const Classes = require("../../src/classes");
 
 var category = new Classes.Category(__dirname);
 category.name = "Flow Control";
-category.color = 120;
+category.colour = 120;
 category.blocks = [
   require("./controls_if"),
   require("./controls_repeat_ext"),

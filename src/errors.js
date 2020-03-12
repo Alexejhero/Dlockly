@@ -8,7 +8,7 @@ module.exports.initialize = function () {
 
   server.bot.on('error', (e) => {
     console.error(e);
-  })
+  });
 
   server.bot.on('warn', (w) => {
     console.warn(w);

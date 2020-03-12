@@ -2,8 +2,7 @@
   "name": "dlockly",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "nodemon": "nodemon --ignore blocks/ --ignore data/ --ignore www/ --ignore _data/"
+    "start": "node index.js"
   },
   "dependencies": {
     "better-sqlite3": "^6.0.1",

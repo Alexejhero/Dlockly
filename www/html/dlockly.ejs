@@ -73,24 +73,18 @@
   <% if (v.default) continue; %>
     Blockly.Blocks["<%= v.type %>"] = {
       init: function () {
-        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
+        try {
+          this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
+        } catch (e) {
+          console.error(e.message + "\n" + decode('<%= JSON.stringify(v) %>'));
+        }
       },
     };
   <% } %>
 
-  <% generators.forEach(g => { %>
-    Blockly.JavaScript['<%= g.type %>'] = function(block) {
-      var _return;
-      if (block.returns) eval(decode("<%= g.returnGen %>"));
-      else eval(decode("<%= g.generator %>"));
-      return _return;
-    }
-  <% }); %>
-
   var blocklyArea = document.getElementById('blocklyArea');
   var blocklyDiv = document.getElementById('blocklyDiv');
   var workspace = Blockly.inject(blocklyDiv, {
-    maxInstances: JSON.parse(decode('<%= max %>')),
     collapse: false,
     comments: false,
     grid: {
@@ -104,14 +98,6 @@
     trashcan: false, // TODO: Fix trashcan
   });
   document.workspace = workspace;
-
-  var mutatorMax = {};
-  <% for (var m of mutators) { %>
-    eval(decode(`<%= m %>`));
-    for (var block in mutator.blocks) {
-      mutatorMax[block] = mutator.blocks[block];
-    }
-  <% } %>
 
   var onresize = function (e) {
     var element = blocklyArea;
@@ -131,8 +117,6 @@
   window.addEventListener('resize', onresize, false);
   onresize();
   Blockly.svgResize(workspace);
-
-  document.restrictions = JSON.parse(decode('<%= restrictions %>'));
 
   workspace.addChangeListener(Blockly.Events.disableOrphans);
 
@@ -172,22 +156,6 @@
     } else {
       document.getElementById("example").removeAttribute("title");
       document.getElementById("example").removeAttribute("disabled");
-    }
-
-    for (var ws of Object.values(Blockly.Workspace.WorkspaceDB_)) {
-      var exec;
-      if (!ws.options.maxInstances) exec = true;
-      ws.options.maxInstances = {
-        ...JSON.parse(decode('<%= max %>')),
-        ...mutatorMax,
-      };
-      if (exec) {
-        ws.topBlocks_[0] ? ws.topBlocks_[0].moveBy(0, 1) : null;
-      }
-
-      <% for (var c of colors) { %>
-        ws.getBlocksByType("<%= c.type %>").forEach(b => b.setColour("<%= c.color %>"));
-      <% } %>
     }
 
     if (document.getElementById("save").hasAttribute("disabled")) window.onbeforeunload = null;

@@ -1,4 +1,4 @@
-const Classes = require("../../../src/classes");
+const Classes = require("../../src/classes");
 
 var block = new Classes.Block(__dirname);
 block.type = "try_catch";
@@ -13,7 +13,6 @@ block.colour = "#A00000";
 block.previousStatement = true;
 block.nextStatement = true;
 block.tooltip = "If the code in the try block throws an error, it is caught in the catch block";
-block.extra = block.readFromFile("shadows.xml");
 block.restrictions = [
   new Classes.Restriction("!toplevelparent", "The 'try/catch' block many not be used inside an 'on error' event.", ["types"]),
   new Classes.Restriction("custom", "The 'try/catch' block may not be used inside another 'try/catch' block.", restriction),

@@ -94,6 +94,12 @@ class Block extends Base {
 
   /** @type {boolean} */
   hidden = false;
+
+  /** @param {string} path */
+  readShadows(path) {
+    if (!path) path = "shadows.xml";
+    return this.readFromFile(path).replace(/\n/g, " ");
+  }
 }
 
 class Restriction {

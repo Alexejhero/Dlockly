@@ -73,17 +73,17 @@ web.all("*", async (req, res) => {
   res.render("www/html/dlockly.ejs", {
     blocklyXml: config.getXml(req.query.guild),
     blocks: dlocklyInstance.blocks,
-    colors: dlocklyInstance.colors,
+    // colors: dlocklyInstance.colors,
     categories: dlocklyInstance.categories,
     exampleXml: config.getExampleXml(),
-    generators: dlocklyInstance.generators,
+    // generators: dlocklyInstance.generators,
     guildId: req.query.guild,
-    guildName: this.bot.guilds.cache.get(req.query.guild).name,
+    guildName: this.bot.guilds.cache.get(req.query.guild).name || "Unknown Name",
     invite: perms.isAdmin(user),
     premium: premium.hasPremium(req.query.guild),
-    max: JSON.stringify(dlocklyInstance.max),
-    mutators: dlocklyInstance.mutators,
-    restrictions: JSON.stringify(dlocklyInstance.restrictions),
+    // max: JSON.stringify(dlocklyInstance.max),
+    // mutators: dlocklyInstance.mutators,
+    // restrictions: JSON.stringify(dlocklyInstance.restrictions),
     xmlCategoryTree: dlockly.generateXmlTree(dlocklyInstance.categories),
   });
 });

@@ -56,7 +56,7 @@ function initBlocks(categories) {
  * @param {Category} category
  */
 function initBlock(block, category) {
-  block.category = category;
+  block._dirname = undefined;
 
   if (block.cost) {
     if (premium) block.icons.unshift("premium_unlocked");
@@ -91,7 +91,7 @@ function initCategories(categories) {
   var result = [];
   for (var category of categories) {
     result.push(category);
-    if (category.subcategories) result.push(initCategories(category.subcategories));
+    if (category.subcategories.length > 0) result.push(...initCategories(category.subcategories));
   }
   return result;
 }
