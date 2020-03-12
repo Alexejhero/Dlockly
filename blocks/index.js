@@ -1,3 +1,4 @@
 module.exports = [
   require("./Flow Control"),
+  require("./Logic"),
 ]

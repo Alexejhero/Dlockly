@@ -1,18 +1,20 @@
-const fs = require("fs");
-const path = require("path");
-const read = require("fs-readdir-recursive");
+const chalk = require("chalk");
+
+const { ArgImage, Block, Category } = require("./classes");
 
 const icons = require("../config/icons.json");
 
-module.exports.initialize = function (premium) {
-  var categories = initializeCategories(path.join(__dirname, "/../blocks/categories.jsonc"));
-  var results = initializeBlocks(path.join(__dirname, "/../blocks/"), categories, premium);
+module.exports.initialize = function () {
+  var categories = initCategories(require("../blocks"));
+  var blocks = initBlocks(categories);
+
   return {
-    ...results,
-    categories
-  };
+    categories,
+    blocks
+  }
 }
 
+/** @param {Category[]} categories */
 module.exports.generateXmlTree = function (categories) {
   var result = "";
   for (var c of categories) {
@@ -20,7 +22,7 @@ module.exports.generateXmlTree = function (categories) {
       result += "<sep></sep>";
       continue;
     }
-    result += "<category name='" + c.name + "' colour='" + c.color + "'";
+    result += "<category name='" + c.name + "' colour='" + c.colour + "'";
     if (c.custom) result += " custom='" + c.custom + "'";
     result += ">";
     result += this.generateXmlTree(c.subcategories);
@@ -34,166 +36,69 @@ module.exports.generateXmlTree = function (categories) {
   return result;
 }
 
-function initializeBlocks(p, categories, premium) {
-  var blocks = [];
-  var colors = [];
-  var generators = [];
-  var max = {};
-  var mutators = [];
-  var reserved = [];
-  var restrictions = {};
-
-  var files = read(p).filter(f => f.endsWith(".json"));
-
-  for (var f of files) {
-    var block = JSON.parse(fs.readFileSync(path.join(p, f)));
-    var splits = f.split(/[\/\\]+/g);
-    splits.pop();
-
-    if (typeof premium != "removeicons" && block.icons) {
-      var _icons = block.icons.reverse();
-      for (var icon of _icons) {
-        if (!block.args0) block.args0 = [];
-
-        block.args0.unshift({
-          "type": "field_image",
-          "src": icons[icon],
-          "width": 15,
-          "height": 15,
-          "alt": icon,
-          "flipRtl": false
-        });
-
-        block.message0 = bumpMessageNumbers(block.message0);
-      }
-    }
-
-    if (!block.deprecated && block.cost) {
-      if (!block.args0) block.args0 = [];
-
-      var src;
-      if (premium) src = "premium_unlocked";
-      else {
-        src = "premium_locked";
-        max[block.type] = -1;
-      }
-
-      block.args0.unshift({
-        "type": "field_image",
-        "src": icons[src],
-        "width": 15,
-        "height": 15,
-        "alt": src,
-        "flipRtl": false
-      });
-
-      block.message0 = bumpMessageNumbers(block.message0);
-    }
-
-    var first = true;
-    if (!block.default && block.optionalReturn) {
-      block.mutator = block.type + "_optional_return_mutator";
-
-      if (first) {
-        first = false;
-        blocks.push(JSON.parse(fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator_container.json"), "utf-8")));
-        blocks.push(JSON.parse(fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator_dummy.json"), "utf-8")));
-      }
-
-      var mutator = fs.readFileSync(path.join(__dirname, "../blocks/Mutators/optional_return_mutator/optional_return_mutator.js"), "utf-8");
-      mutator += `mutator.name = '${block.type}_optional_return_mutator'; mutator.mixin.output = '${block.optionalReturn}'; Blockly.Extensions.registerMutator(mutator.name, mutator.mixin, null, Object.keys(mutator.blocks));`;
-
-      mutators.push(mutator);
-    }
-
-    if (block.reserved) reserved = [
-      ...reserved,
-      ...block.reserved,
-    ];
-
-    if (block.max && !max[block.type]) max[block.type] = block.max;
-
-    if (block.restrictions) restrictions[block.type] = block.restrictions;
-
-    var categoryName = block.category;
-    if (!categoryName) {
-      var oldCategoryName;
-      categoryName = splits.pop();
-
-      while (categoryName) {
-        oldCategoryName = categoryName;
-        categoryName = splits.pop();
-      }
-
-      categoryName = oldCategoryName;
-    }
-    var category = findCategory(categories, categoryName);
-    if (!block.hidden && !block.deprecated && category) category.blocks.push(block);
-
-    if (typeof block.color == "undefined" && typeof block.colour == "undefined") block.colour = block.color;
-    if (typeof block.colour == "undefined" && category) block.colour = category.color;
-    if (block.style) block.color = block.colour = undefined;
-    if (typeof block.color != "undefined" || typeof block.colour != "undefined") colors.push({ type: block.type, color: block.color || block.colour });
-
-    if (!block.default && !block.deprecated && (block.generator || block.returnGen)) {
-      generators.push({
-        type: block.type,
-        generator: block.generator,
-        returnGen: block.returnGen,
-      });
-    }
-
-    if (block.mutator && !block.optionalReturn) {
-      var matches = read(p).filter(_p => path.parse(path.join(p, _p)).base == block.mutator + ".js");
-      if (matches.length > 1) throw Error("Found multiple mutator files for mutator type: " + block.mutator);
-      if (matches.length < 1) throw Error("Found no matching mutator files for mutator: " + block.mutator);
-
-      var mutator = fs.readFileSync(path.join(p, matches[0]), 'utf-8');
-      mutators.push(mutator);
-    }
-
-    blocks.push(block);
-  }
-
-  return {
-    blocks,
-    colors,
-    generators,
-    max,
-    mutators,
-    reserved,
-    restrictions,
-  }
-}
-
-function initializeCategories(p) {
+/**
+ * @param {Category[]} categories 
+ * @param {Boolean} premium 
+ */
+function initBlocks(categories) {
   var result = [];
-  var categories = JSON.parse(fs.readFileSync(p, 'utf-8'));
-
   for (var category of categories) {
-    prepareCategory(category);
-    result.push(category);
+    for (var block of category.blocks) {
+      initBlock(block, category);
+      result.push(block);
+    }
   }
-
   return result;
 }
 
-function prepareCategory(category) {
-  category.blocks = [];
-  category.color = category.colour || category.color;
-  category.colour = category.color;
-  if (!category.subcategories) category.subcategories = [];
-  for (var subcategory of category.subcategories) prepareCategory(subcategory);
-}
+/**
+ * @param {Block} block 
+ * @param {Category} category
+ */
+function initBlock(block, category) {
+  block.category = category;
 
-function findCategory(categories, cat) {
-  cat = cat.trim();
-
-  for (var c of categories) {
-    if (c.name == cat) return c;
+  if (block.cost) {
+    if (premium) block.icons.unshift("premium_unlocked");
+    else {
+      block.icons.unshift("premium_locked");
+      block.max = -1;
+    }
   }
+
+  for (var icon of block.icons.reverse()) {
+    block.args0.unshift(new ArgImage("premium", icons[icon]));
+    block.message0 = bumpMessageNumbers(block.message0);
+  }
+
+  if (block.optionalReturn) {
+    if (block.mutator) {
+      console.warn(chalk.yellow("Block + " + block.type + " has both a mutator and an optional return! Ignoring optional return"));
+    } else {
+      block.mutator = require("../blocks/Mutators/optional_return");
+    }
+  }
+
+  if (block.colour == undefined) block.colour = category.colour;
+  if (block.style) block.colour = undefined;
 }
 
+/**
+ * @param {Category[]} categories 
+ * @returns {Category[]}
+ */
+function initCategories(categories) {
+  var result = [];
+  for (var category of categories) {
+    result.push(category);
+    if (category.subcategories) result.push(initCategories(category.subcategories));
+  }
+  return result;
+}
+
+/**
+ * @param {string} message 
+ */
 function bumpMessageNumbers(message) {
   var str = "%0 " + message;
   var nr = str.match(/%\d+/g).length;

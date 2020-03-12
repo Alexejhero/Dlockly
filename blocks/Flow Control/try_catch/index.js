@@ -17,9 +17,7 @@ block.tooltip = "If the code in the try block throws an error, it is caught in t
 block.generator = function () {
   return this.require("./generator.js")();
 }
-block.extra = function () {
-  return this.readFromFile("shadows.xml");
-}
+block.extra = block.readFromFile("shadows.xml");
 block.restrictions = [
   new Classes.Restriction("!toplevelparent", "The 'try/catch' block many not be used inside an 'on error' event.", ["types"]),
   new Classes.Restriction("custom", "The 'try/catch' block may not be used inside another 'try/catch' block.", custom),

@@ -10,9 +10,7 @@ block.tooltip = "Waits a specified amount of seconds";
 block.generator = function () {
   return this.require("./generator.js")();
 }
-block.extra = function () {
-  return this.readFromFile("shadows.xml");
-}
+block.extra = block.readFromFile("shadows.xml");
 block.restrictions = [
   new Classes.Restriction("notempty", "You must provide a value for the 'seconds' paramter", ["amount"]),
 ]

@@ -45,6 +45,9 @@ class Block extends Base {
   /** @type {Arg[]} */
   args0 = [];
 
+  /** @type {number} */
+  max = 0;
+
   /** @type {string} */
   previousStatement = undefined;
 
@@ -57,26 +60,35 @@ class Block extends Base {
   /** @type {string} */
   output = undefined;
 
+  /** @type {string} */
+  optionalReturn;
+
   /** @type {number|string} */
   colour;
+
+  /** @type {string} */
+  style;
 
   /** @type {string} */
   tooltip = "";
 
   /** @type {string} */
-  helpUrl;
+  helpUrl = "";
 
-  /** @type {string} */
+  /** @type {Mutator} */
+  mutator;
+
+  /** @type {Category} */
   category;
 
   /** @type {function(b.Block):[string,number]|string} */
-  generator;
+  generator = function () { }
 
-  /** @type {function():string} */
-  extra = function () { return ""; }
+  /** @type {string} */
+  extra = "";
 
   /** @type {Restriction[]} */
-  restrictions;
+  restrictions = [];
 
   /** @type {boolean} */
   default = false;
@@ -116,7 +128,48 @@ class Restriction {
   }
 }
 
+class Mutator {
+  /** @type {string} */
+  name;
+
+  /** @type {{string:number}} */
+  blocks;
+
+  mixin = {
+    suppressPrefixSuffix: true,
+
+    /**
+     * @returns {Element}
+     */
+    mutationToDom() { },
+
+    /**
+     * @param {Element} xml
+     */
+    domToMutation(xml) { },
+
+    /**
+     * @param {Blockly.Workspace} ws
+     * @returns {Blockly.Block}
+     */
+    decompose(ws) { },
+
+    /**
+     * @param {Blockly.Block} containerBlock
+     */
+    compose(containerBlock) { },
+
+    /**
+     * @this Blockly.Block
+     */
+    updateShape() { },
+  }
+}
+
 class Category extends Base {
+  /** @type {boolean} */
+  sep = false;
+
   /** @type {string} */
   name = "";
 
@@ -405,6 +458,7 @@ module.exports = {
   Block,
   Restriction,
   Category,
+  Mutator,
   Arg,
   ArgDummy,
   ArgValue,
