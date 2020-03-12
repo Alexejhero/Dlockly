@@ -1,4 +1,3 @@
-const b = require("node-blockly");
 const Classes = require("../../../src/classes");
 
 var block = new Classes.Block(__dirname);
@@ -14,20 +13,17 @@ block.colour = "#A00000";
 block.previousStatement = true;
 block.nextStatement = true;
 block.tooltip = "If the code in the try block throws an error, it is caught in the catch block";
-block.generator = function () {
-  return this.require("./generator.js")();
-}
 block.extra = block.readFromFile("shadows.xml");
 block.restrictions = [
   new Classes.Restriction("!toplevelparent", "The 'try/catch' block many not be used inside an 'on error' event.", ["types"]),
-  new Classes.Restriction("custom", "The 'try/catch' block may not be used inside another 'try/catch' block.", custom),
+  new Classes.Restriction("custom", "The 'try/catch' block may not be used inside another 'try/catch' block.", restriction),
 ]
 
 /**
- * @param {b} Blockly 
- * @param {b.Block} block
+ * @param {import("node-blockly")} Blockly 
+ * @param {import("node-blockly").Block} block
  */
-function custom(Blockly, block) {
+function restriction(Blockly, block) {
   block = block.getSurroundParent();
   while (block) {
     if (block.type == 'try_catch') return false;
@@ -35,5 +31,14 @@ function custom(Blockly, block) {
   }
   return true;
 }
+
+/**
+ * @param {import("node-blockly")} Blockly 
+ * @param {import("node-blockly").Block} block
+ */
+block.generator = function (Blockly, block) {
+  return 'try {' + Blockly.JavaScript.statementToCode(block, 'try') + '} catch (error) {' + Blockly.JavaScript.statementToCode(block, 'catch') + '}';
+}
+
 
 module.exports = block;

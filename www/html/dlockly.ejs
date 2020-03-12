@@ -4,31 +4,37 @@
 <html style="overflow:hidden;">
 
 <div class="body">
-
   <table>
     <tbody>
-      <tr><td>
-        <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
-        <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
-        <br>
-        <a href="/"><button>Back to server list</button></a>
-        <% if (invite) { %>
+      <tr>
+        <td>
+          <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+          <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+          <br>
+          <a href="/"><button>Back to server list</button></a>
+          <% if (invite) { %>
           <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
-        <% } %>
-        <br>
-        <br>
-        <form action="/save" method="post" onsubmit="saveConfig()">
-          <input type="hidden" name="guild" id="inputGuild" required>
-          <input type="hidden" name="xml" id="inputXml" required>
-          <input type="submit" id="save" value="Save Configuration">
-          <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
-          <button type="button" id="example" onclick="loadExample()">Load Example</button>
-          <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;"><% if (!premium) { %>Get<% } else { %>Manage<% } %> Premium</button></a>
-        </form>
-        <hr>
-      </td></tr>
-      <tr><td id="blocklyArea"></td></tr>
-      <tr><td style="padding-bottom:38px;"></td></tr>
+          <% } %>
+          <br>
+          <br>
+          <form action="/save" method="post" onsubmit="saveConfig()">
+            <input type="hidden" name="guild" id="inputGuild" required>
+            <input type="hidden" name="xml" id="inputXml" required>
+            <input type="submit" id="save" value="Save Configuration">
+            <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
+            <button type="button" id="example" onclick="loadExample()">Load Example</button>
+            <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop"
+                style="float:right;"><% if (!premium) { %>Get<% } else { %>Manage<% } %> Premium</button></a>
+          </form>
+          <hr>
+        </td>
+      </tr>
+      <tr>
+        <td id="blocklyArea"></td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:38px;"></td>
+      </tr>
     </tbody>
   </table>
 
@@ -36,7 +42,6 @@
   <xml id="toolbox" style="display: none">
     <%- xmlCategoryTree %>
   </xml>
-
 </div>
 
 <%- include ("partials/footer") %>
@@ -59,14 +64,14 @@
   Blockly.Msg["LISTS_SET_INDEX_INPUT_TO"] = "to";
 
   var orig_generateContextMenu = Blockly.BlockSvg.prototype.generateContextMenu;
-  Blockly.BlockSvg.prototype.generateContextMenu = function() {
+  Blockly.BlockSvg.prototype.generateContextMenu = function () {
     var menuItems = orig_generateContextMenu.call(this);
     return menuItems.filter(m => m.text != Blockly.Msg["EXTERNAL_INPUTS"]).filter(m => m.enabled || m.text != Blockly.Msg["HELP"]);
-  }
+  };
 
   <% for (var v of blocks) { %>
-    <% if (v.default) continue; %>
-    Blockly.Blocks["<%= v.type %>"] = { 
+  <% if (v.default) continue; %>
+    Blockly.Blocks["<%= v.type %>"] = {
       init: function () {
         this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
       },
@@ -101,14 +106,14 @@
   document.workspace = workspace;
 
   var mutatorMax = {};
-  <% mutators.forEach(m => { %>
+  <% for (var m of mutators) { %>
     eval(decode(`<%= m %>`));
     for (var block in mutator.blocks) {
       mutatorMax[block] = mutator.blocks[block];
     }
-  <% }); %>
+  <% } %>
 
-  var onresize = function(e) {
+  var onresize = function (e) {
     var element = blocklyArea;
     var x = 0;
     var y = 0;
@@ -133,10 +138,10 @@
 
   if (decode('<%= blocklyXml %>').length > 0) Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= blocklyXml %>")), workspace);
 
-  setInterval(() => { 
-    disableUnapplicable({ 
-      type: Blockly.Events.MOVE, 
-      workspaceId: workspace.id, 
+  setInterval(() => {
+    disableUnapplicable({
+      type: Blockly.Events.MOVE,
+      workspaceId: workspace.id,
     });
 
     var saveNeedsDisabling = false;
@@ -156,7 +161,7 @@
     }
     if (!saveNeedsDisabling) {
       document.getElementById("save").removeAttribute("title");
-      document.getElementById("save").removeAttribute("disabled");        
+      document.getElementById("save").removeAttribute("disabled");
       document.getElementById("reset").removeAttribute("title");
       document.getElementById("reset").removeAttribute("disabled");
     }

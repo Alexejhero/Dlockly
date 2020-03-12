@@ -23,13 +23,6 @@ class Base {
     p = path.join(this._dirname, p);
     return fs.readFileSync(p, "utf-8");
   }
-
-  /** @param {string} m */
-  require(m) {
-    m = path.join(this._dirname, m);
-    decache(m);
-    return require(m);
-  }
 }
 
 class Block extends Base {
@@ -78,10 +71,13 @@ class Block extends Base {
   /** @type {Mutator} */
   mutator;
 
+  /** @type {string[]} */
+  extensions;
+
   /** @type {Category} */
   category;
 
-  /** @type {function(b.Block):[string,number]|string} */
+  /** @type {function(Blockly,Blockly.Block):[string,number]|string} */
   generator = function () { }
 
   /** @type {string} */

@@ -7,12 +7,17 @@ block.args0.push(new Classes.ArgValue("amount", "number"));
 block.previousStatement = null;
 block.nextStatement = null;
 block.tooltip = "Waits a specified amount of seconds";
-block.generator = function () {
-  return this.require("./generator.js")();
-}
 block.extra = block.readFromFile("shadows.xml");
 block.restrictions = [
   new Classes.Restriction("notempty", "You must provide a value for the 'seconds' paramter", ["amount"]),
 ]
+
+/**
+ * @param {import("node-blockly")} Blockly
+ * @param {import("node-blockly").Block} block
+ */
+block.generator = function (Blockly, block) {
+  return 'await require("../../src/utils").wait(' + Blockly.JavaScript.valueToCode(block, 'amount', Blockly.JavaScript.ORDER_ATOMIC) + ');';
+}
 
 module.exports = block;
