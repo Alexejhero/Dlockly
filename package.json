@@ -32,9 +32,5 @@
     "url": "^0.11.0",
     "useragent": "^2.3.0",
     "xml-js": "^1.6.11"
-  },
-  "devDependencies": {
-    "chalk": "^3.0.0",
-    "puppeteer-core": "^2.1.1"
   }
 }

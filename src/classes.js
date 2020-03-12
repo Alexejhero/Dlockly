@@ -1,5 +1,8 @@
+const decache = require("decache");
 const fs = require("fs");
 const path = require("path");
+
+const Blockly = require("node-blockly");
 
 /**
  * @typedef {"input_value" | "input_statement" | "input_dummy" | "field_label_serializable" | "field_input" | "field_number" | "field_angle" | "field_dropdown" | "field_checkbox" | "field_colour" | "field_variable" | "field_image"} BlockType
@@ -23,16 +26,16 @@ class Block {
   args0 = [];
 
   /** @type {string} */
-  previousStatement;
+  previousStatement = undefined;
 
   /** @type {string} */
-  nextStatement;
+  nextStatement = undefined;
 
   /** @type {boolean} */
   inputsInline;
 
   /** @type {string} */
-  output;
+  output = undefined;
 
   /** @type {number|string} */
   colour;
@@ -46,10 +49,10 @@ class Block {
   /** @type {string} */
   category;
 
-  /** @type {(block)=>{} | Function} */
+  /** @type {function(block):[string,number]|string} */
   generator;
 
-  /** @type {Function} */
+  /** @type {function():string} */
   extra = function () { return ""; }
 
   /** @type {boolean} */
@@ -74,6 +77,12 @@ class Block {
   readFromFile(p) {
     p = path.join(this._dirname, p);
     return fs.readFileSync(p, "utf-8");
+  }
+
+  require(m) {
+    m = path.join(this._dirname, m);
+    decache(m);
+    return require(m);
   }
 }
 
@@ -109,6 +118,15 @@ class Arg {
     this.type = type;
     this.name = name;
     this.align = align;
+  }
+}
+
+class ArgDummy extends Arg {
+  /** @type {"input_dummy"} */
+  type = "input_dummy";
+
+  constructor(align) {
+    super("input_dummy", null, align);
   }
 }
 
@@ -350,18 +368,17 @@ class ArgImage extends Arg {
 module.exports = {
   Block,
   Restriction: BlockRestriction,
-  Args: {
-    Arg,
-    Value: ArgValue,
-    Statement: ArgStatement,
-    Label: ArgLabelSerializable,
-    Text: ArgText,
-    number: ArgNumber,
-    Angle: ArgAngle,
-    Dropdown: ArgDropdown,
-    Checkbox: ArgCheckbox,
-    Colour: ArgColour,
-    Variable: ArgVariable,
-    Image: ArgImage,
-  },
+  Arg,
+  ArgDummy,
+  ArgValue,
+  ArgStatement,
+  ArgLabelSerializable,
+  ArgText,
+  ArgNumber,
+  ArgAngle,
+  ArgDropdown,
+  ArgCheckbox,
+  ArgColour,
+  ArgVariable,
+  ArgImage,
 }
