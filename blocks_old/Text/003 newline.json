@@ -1,8 +1,0 @@
-{
-  "type": "newline",
-  "message0": "new line",
-  "output": "String",
-  "tooltip": "Creates a new line in the string. Equivalent to '\\n'",
-  "helpUrl": "",
-  "generator": "_return = ['\\\\\\\\'\\\\\\\\\\\\\\\\n\\\\\\\\'', Blockly.JavaScript.ORDER_ATOMIC]"
-}
