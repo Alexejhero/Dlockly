@@ -4,4 +4,5 @@ module.exports = [
   require("./Math"),
   require("./Text"),
   require("./Lists"),
+  require("./Color"),
 ]
