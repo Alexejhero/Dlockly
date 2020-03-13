@@ -1,0 +1,9 @@
+<value name='INPUT'>
+  <shadow type='text'/>
+</value>
+
+<value name='DELIM'>
+  <shadow type='text'>
+    <field name='TEXT'>,</field>
+  </shadow>
+</value>

@@ -3,4 +3,5 @@ module.exports = [
   require("./Logic"),
   require("./Math"),
   require("./Text"),
+  require("./Lists"),
 ]
