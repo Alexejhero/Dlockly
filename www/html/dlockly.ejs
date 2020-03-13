@@ -70,7 +70,7 @@
   };
 
   <% for (var v of blocks) { %>
-  <% if (v.default) continue; %>
+    <% if (v.default) continue; %>
     Blockly.Blocks["<%= v.type %>"] = {
       init: function () {
         try {
@@ -97,7 +97,7 @@
     toolbox: document.getElementById('toolbox'),
     trashcan: false, // TODO: Fix trashcan
   });
-  document.workspace = workspace;
+  window.workspace = workspace;
 
   var onresize = function (e) {
     var element = blocklyArea;
@@ -117,6 +117,27 @@
   window.addEventListener('resize', onresize, false);
   onresize();
   Blockly.svgResize(workspace);
+
+  // TODO: Add mutators to front-end
+  <% //for (var m of mutators) { %>
+    //eval(decode(`<%= //m %>`));
+  <% //} %>
+
+  window.restrictions = {};
+  <% for (var v of blocks) { %>
+    window.restrictions["<%= v.type %>"] = JSON.parse(decode("<%= JSON.stringify(v.restrictions) %>"));
+  <% } %>
+
+  window.max = {};
+  <% for (var v of blocks) { %>
+    window.max["<%= v.type %>"] = <%= v.max %>;
+  <% } %>
+
+  window.colours = {};
+  <% for (var v of blocks) { %>
+    <% if (v.style) continue; %>
+    window.colours["<%= v.type %>"] = "<%= v.colour %>";
+  <% } %> 
 
   workspace.addChangeListener(Blockly.Events.disableOrphans);
 
@@ -156,6 +177,17 @@
     } else {
       document.getElementById("example").removeAttribute("title");
       document.getElementById("example").removeAttribute("disabled");
+    }
+
+    for (var ws of Object.values(Blockly.Workspace.WorkspaceDB_)) {
+      var exec;
+      if (!ws.options.maxInstances) exec = true;
+      ws.options.maxInstances = max;
+      if (exec && ws.topBlocks_[0]) ws.topBlocks_[0].moveBy(0, 1);
+
+      for (var c in colours) {
+        ws.getBlocksByType(c).forEach(b => b.setColour(colours[c]));
+      }
     }
 
     if (document.getElementById("save").hasAttribute("disabled")) window.onbeforeunload = null;

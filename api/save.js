@@ -29,28 +29,31 @@ module.exports = function (data) {
     var dlocklyInstance = dlockly.initialize(premium.hasPremium(data.req.body.guild));
 
     for (var block of dlocklyInstance.blocks) {
-      if (block.default) continue;
-      eval(`
-        Blockly.Blocks['${block.type}'] = {
-          init: function() {
-            this.jsonInit(JSON.parse('${JSON.stringify(block).replace(/'/g, "\\'")}'));
+      if (!block.default) {
+        eval(`
+          Blockly.Blocks['${block.type}'] = {
+            init: function() {
+              try {
+                this.jsonInit(JSON.parse('${JSON.stringify(block)}'));
+              } catch (e) {
+                console.error(e + "\n" + '${JSON.stringify(block)}');
+              }
+            }
           }
-        }
-      `);
+        `);
+      }
+
+      if (block.generator) {
+        eval(`
+          Blockly.JavaScript["${block.type}"] = function (block) {
+            return dlocklyInstance.blocks.map(b => b.type == "${block.type}").generator(Blockly, block);
+          }
+        `);
+      }
     }
 
-    for (var generator of dlocklyInstance.generators) {
-      eval(`  
-        Blockly.JavaScript["${generator.type}"] = function (block) {
-          var _return;
-          if (block.returns) eval("${generator.returnGen ? generator.returnGen : ""}".replace(/\\\\\\\\/g, "\\\\"));
-          else eval("${generator.generator ? generator.generator : ""}".replace(/\\\\\\\\/g, "\\\\"));
-          return _return;
-        }
-      `);
-    }
-
-    for (var reserved of [...new Set(dlocklyInstance.reserved)]) {
+    var rsv = dlocklyInstance.blocks.map(b => b.reserved).flat();
+    for (var reserved of [...new Set(rsv)]) {
       Blockly.JavaScript.addReservedWords(reserved);
     }
 
@@ -61,19 +64,18 @@ module.exports = function (data) {
       oneBasedIndex: true,
     });
 
-    for (var mutator of dlocklyInstance.mutators) {
-      eval(mutator);
-      for (var block in mutator.blocks) {
-        dlocklyInstance.max[block] = mutator.blocks[block];
-      }
-    }
-    workspace.options.maxInstances = dlocklyInstance.max;
+    // TODO: Add mutators to back-end
+    // for (var mutator of dlocklyInstance.mutators) {
+    //   eval(mutator);
+    // }
+
+    workspace.options.maxInstances = {};
+    for (var v of dlocklyInstance.blocks) workspace.options.maxInstances[v.type] = v.max;
 
     Blockly.Xml.domToWorkspace(dom, workspace);
 
-    document = {
-      restrictions: dlocklyInstance.restrictions,
-    }
+    window.restrictions = {};
+    for (var v of dlocklyInstance.blocks) window.restrictions[v.type] = v.restrictions;
     eval(fs.readFileSync(path.join(__dirname, "../www/js/restrictions.js"), "utf-8"));
 
     var warnings = disableUnapplicable({
@@ -101,45 +103,16 @@ module.exports = function (data) {
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
 
-    for (var block of dlocklyInstance.blocks) {
-      if (block.optionalReturn) Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
-      if (block.mutator && Blockly.Extensions.ALL_[block.mutator]) Blockly.Extensions.unregister(block.mutator);
-    }
+    // TODO: Decache this to remove mutators
 
     data.res.redirect("/?guild=" + data.req.body.guild);
   } catch (e) {
     console.error(e);
-
-    if (dlocklyInstance && Array.isArray(dlocklyInstance.blocks)) {
-      for (var block of dlocklyInstance.blocks) {
-        if (block.optionalReturn) Blockly.Extensions.unregister(`${block.type}_optional_return_mutator`);
-        if (block.mutator && Blockly.Extensions.ALL_[block.mutator]) Blockly.Extensions.unregister(block.mutator);
-      }
-    }
-
     data.res.redirect("/?guild=" + data.req.body.guild + "#error");
   }
 }
 
-function getBlocks(p) {
-  var blocks = [];
-
-  var files = read(p).filter(f => f.endsWith(".json"));
-
-  for (var f of files) {
-    if (f.startsWith("/") || f.startsWith("\\")) f = f.substring(1);
-    if (f.endsWith("/") || f.endsWith("\\")) f.substr(0, f.length - 1);
-
-    var json = JSON.parse(fs.readFileSync(path.join(p, f)));
-
-    if (!json.generator) json.generator = '_return = \'\';';
-
-    blocks.push(json);
-  }
-
-  return blocks;
-}
-
+// TODO: Test to see if this works without this
 function removeOverriddenShadows(obj) {
   var shadowElement, blockElement;
   if (obj.elements) {
@@ -149,7 +122,7 @@ function removeOverriddenShadows(obj) {
     }
   }
 
-  if (shadowElement && blockElement) removeFromArray(obj.elements, shadowElement);
+  if (shadowElement && blockElement) obj.elements = obj.elements.filter(e => e != shadowElement);
 
   if (obj.elements) {
     for (var index in obj.elements) {
@@ -158,18 +131,4 @@ function removeOverriddenShadows(obj) {
   }
 
   return obj;
-}
-
-function removeFromArray(arr) {
-  var what,
-    a = arguments,
-    L = a.length,
-    ax;
-  while (L > 1 && arr.length) {
-    what = a[--L];
-    while ((ax = arr.indexOf(what)) !== -1) {
-      arr.splice(ax, 1);
-    }
-  }
-  return arr;
 }

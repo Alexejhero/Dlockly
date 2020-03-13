@@ -95,6 +95,9 @@ class Block extends Base {
   /** @type {boolean} */
   hidden = false;
 
+  /** @type {string[]} */
+  reserved = [];
+
   /** @param {string} path */
   readShadows(path) {
     if (!path) path = "shadows.xml";

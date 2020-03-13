@@ -1,20 +1,18 @@
 function disableUnapplicable(event) {
   var workspace = Blockly.Workspace.getById(event.workspaceId);
-  var blocks = workspace.getAllBlocks(false);
+  var blocks = workspace.getAllBlocks();
+  var warnings = [];
 
   for (var block of blocks) {
-    if (!block) continue;
-    if (!document.restrictions[block.type]) document.restrictions[block.type] = [];
+    if (!restrictions[block.type]) restrictions[block.type] = [];
 
     if (block.disabled || block.getInheritedDisabled()) {
       block.setWarningText(null);
       continue;
     }
 
-    var warnings = [];
-
-    for (var i = 0; i < document.restrictions[block.type].length; i++) {
-      var res = document.restrictions[block.type][i];
+    for (var i = 0; i < restrictions[block.type].length; i++) {
+      var res = restrictions[block.type][i];
       if (!validateConfiguration(block, res)) continue;
       if (!validateRestriction(block, blocks, res)) {
         block.setWarningText(res.message, i.toString());
@@ -24,6 +22,7 @@ function disableUnapplicable(event) {
       }
     }
   }
+
   return warnings;
 };
 
@@ -52,9 +51,8 @@ function validateRestriction(block, blocks, res) {
         return true;
     }
   } else {
-    var _return = true;
-    eval(res.code);
-    return _return;
+    eval("var func = " + res.code);
+    return func(Blockly, block);
   }
 }
 
