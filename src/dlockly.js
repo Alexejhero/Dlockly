@@ -27,6 +27,7 @@ module.exports.generateXmlTree = function (categories) {
     result += ">";
     result += this.generateXmlTree(c.subcategories);
     for (var b of c.blocks) {
+      if (b.deprecated || b.hidden) continue;
       result += "<block type='" + b.type + "'>";
       if (b.extra) result += b.extra;
       result += "</block>";
