@@ -1,3 +1,5 @@
+const Classes = require("../src/classes");
+
 module.exports = [
   require("./Flow Control"),
   require("./Logic"),
@@ -5,4 +7,6 @@ module.exports = [
   require("./Text"),
   require("./Lists"),
   require("./Color"),
+  require("./Date & Time"),
+  new Classes.SepCategory(),
 ]

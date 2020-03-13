@@ -191,6 +191,16 @@ class Category extends Base {
   subcategories = [];
 }
 
+class SepCategory extends Category {
+  /** @type {true} */
+  sep = true;
+
+  constructor() {
+    super();
+    this.sep = true;
+  }
+}
+
 // #region Arg
 
 class Arg {
@@ -463,6 +473,7 @@ module.exports = {
   Block,
   Restriction,
   Category,
+  SepCategory,
   Mutator,
   Arg,
   ArgDummy,
