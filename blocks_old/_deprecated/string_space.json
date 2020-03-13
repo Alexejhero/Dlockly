@@ -1,0 +1,9 @@
+{
+  "type": "str_space",
+  "message0": "space",
+  "output": "String",
+  "tooltip": "Represents a space. Equivalent to ' '",
+  "helpUrl": "",
+  "generator": "_return = ['` `', Blockly.JavaScript.ORDER_ATOMIC]",
+  "deprecated": true
+}
