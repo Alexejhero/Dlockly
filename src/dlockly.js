@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 
-const { ArgImage, Block, Category } = require("./classes");
+const { ArgImage, Block, Category, Restriction } = require("./classes");
 
 const icons = require("../config/icons.json");
 
@@ -59,12 +59,12 @@ function initBlocks(categories, premium) {
 function initBlock(block, category, premium) {
   block._dirname = undefined;
 
-  // TODO: Add restriction for premium blocks
   if (block.cost) {
     if (premium) block.icons.unshift("premium_unlocked");
     else {
       block.icons.unshift("premium_locked");
       block.max = -1;
+      block.restrictions.push(new Restriction("custom", "Your premium has expired", () => false));
     }
   }
 
