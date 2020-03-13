@@ -5,6 +5,7 @@ category.name = "Text";
 category.colour = 160;
 category.blocks = [
   require("./text"),
+  require("./text_multiline"),
   require("./newline"),
   require("./text_join"),
   require("./text_append"),
