@@ -34,9 +34,9 @@ module.exports = function (data) {
           Blockly.Blocks['${block.type}'] = {
             init: function() {
               try {
-                this.jsonInit(JSON.parse('${JSON.stringify(block)}'));
+                this.jsonInit(JSON.parse('${JSON.stringify(block).replace(/'/g, "\\'")}'));
               } catch (e) {
-                console.error(e + "\n" + '${JSON.stringify(block)}');
+                console.error(e + '\n' + '${JSON.stringify(block).replace(/'/g, "\\'")}');
               }
             }
           }
@@ -46,7 +46,7 @@ module.exports = function (data) {
       if (block.generator) {
         eval(`
           Blockly.JavaScript["${block.type}"] = function (block) {
-            return dlocklyInstance.blocks.map(b => b.type == "${block.type}").generator(Blockly, block);
+            return dlocklyInstance.blocks.filter(b => b.type == "${block.type}")[0].generator(Blockly, block, data);
           }
         `);
       }
@@ -70,12 +70,12 @@ module.exports = function (data) {
     // }
 
     workspace.options.maxInstances = {};
-    for (var v of dlocklyInstance.blocks) workspace.options.maxInstances[v.type] = v.max;
+    for (var v of dlocklyInstance.blocks.filter(b => b.max)) workspace.options.maxInstances[v.type] = v.max;
 
     Blockly.Xml.domToWorkspace(dom, workspace);
 
-    window.restrictions = {};
-    for (var v of dlocklyInstance.blocks) window.restrictions[v.type] = v.restrictions;
+    var restrictions = {};
+    for (var v of dlocklyInstance.blocks) restrictions[v.type] = v.restrictions;
     eval(fs.readFileSync(path.join(__dirname, "../www/js/restrictions.js"), "utf-8"));
 
     var warnings = disableUnapplicable({
@@ -103,7 +103,7 @@ module.exports = function (data) {
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/blockly.xml"), xml);
     fs.writeFileSync(path.join(__dirname, "/../data/", data.req.body.guild, "/config.js"), js);
 
-    // TODO: Decache this to remove mutators
+    // FIXME: Decache this to remove mutators
 
     data.res.redirect("/?guild=" + data.req.body.guild);
   } catch (e) {

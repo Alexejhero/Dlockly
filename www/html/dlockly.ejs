@@ -95,7 +95,7 @@
     disable: false,
     scrollbars: true,
     toolbox: document.getElementById('toolbox'),
-    trashcan: false, // TODO: Fix trashcan
+    trashcan: false, // FIXME: Fix trashcan
   });
   window.workspace = workspace;
 
@@ -130,6 +130,7 @@
 
   window.max = {};
   <% for (var v of blocks) { %>
+    <% if (!v.max) continue; %>
     window.max["<%= v.type %>"] = <%= v.max %>;
   <% } %>
 

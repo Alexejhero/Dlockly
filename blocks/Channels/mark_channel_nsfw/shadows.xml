@@ -1,0 +1,9 @@
+<value name='channel'>
+  <shadow type='channel'></shadow>
+</value>
+
+<value name='val'>
+  <shadow type='logic_checkbox'>
+    <field name='check'>TRUE</field>
+  </shadow>
+</value>

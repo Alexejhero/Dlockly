@@ -69,6 +69,7 @@ function initBlock(block, category, premium) {
   }
 
   // TODO: Add deprecated icon?
+  // FIXME: Fix multiple icons (decache)
   for (var icon of block.icons.reverse()) {
     block.args0.unshift(new ArgImage("premium", icons[icon]));
     block.message0 = bumpMessageNumbers(block.message0);

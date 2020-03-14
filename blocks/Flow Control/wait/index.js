@@ -9,7 +9,7 @@ block.nextStatement = null;
 block.tooltip = "Waits a specified amount of seconds";
 block.extra = block.readShadows();
 block.restrictions = [
-  new Classes.Restriction("notempty", "You must provide a value for the 'seconds' paramter", ["amount"]),
+  new Classes.Restriction("notempty", "You must provide a value for the 'seconds' parameter", ["amount"]),
 ]
 
 /**

@@ -39,18 +39,18 @@ class Block extends Base {
   args0 = [];
 
   /** @type {number} */
-  max = 0;
+  max;
 
-  /** @type {string} */
+  /** @type {string|string[]} */
   previousStatement = undefined;
 
-  /** @type {string} */
+  /** @type {string|string[]} */
   nextStatement = undefined;
 
   /** @type {boolean} */
   inputsInline;
 
-  /** @type {string} */
+  /** @type {string|string[]} */
   output = undefined;
 
   /** @type {string} */

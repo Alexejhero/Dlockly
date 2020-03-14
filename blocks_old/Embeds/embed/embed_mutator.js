@@ -420,7 +420,7 @@ var mutator = {
         this.appendValueInput("timestamp").setCheck(["Date", "Time"]).setAlign(Blockly.ALIGN_RIGHT).appendField("with timestamp").connection.connect(block.outputConnection);
       }
 
-      // TODO: Fix field inputs deleting/adding in wrong places
+      // FIXME: Fix field inputs deleting/adding in wrong places
 
       this.orderInputs();
     },
