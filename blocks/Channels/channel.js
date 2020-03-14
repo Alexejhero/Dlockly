@@ -7,7 +7,7 @@ block.colour = 0;
 block.output = "Channel";
 block.tooltip = "The channel that triggered the event";
 block.restrictions = [
-  new Classes.Restriction("toplevelparent", "The 'channel' variable may only be used in a 'channel' or 'message' event.", [
+  new Classes.Restriction("toplevelparent", "The 'channel' variable may only be used in an 'on channel...' or 'on message...' event.", [
     "on_channel_create",
     "on_channel_delete",
     "on_message",

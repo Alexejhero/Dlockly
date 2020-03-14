@@ -189,6 +189,19 @@ class Category extends Base {
 
   /** @type {Category[]} */
   subcategories = [];
+
+  /**
+   * @param {string} name 
+   * @param {string|number} colour 
+   * @param {"PROCEDURE"|"VARIABLE"} custom 
+   * @param {string} _dirname
+   */
+  constructor(name, colour, custom, _dirname) {
+    super(_dirname);
+    this.name = name;
+    this.colour = colour;
+    this.custom = custom;
+  }
 }
 
 class SepCategory extends Category {

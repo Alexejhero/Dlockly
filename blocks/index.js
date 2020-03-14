@@ -1,15 +1,5 @@
 const Classes = require("../src/classes");
 
-var variables = new Classes.Category();
-variables.name = "Variables";
-variables.colour = 330;
-variables.custom = "VARIABLE";
-
-var functions = new Classes.Category();
-functions.name = "Functions";
-functions.colour = 290;
-functions.custom = "PROCEDURE";
-
 module.exports = [
   require("./Flow Control"),
   require("./Logic"),
@@ -19,8 +9,11 @@ module.exports = [
   require("./Color"),
   require("./Date & Time"),
   new Classes.SepCategory(),
-  variables,
-  functions,
+  // TODO: l10n
+  new Classes.Category("Variables", 330, "VARIABLE"),
+  new Classes.Category("Functions", 290, "PROCEDURE"),
   new Classes.SepCategory(),
   require("./Channels"),
+  // require("./Embeds"),
+  require("./Emojis"),
 ]

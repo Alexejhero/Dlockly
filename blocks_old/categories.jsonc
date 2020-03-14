@@ -1,59 +1,7 @@
 [
   {
-    "name": "Flow Control",
-    "color": "120"
-  },
-  {
-    "name": "Logic",
-    "color": "210"
-  },
-  {
-    "name": "Math",
-    "color": "230"
-  },
-  {
-    "name": "Text",
-    "color": "160"
-  },
-  {
-    "name": "Lists",
-    "color": "260"
-  },
-  {
-    "name": "Color",
-    "color": "20"
-  },
-  {
-    "name": "Date & Time",
-    "color": "#9da859"
-  },
-  {
-    "sep": true
-  },
-  {
-    "name": "Variables",
-    "color": "330",
-    "custom": "VARIABLE"
-  },
-  {
-    "name": "Functions",
-    "color": "290",
-    "custom": "PROCEDURE"
-  },
-  {
-    "sep": true
-  },
-  {
-    "name": "Channels",
-    "color": "#bb6d51"
-  },
-  {
     "name": "Embeds",
     "color": "#5e04a1"
-  },
-  {
-    "name": "Emojis",
-    "color": "#808080"
   },
   {
     "name": "Members",
