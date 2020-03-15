@@ -22,6 +22,7 @@ module.exports.generateXmlTree = function (categories) {
       result += "<sep></sep>";
       continue;
     }
+    if (c.blocks.filter(b => !b.deprecated && !b.hidden).length == 0) continue;
     result += "<category name='" + c.name + "' colour='" + c.colour + "'";
     if (c.custom) result += " custom='" + c.custom + "'";
     result += ">";

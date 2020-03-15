@@ -6,16 +6,5 @@
   {
     "name": "Messages",
     "color": "#b49145"
-  },
-  {
-    "name": "Roles",
-    "color": "#f86883"
-  },
-  {
-    "sep": true
-  },
-  {
-    "name": "Errors",
-    "color": "#A00000"
   }
 ]

@@ -123,7 +123,7 @@ class Restriction {
   /** 
    * @param {RestrictionType} type
    * @param {string} message
-   * @param {function(Blockly,Blockly.Block):boolean|string[]} types 
+   * @param {string[]|function(Blockly,Blockly.Block):boolean} types 
    */
   constructor(type, message, types) {
     this.type = type;
