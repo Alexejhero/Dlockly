@@ -1,0 +1,7 @@
+<value name='member'>
+  <shadow type='member'></shadow>
+</value>
+
+<value name='permission'>
+  <shadow type='permission_literal'></shadow>
+</value>

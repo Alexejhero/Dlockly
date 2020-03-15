@@ -36,7 +36,7 @@ module.exports = function (data) {
               try {
                 this.jsonInit(JSON.parse('${JSON.stringify(block).replace(/'/g, "\\'")}'));
               } catch (e) {
-                console.error(e + '\n' + '${JSON.stringify(block).replace(/'/g, "\\'")}');
+                console.error(e + '\n${block.type}');
               }
             }
           }

@@ -16,4 +16,9 @@ module.exports = [
   require("./Channels"),
   // require("./Embeds"),
   require("./Emojis"),
+  require("./Members"),
+  // require("./Messages"),
+  require("./Roles"),
+  new Classes.SepCategory(),
+  require("./Errors"),
 ]

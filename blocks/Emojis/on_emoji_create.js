@@ -18,7 +18,7 @@ block.icons = [
  * @param {import("node-blockly").Block} block
  */
 block.generator = function (Blockly, block, data) {
-  return ' module.exports.emojiCreate = async channel => { try { var guild = channel.guild; ' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { require(\"../../src/errors\").onerror(\"' + data.req.body.guild + '\", e); } }';
+  return ' module.exports.emojiCreate = async emoji => { try { var guild = channel.guild; ' + Blockly.JavaScript.statementToCode(block, 'code') + '} catch (e) { require(\"../../src/errors\").onerror(\"' + data.req.body.guild + '\", e); } }';
 }
 
 module.exports = block;
