@@ -8,7 +8,7 @@ category.blocks = [
   require("./on_member_leave"),
   require("./on_member_nick_change"),
   require("./member"),
-  require("./oldmember"),
+  require("./old_member"),
   require("./me"),
   require("./member_has_permission_2"),
   require("./kick_member"),

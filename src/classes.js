@@ -26,6 +26,9 @@ class Base {
 }
 
 class Block extends Base {
+  /** @type {string} */
+  label = undefined;
+
   /** @type {string[]} */
   icons = [];
 
@@ -105,6 +108,59 @@ class Block extends Base {
   }
 }
 
+class Label extends Block {
+  /** @type {string} */
+  label;
+
+  constructor(label) {
+    super();
+    this.label = label;
+  }
+}
+
+class Category extends Base {
+  /** @type {boolean} */
+  sep = false;
+
+  /** @type {string} */
+  name = "";
+
+  /** @type {string|number} */
+  colour = "#000000";
+
+  /** @type {Block[]} */
+  blocks = [];
+
+  /** @type {"PROCEDURE"|"VARIABLE"} */
+  custom;
+
+  /** @type {Category[]} */
+  subcategories = [];
+
+  /**
+   * @param {string} name 
+   * @param {string|number} colour 
+   * @param {"PROCEDURE"|"VARIABLE"} custom 
+   * @param {string} _dirname
+   */
+  constructor(name, colour, custom, _dirname) {
+    super(_dirname);
+    this.name = name;
+    this.colour = colour;
+    this.custom = custom;
+  }
+}
+
+class SepCategory extends Category {
+  /** @type {true} */
+  sep = true;
+
+  constructor() {
+    super();
+    this.sep = true;
+  }
+}
+
 class Restriction {
   /** @type {RestrictionType} */
   type;
@@ -168,49 +224,6 @@ class Mutator {
      * @this Blockly.Block
      */
     updateShape() { },
-  }
-}
-
-class Category extends Base {
-  /** @type {boolean} */
-  sep = false;
-
-  /** @type {string} */
-  name = "";
-
-  /** @type {string|number} */
-  colour = "#000000";
-
-  /** @type {Block[]} */
-  blocks = [];
-
-  /** @type {"PROCEDURE"|"VARIABLE"} */
-  custom;
-
-  /** @type {Category[]} */
-  subcategories = [];
-
-  /**
-   * @param {string} name 
-   * @param {string|number} colour 
-   * @param {"PROCEDURE"|"VARIABLE"} custom 
-   * @param {string} _dirname
-   */
-  constructor(name, colour, custom, _dirname) {
-    super(_dirname);
-    this.name = name;
-    this.colour = colour;
-    this.custom = custom;
-  }
-}
-
-class SepCategory extends Category {
-  /** @type {true} */
-  sep = true;
-
-  constructor() {
-    super();
-    this.sep = true;
   }
 }
 

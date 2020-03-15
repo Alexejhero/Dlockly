@@ -1,5 +1,3 @@
-const chalk = require("chalk");
-
 const { ArgImage, Block, Category, Restriction } = require("./classes");
 
 const icons = require("../config/icons.json");
@@ -29,6 +27,10 @@ module.exports.generateXmlTree = function (categories) {
     result += this.generateXmlTree(c.subcategories);
     for (var b of c.blocks) {
       if (b.deprecated || b.hidden) continue;
+      if (b.label) {
+        result += "<label text='" + b.label + "'/>";
+        continue;
+      }
       result += "<block type='" + b.type + "'>";
       if (b.extra) result += b.extra;
       result += "</block>";
@@ -77,9 +79,7 @@ function initBlock(block, category, premium) {
   }
 
   if (block.optionalReturn) {
-    if (block.mutator) {
-      console.warn(chalk.yellow("Block + " + block.type + " has both a mutator and an optional return! Ignoring optional return"));
-    } else {
+    if (!block.mutator) {
       // TODO: Optional return mutator
       block.mutator = require("../blocks/Mutators/optional_return");
     }

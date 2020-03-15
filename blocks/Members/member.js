@@ -7,7 +7,7 @@ block.colour = 0;
 block.output = "Member";
 block.tooltip = "The member that triggered the event.";
 block.restrictions = [
-  new Classes.Restriction("toplevelparent", "The 'member' variable may only be used in an 'on member...' event.", [
+  new Classes.Restriction("toplevelparent", "The 'member' variable may only be used in an 'on member...' or 'on message...' event.", [
     require("./on_member_join").type, // TODO: Do this in other files
     require("./on_member_leave").type,
     require("./on_member_nick_change").type,
@@ -18,8 +18,6 @@ block.restrictions = [
 ];
 block.reserved = [
   "member",
-  // TODO: Remove this from here after guild blocks are added
-  "guild",
 ];
 
 /**
