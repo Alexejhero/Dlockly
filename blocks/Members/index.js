@@ -10,7 +10,7 @@ category.blocks = [
   require("./member"),
   require("./oldmember"),
   require("./me"),
-  require("./member_has_permission"),
+  require("./member_has_permission_2"),
   require("./kick_member"),
   require("./ban_member"),
   require("./get_member_by_id"),

@@ -57,7 +57,7 @@ class Block extends Base {
   optionalReturn;
 
   /** @type {number|string} */
-  colour;
+  colour = "#000000";
 
   /** @type {string} */
   style;
@@ -179,7 +179,7 @@ class Category extends Base {
   name = "";
 
   /** @type {string|number} */
-  colour;
+  colour = "#000000";
 
   /** @type {Block[]} */
   blocks = [];
