@@ -14,7 +14,7 @@ module.exports = [
   new Classes.Category("Functions", 290, "PROCEDURE"),
   new Classes.SepCategory(),
   require("./Channels"),
-  require("./Embeds"),
+  // require("./Embeds"),
   require("./Emojis"),
   require("./Members"),
   require("./Messages"),

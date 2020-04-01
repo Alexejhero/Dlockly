@@ -1,0 +1,9 @@
+<value name='msg'>
+  <shadow type='text'>
+    <field name='TEXT'>Hi!</field>
+  </shadow>
+</value>
+
+<value name='channel'>
+  <shadow type='channel'></shadow>
+</value>

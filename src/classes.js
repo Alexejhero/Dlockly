@@ -81,7 +81,7 @@ class Block extends Base {
   category;
 
   /** @type {function(Blockly,Blockly.Block):[string,number]|string} */
-  generator = function () { }
+  generator = function () { };
 
   /** @type {string} */
   extra = "";
@@ -194,7 +194,7 @@ class Mutator {
   name;
 
   /** @type {{string:number}} */
-  blocks;
+  blocks = {};
 
   mixin = {
     suppressPrefixSuffix: true,
@@ -224,7 +224,7 @@ class Mutator {
      * @this Blockly.Block
      */
     updateShape() { },
-  }
+  };
 }
 
 // #region Arg
@@ -497,6 +497,7 @@ class ArgImage extends Arg {
 
 module.exports = {
   Block,
+  Label,
   Restriction,
   Category,
   SepCategory,
