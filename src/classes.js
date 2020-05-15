@@ -41,6 +41,9 @@ class Block extends Base {
   /** @type {Arg[]} */
   args0 = [];
 
+  /** @type {"LEFT"|"RIGHT"|"CENTRE"} */
+  lastDummyAlign0;
+
   /** @type {number} */
   max;
 

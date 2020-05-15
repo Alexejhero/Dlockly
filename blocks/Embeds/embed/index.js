@@ -6,7 +6,7 @@ this.type = "embed";
 this.message0 = "new embed";
 this.output = "Embed";
 this.tooltip = "Generates a message embed";
-this.mutator = "embed_mutator";
+this.mutator = require("./mutator").name;
 this.generator = generator;
 
 /**
@@ -21,9 +21,11 @@ function generator(Blockly, block) {
   if (this.url) str += `url: ${Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC)},`;
   if (this.thumbnail) str += `thumbnail: {url: ${Blockly.JavaScript.valueToCode(block, 'thumbnail', Blockly.JavaScript.ORDER_ATOMIC)}},`;
   if (this.description) str += `description: ${Blockly.JavaScript.valueToCode(block, 'description', Blockly.JavaScript.ORDER_ATOMIC)},`;
-  if (this.fields > 0) { 
+  if (this.fields > 0) {
     str += 'fields: [';
-    for (var i = 1; i <= this.fields; i++) str += `${Blockly.JavaScript.valueToCode(block, 'field' + i, Blockly.JavaScript.ORDER_ATOMIC)},`; 
+    for (var i = 1; i <= this.fields; i++) {
+      str += `${Blockly.JavaScript.valueToCode(block, 'field' + i, Blockly.JavaScript.ORDER_ATOMIC)},`;
+    }
     str += '],';
   }
   if (this.image) str += `image: {url: ${Blockly.JavaScript.valueToCode(block, 'image', Blockly.JavaScript.ORDER_ATOMIC)}},`;
