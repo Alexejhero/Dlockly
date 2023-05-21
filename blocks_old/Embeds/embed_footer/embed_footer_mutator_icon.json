@@ -1,0 +1,9 @@
+{
+  "type": "embed_footer_mutator_icon",
+  "lastDummyAlign0": "RIGHT",
+  "message0": "with icon",
+  "previousStatement": "EmbedFooterMutatorOption",
+  "tooltip": "",
+  "helpUrl": "",
+  "hidden": true
+}

@@ -1,0 +1,30 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'text' parameter",
+      "types": [
+        "text"
+      ]
+    }
+  ],
+  "type": "embed_footer",
+  "message0": "new embed footer %1 with text %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String",
+      "align": "RIGHT"
+    }
+  ],
+  "output": "EmbedFooter",
+  "tooltip": "Represents an embed footer",
+  "generator": "_return = ['{text: ' + `${Blockly.JavaScript.valueToCode(block, 'text', Blockly.JavaScript.ORDER_ATOMIC)},` + (this.icon ? `iconURL: ${Blockly.JavaScript.valueToCode(block, 'icon', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + '}', Blockly.JavaScript.ORDER_ATOMIC]",
+  "extra": "<value name='text'><shadow type='text'><field name='TEXT'>text</field></shadow></value>",
+  "mutator": "embed_footer_mutator",
+  "category": "Embeds"
+}

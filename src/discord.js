@@ -1,19 +1,13 @@
-'use strict';
-
-const dlockly = require('./dlockly');
+const config = require('./config');
 const perms = require('./perms');
-const server = require('../server');
-
-module.exports.getUser = async function (id) {
-  return (await this.getUsers())[id];
-}
+const server = require('..');
 
 module.exports.getUsers = async function () {
-  var guilds = server.bot.guilds.array();
+  var guilds = server.bot.guilds.cache.array();
   var result = {};
 
   for (var guild of guilds) {
-    var _guild = await server.bot.guilds.get(guild.id).fetchMembers();
+    var _guild = await server.bot.guilds.cache.get(guild.id).fetchMembers();
 
     _guild.members.forEach((v, k) => result[k] = v);
   }
@@ -21,9 +15,12 @@ module.exports.getUsers = async function () {
   return result;
 }
 
-module.exports.getConfigurableGuilds = function (_member, adminAccessOnly = false) {
-  var guilds = server.bot.guilds.array();
-  var user = _member.user;
+module.exports.getAllConfigurableGuilds = function (user) {
+  return this.getConfigurableGuilds(user).concat(this.getConfigurableGuilds(user, true));
+}
+
+module.exports.getConfigurableGuilds = function (user, adminAccessOnly = false) {
+  var guilds = server.bot.guilds.cache.array();
   var admin = perms.isAdmin(user);
 
   var goodGuilds = [];
@@ -40,7 +37,7 @@ module.exports.getConfigurableGuilds = function (_member, adminAccessOnly = fals
 
 function addEmptyMark(guilds) {
   for (var guild of guilds) {
-    guild.hasEmptyConfig = dlockly.isConfigEmpty(guild.id);
+    guild.hasEmptyConfig = config.isConfigEmpty(guild.id);
   }
   return guilds;
 }
@@ -48,5 +45,5 @@ function addEmptyMark(guilds) {
 module.exports.guildSort = function (a, b) {
   if (a.hasEmptyConfig && !b.hasEmptyConfig) return 1;
   else if (b.hasEmptyConfig && !a.hasEmptyConfig) return -1;
-  return a.name.localeCompare(b.name);
+  return a.name && b.name ? a.name.localeCompare(b.name) : 0;
 }

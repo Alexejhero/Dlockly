@@ -1,0 +1,23 @@
+{
+  "type": "embed_footer_mutator_container",
+  "message0": "new embed footer %1 with text %2 %3",
+  "args0": [
+    {
+      "type": "input_dummy",
+      "align": "RIGHT"
+    },
+    {
+      "type": "input_dummy",
+      "align": "RIGHT"
+    },
+    {
+      "type": "input_statement",
+      "name": "NAME",
+      "check": "EmbedFooterMutatorOption",
+      "align": "RIGHT"
+    }
+  ],
+  "tooltip": "",
+  "helpUrl": "",
+  "hidden": true
+}

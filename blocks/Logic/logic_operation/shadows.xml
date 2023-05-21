@@ -1,0 +1,11 @@
+<value name='A'>
+  <shadow type='logic_checkbox'>
+    <field name='check'>TRUE</field>
+  </shadow>
+</value>
+
+<value name='B'>
+  <shadow type='logic_checkbox'>
+    <field name='check'>TRUE</field>
+  </shadow>
+</value>

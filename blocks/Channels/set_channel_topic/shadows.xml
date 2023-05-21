@@ -1,0 +1,9 @@
+<value name='channel'>
+  <shadow type='channel'></shadow>
+</value>
+
+<value name='topic'>
+  <shadow type='text'>
+    <field name='TEXT'>new topic</field>
+  </shadow>
+</value>

@@ -1,19 +1,17 @@
-'use strict';
-
-const server = require('../server');
+const server = require('..');
 
 module.exports.dlocklyGuild = function () {
-  return server.bot.guilds.get('591692042304880815');
+  return server.bot.guilds.cache.get('591692042304880815');
 }
 
 module.exports.votesChannel = function () {
-  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get('604057075391266827') : null;
+  return this.dlocklyGuild() ? this.dlocklyGuild().channels.cache.get('604057075391266827') : null;
 }
 
 module.exports.memberCountChannel = function () {
-  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get('606230563770335232') : null;
+  return this.dlocklyGuild() ? this.dlocklyGuild().channels.cache.get('606230563770335232') : null;
 }
 
 module.exports.guildCountChannel = function () {
-  return this.dlocklyGuild() ? this.dlocklyGuild().channels.get('606230467514990613') : null;
+  return this.dlocklyGuild() ? this.dlocklyGuild().channels.cache.get('606230467514990613') : null;
 }

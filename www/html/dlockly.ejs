@@ -1,19 +1,19 @@
-<% include partials/head %>
-<% include partials/blockly %>
+<%- include ("partials/head") %>
+<%- include ("partials/blockly") %>
 
 <html style="overflow:hidden;">
 
 <div class="body">
-
   <table>
     <tbody>
-      <tr><td>
+      <tr>
+        <td>
           <div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
           <div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
           <br>
           <a href="/"><button>Back to server list</button></a>
           <% if (invite) { %>
-            <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+          <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
           <% } %>
           <br>
           <br>
@@ -23,11 +23,18 @@
             <input type="submit" id="save" value="Save Configuration">
             <button type="button" id="reset" onclick="resetConfig()">Reset Changes</button>
             <button type="button" id="example" onclick="loadExample()">Load Example</button>
-            <a href="/shop"><button type="button" id="shop" style="float:right;display:none;">Block Shop</button></a>
+            <a href="/shop?guild=<%= guildId %>"><button type="button" id="shop"
+                style="float:right;"><% if (!premium) { %>Get<% } else { %>Manage<% } %> Premium</button></a>
           </form>
-      </td></tr>
-      <tr><td id="blocklyArea"></td></tr>
-      <tr><td style="padding-bottom:38px;"></td></tr>
+          <hr>
+        </td>
+      </tr>
+      <tr>
+        <td id="blocklyArea"></td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:38px;"></td>
+      </tr>
     </tbody>
   </table>
 
@@ -35,69 +42,49 @@
   <xml id="toolbox" style="display: none">
     <%- xmlCategoryTree %>
   </xml>
-
 </div>
 
-<% include partials/footer %>
+<%- include ("partials/footer") %>
 
 <script>
   document.getElementById("blocklyDiv").style.height = window.innerHeight - 20 + "px";
   document.getElementById("blocklyDiv").style.width = window.innerWidth - 20 + "px";
 
+  Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "color 1";
+  Blockly.Msg["COLOUR_BLEND_COLOUR2"] = "color 2";
+  Blockly.Msg["COLOUR_BLEND_TOOLTIP"] = "Blends two colors together with a given ratio (0.0 - 1.0).";
+  Blockly.Msg["COLOUR_PICKER_HELPURL"] = "https://en.wikipedia.org/wiki/Color";
+  Blockly.Msg["COLOUR_PICKER_TOOLTIP"] = "Choose a color from the palette.";
+  Blockly.Msg["COLOUR_RANDOM_HELPURL"] = "http://randomcolour.com";
+  Blockly.Msg["COLOUR_RANDOM_TITLE"] = "random color";
+  Blockly.Msg["COLOUR_RANDOM_TOOLTIP"] = "Choose a color at random.";
+  Blockly.Msg["COLOUR_RGB_TITLE"] = "color with";
+  Blockly.Msg["COLOUR_RGB_TOOLTIP"] = "Create a color with the specified amount of red, green, and blue. All values must be between 0 and 100.";
+  Blockly.Msg["NEW_COLOUR_VARIABLE"] = "Create color variable...";
+  Blockly.Msg["LISTS_SET_INDEX_INPUT_TO"] = "to";
+
+  var orig_generateContextMenu = Blockly.BlockSvg.prototype.generateContextMenu;
+  Blockly.BlockSvg.prototype.generateContextMenu = function () {
+    var menuItems = orig_generateContextMenu.call(this);
+    return menuItems.filter(m => m.text != Blockly.Msg["EXTERNAL_INPUTS"]).filter(m => m.enabled || m.text != Blockly.Msg["HELP"]);
+  };
+
   <% for (var v of blocks) { %>
     <% if (v.default) continue; %>
-    Blockly.Blocks["<%= v.type %>"] = { 
+    Blockly.Blocks["<%= v.type %>"] = {
       init: function () {
-        <% if (v.init) { %>
-          eval(decode("<%= v.init %>"));
-        <% } else { %>
+        try {
           this.jsonInit(JSON.parse(decode('<%= JSON.stringify(v) %>')));
-        <% } %>
+        } catch (e) {
+          console.error(e.message + "\n" + decode('<%= JSON.stringify(v) %>'));
+        }
       },
-      <% if (v.mutationToDom) { %>
-        mutationToDom: function() {
-          var _return;
-          eval(decode("<%= v.mutationToDom %>"));
-          return _return;
-        },
-      <% } %>
-      <% if (v.domToMutation) { %>
-        domToMutation: function(container) {
-          eval(decode("<%= v.domToMutation %>"));
-        },
-      <% } %>
-      <% if (v.decompose) { %>
-        decompose: function(workspace) {
-          var _return;
-          eval(decode("<%= v.decompose %>"));
-          return _return;
-        },
-      <% } %>
-      <% if (v.compose) { %>
-        compose: function(topBlock) {
-          eval(decode("<%= v.compose %>"));
-        },
-      <% } %>
-      <% if (v.updateShape) { %>
-        updateShape_: function() {
-          eval(decode("<%= v.updateShape %>"));
-        },
-      <% } %>
     };
   <% } %>
-
-  <% generators.forEach(g => { %>
-    Blockly.JavaScript['<%= g.type %>'] = function(block) {
-      var _return;
-      eval(decode("<%= g.generator %>"));
-      return _return;
-    }
-  <% }); %>
 
   var blocklyArea = document.getElementById('blocklyArea');
   var blocklyDiv = document.getElementById('blocklyDiv');
   var workspace = Blockly.inject(blocklyDiv, {
-    maxInstances: JSON.parse(decode('<%= max %>')),
     collapse: false,
     comments: false,
     grid: {
@@ -108,9 +95,11 @@
     disable: false,
     scrollbars: true,
     toolbox: document.getElementById('toolbox'),
+    trashcan: false, // FIXME: Fix trashcan
   });
-  document.workspace = workspace;
-  var onresize = function(e) {
+  window.workspace = workspace;
+
+  var onresize = function (e) {
     var element = blocklyArea;
     var x = 0;
     var y = 0;
@@ -129,16 +118,36 @@
   onresize();
   Blockly.svgResize(workspace);
 
-  document.restrictions = JSON.parse(decode('<%= restrictions %>'));
+  // TODO: Add mutators to front-end
+  <% //for (var m of mutators) { %>
+    //eval(decode(`<%= //m %>`));
+  <% //} %>
+
+  window.restrictions = {};
+  <% for (var v of blocks) { %>
+    window.restrictions["<%= v.type %>"] = JSON.parse(decode("<%= JSON.stringify(v.restrictions) %>"));
+  <% } %>
+
+  window.max = {};
+  <% for (var v of blocks) { %>
+    <% if (!v.max) continue; %>
+    window.max["<%= v.type %>"] = <%= v.max %>;
+  <% } %>
+
+  window.colours = {};
+  <% for (var v of blocks) { %>
+    <% if (v.style) continue; %>
+    window.colours["<%= v.type %>"] = "<%= v.colour %>";
+  <% } %> 
 
   workspace.addChangeListener(Blockly.Events.disableOrphans);
 
   if (decode('<%= blocklyXml %>').length > 0) Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(decode("<%= blocklyXml %>")), workspace);
 
-  setInterval(() => { 
-    disableUnapplicable({ 
-      type: Blockly.Events.MOVE, 
-      workspaceId: workspace.id, 
+  setInterval(() => {
+    disableUnapplicable({
+      type: Blockly.Events.MOVE,
+      workspaceId: workspace.id,
     });
 
     var saveNeedsDisabling = false;
@@ -158,7 +167,7 @@
     }
     if (!saveNeedsDisabling) {
       document.getElementById("save").removeAttribute("title");
-      document.getElementById("save").removeAttribute("disabled");        
+      document.getElementById("save").removeAttribute("disabled");
       document.getElementById("reset").removeAttribute("title");
       document.getElementById("reset").removeAttribute("disabled");
     }
@@ -170,20 +179,27 @@
       document.getElementById("example").removeAttribute("title");
       document.getElementById("example").removeAttribute("disabled");
     }
-  }, 100);
+
+    for (var ws of Object.values(Blockly.Workspace.WorkspaceDB_)) {
+      var exec;
+      if (!ws.options.maxInstances) exec = true;
+      ws.options.maxInstances = max;
+      if (exec && ws.topBlocks_[0]) ws.topBlocks_[0].moveBy(0, 1);
+
+      for (var c in colours) {
+        ws.getBlocksByType(c).forEach(b => b.setColour(colours[c]));
+      }
+    }
+
+    if (document.getElementById("save").hasAttribute("disabled")) window.onbeforeunload = null;
+    else window.onbeforeunload = () => "You have unsaved changes!";
+  }, 10);
 
   function saveConfig() {
     var code = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
     document.getElementById("inputGuild").setAttribute("value", getUrlParameter("guild"));
     document.getElementById("inputXml").setAttribute("value", encodeURIComponent(code));
     window.onbeforeunload = null;
-  }
-
-  function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
   }
 
   function resetConfig() {

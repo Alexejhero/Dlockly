@@ -1,5 +1,6 @@
 {
-  "dlockly": "https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2FIcon1.png?v=1561542756208",
-  "async": "https://cdn.glitch.com/43f72134-88ea-4e7b-ace8-4a444b9aab78%2Fclock-vector-minimal-5.png?v=1561542954449",
-  "event": "https://cdn.discordapp.com/emojis/324252365547110400.png?v=1"
+  "dlockly": "www/assets/logo.png",
+  "event": "www/assets/event.png",
+  "premium_unlocked": "https://discordapp.com/assets/e4d52f4d69d7bba67e5fd70ffe26b70d.svg",
+  "premium_locked": "https://discordapp.com/assets/86c36b8437a0bc80cf310733f54257c2.svg"
 }

@@ -1,0 +1,9 @@
+<value name='VALUE'>
+  <shadow type='lists_create_with'>
+    <mutation items='0'/>
+  </shadow>
+</value>
+
+<value name='FIND'>
+  <shadow type='text'/>
+</value>

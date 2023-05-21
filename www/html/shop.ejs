@@ -1,0 +1,183 @@
+<%- include ("partials/head") %>
+<%- include ("partials/blockly") %>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body>
+  <script src="https://www.paypal.com/sdk/js?client-id=<%= paypalId %>&disable-funding=card"></script>
+</body>
+
+<div style="font-size:30px;display:inline-block;"><%= guildName %> </div>
+<div style="font-size:20px;display:inline-block;color:gray;">(<%= guildId %>)</div>
+<br>
+<a href="/"><button>Back to server list</button></a>
+<% if (invite) { %>
+  <a href="invite?guild=<%= guildId %>"><button>Generate invite</button></a>
+<% } %>
+<br>
+<br>
+<form>
+  <input type="submit" value="Save Configuration" disabled title="Not available on this page">
+  <button type="button" disabled title="Not available on this page">Reset Changes</button>
+  <button type="button" disabled title="Not available on this page">Load Example</button>
+  <a href="/?guild=<%= guildId %>"><button type="button" id="shop" style="float:right;">Back To Server Configuration</button></a>
+</form>
+
+<script>
+
+function onPurchase() {
+  document.getElementById("inputGuild").setAttribute("value", getUrlParameter("guild"));
+}
+
+</script>
+
+<div class="body">
+
+  <div class="premiumNote">
+    <hr>
+    
+    <h1>Dlockly Premium</h1>
+    <h3>Purchasing premium will give you instant access to all of the blocks below, for this guild only.</h3>
+
+    <select name="days" class="shopInput" style="margin-left:10px;">
+      <option value="7">1 week ($1)</option>
+      <option value="30">1 month ($3)</option>
+      <option value="60">2 months ($6)</option>
+      <option value="90">3 months ($9)</option>
+      <option value="180">6 months ($15)</option>
+      <option value="365">1 year ($28)</option>
+    </select>
+
+    <br>
+    <br>
+
+    <script>
+      paypal.Buttons({
+        createOrder: function (data, actions) {
+          var value;
+          switch (document.getElementsByClassName("shopInput")[0].value) {
+            case "7":
+              value = 1;
+              break;
+            case "30":
+              value = 3;
+              break;
+            case "60":
+              value = 6;
+              break;
+            case "90":
+              value = 9;
+              break;
+            case "180":
+              value = 15;
+              break;
+            case "365":
+              value = 28;
+              break;
+            default:
+              return;
+          }
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: value,
+              }
+            }]
+          });
+        },
+        onApprove: function(data) {
+          return fetch(`purchase?orderID=${data.orderID}&guild=<%= guildId %>&days=${document.getElementsByClassName("shopInput")[0].value}`).then(function(res) {
+            return res.json();
+          }).then(function(details) {
+            console.log(details);
+            if (!details.error) {
+              if (!alert("Payment completed by " + details.payer.name.given_name + " " + details.payer.name.surname + " (" + details.payer.email_address + ")")) {
+                window.location.href = "/?guild=<%= guildId %>";
+              }
+            }
+          });
+        }
+      }).render('.premiumNote');
+    </script>
+
+    <h3>Alternatively, you can purchase some of them using tokens, which you can obtain from voting.</h3>
+
+    <hr>
+  </div>
+
+  <% for (var block of blocks) { %>
+    <div class="shopElement">
+      <div class="shopBlocklyDiv" id="blocklyDiv-<%= block.type %>"></div>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include ("partials/footer") %>
+
+<script>
+  var workspaces = {};
+
+  <% for (var block of blocks) { %>
+    workspaces.<%= block.type %> = Blockly.inject(document.getElementById('blocklyDiv-<%= block.type %>'), {
+      collapse: false,
+      comments: false,
+      disable: false,
+      readOnly: true,
+      scrollbars: false,
+      grid: {
+        spacing: 20,
+        length: 1,
+        color: '#888'
+      },
+    });
+
+    var type = "<%= block.type %>";
+
+    Blockly.Blocks[type] = { 
+      init: function () {
+        this.jsonInit(JSON.parse(decode('<%= JSON.stringify(block) %>')));
+      },
+    };
+
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(`<xml><block type='${type}' id='${type}' x='10' y='10'></block></xml>`), workspaces[type]);
+
+    var block = workspaces[type].getAllBlocks()[0];
+
+    document.getElementById(`blocklyDiv-${type}`).setAttribute("style", `width:${block.width + 20};height:${block.height + 20}`);
+
+    if (block.outputConnection) {
+      workspaces[type].clear();
+      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(`<xml><block type='${type}' id='${type}' x='17' y='10'></block></xml>`), workspaces[type]);
+    }
+  <% } %>
+
+  var elements = Object.values([...document.getElementsByClassName("shopBlocklyDiv")].reduce((obj, e) => {
+    var offset = e.offsetHeight + e.offsetTop;
+    if (!obj[offset]) obj[offset] = [];
+    obj[offset].push(e);
+    return obj;
+  }, {}));
+
+  var lastRemainingWidth;
+  for (var divs of elements) {
+    var height = Math.max(...divs.map(d => d.style.height.substring(0, d.style.height.length - 2)));
+    var remainingWidth = window.innerWidth - (divs[divs.length - 1].offsetLeft + divs[divs.length - 1].offsetWidth);
+    for (var div of divs) {
+      div.style.height = height + "px";
+      if (elements[elements.length - 1] != divs) {
+        if (div != divs[0]) div.style.paddingLeft = remainingWidth / (divs.length * 2) + "px";
+        if (div != divs[divs.length - 1]) div.style.paddingRight = remainingWidth / (divs.length * 2) + "px";
+      } else {
+        if (div != divs[0]) div.style.paddingLeft = lastRemainingWidth + "px";
+        if (div != divs[divs.length - 1]) div.style.paddingRight = lastRemainingWidth + "px";
+      }
+    }
+    lastRemainingWidth = remainingWidth / (divs.length * 2);
+  }
+
+  for (var ws in workspaces) Blockly.svgResize(workspaces[ws]);
+</script>

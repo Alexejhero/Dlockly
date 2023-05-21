@@ -1,0 +1,30 @@
+{
+  "restrictions": [
+    {
+      "type": "notempty",
+      "message": "You must provide a value for the 'name' parameter",
+      "types": [
+        "name"
+      ]
+    }
+  ],
+  "type": "embed_author",
+  "message0": "new embed author %1 with name %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String",
+      "align": "RIGHT"
+    }
+  ],
+  "output": "EmbedAuthor",
+  "tooltip": "Represents an embed author",
+  "generator": "_return = ['{name: ' + `${Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC)},` + (this.icon ? `iconURL: ${Blockly.JavaScript.valueToCode(block, 'icon', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + (this.url ? `url: ${Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC)},` : '') + '}', Blockly.JavaScript.ORDER_ATOMIC]",
+  "extra": "<value name='name'><shadow type='text'><field name='TEXT'>name</field></shadow></value>",
+  "mutator": "embed_author_mutator",
+  "category": "Embeds"
+}

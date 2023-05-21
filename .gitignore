@@ -1,7 +1,5 @@
 package-lock.json
 node_modules
-.vscode
-.idea
 .env
 data/*
 .githubsync
@@ -12,3 +10,9 @@ pull-f.sh
 push.sh
 push-f.sh
 !/**/.gitkeep
+pnpm-lock.yaml
+pnpm-debug.log
+debug.log
+_data
+.vscode
+nodemon.json

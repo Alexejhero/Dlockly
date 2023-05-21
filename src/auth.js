@@ -1,8 +1,6 @@
-'use strict';
-
 const request = require('request-promise');
 
-const server = require('../server');
+const server = require('..');
 
 module.exports.getUserData = async function (token, tokentype = "Bearer") {
   var response = await request.get({

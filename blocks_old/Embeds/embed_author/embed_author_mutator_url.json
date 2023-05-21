@@ -1,0 +1,10 @@
+{
+  "type": "embed_author_mutator_url",
+  "lastDummyAlign0": "RIGHT",
+  "message0": "with url",
+  "previousStatement": "EmbedAuthorMutatorOption",
+  "nextStatement": "EmbedAuthorMutatorOption",
+  "tooltip": "",
+  "helpUrl": "",
+  "hidden": true
+}

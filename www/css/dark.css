@@ -1,9 +1,11 @@
 body {
+
   --alternate-color: #313131;
   --background-color: #160f19;
   --disabled-color: #393939;
   --link-color: #0af;
   --main-color: white;
+  --accent-color: gold;
 }
 
 html,
@@ -27,9 +29,14 @@ body {
   background-color: var(--background-color);
 }
 
-.blocklyTooltipDiv {
-  color: var(--main-color);
-  background-color: var(--background-color);
+.blocklyMutatorBackground {
+  fill: var(--disabled-color);
+}
+
+:not(.blocklyTreeSelected) > .blocklyTreeIconOpen, 
+:not(.blocklyTreeSelected) > .blocklyTreeIconClosedLtr,
+:not(.blocklyTreeSelected) > .blocklyTreeIconClosedRtl  {
+  filter: invert(1);
 }
 
 .gray {
@@ -40,7 +47,7 @@ svg {
   fill: var(--main-color);
 }
 
-div {
+div:not(.blocklyTooltipDiv div) {
   color: var(--main-color);
 }
 
@@ -98,4 +105,9 @@ a:-webkit-any-link {
 
 .blocklyScrollbarHandle:hover {
   fill: var(--alternate-color) !important;
+}
+
+.shopInput {
+  color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
 }

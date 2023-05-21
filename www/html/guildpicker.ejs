@@ -1,8 +1,8 @@
-<% include partials/head %>
+<%- include ("partials/head.ejs") %>
 
 <div class="body">
 
-  <h1>Logged in as "<%= user.user.tag%>"</h1>
+  <h1>Logged in as "<%= user.tag %>"</h1>
   <a href='logout'><button>Log out</button></a><br>
 
   <% if ((configurableGuilds && configurableGuilds[0]) || (adminGuilds && adminGuilds[0])) { %>
@@ -30,4 +30,4 @@
 
 </div>
 
-<% include partials/footer %>
+<%- include ("partials/footer") %>

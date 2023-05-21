@@ -1,4 +1,0 @@
-{
-  "type": "text_charAt",
-  "extra": "<value name=\"VALUE\"><block type=\"variables_get\"><field name=\"VAR\">text variable</field></block></value>"
-}
